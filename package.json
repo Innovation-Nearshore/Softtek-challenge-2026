@@ -1,0 +1,13 @@
+{
+  "name": "incident-registry",
+  "version": "1.0.0",
+  "description": "Fullstack Incident Registry App",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "npm run dev --prefix server",
+    "client": "npm start --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
