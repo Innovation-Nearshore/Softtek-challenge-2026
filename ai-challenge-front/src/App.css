@@ -1,0 +1,733 @@
+/* ============================================================
+   App.css — Estilos globales del Sistema de Gestión de Incidentes
+   ============================================================ */
+
+/* ── Reset / base ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, sans-serif;
+  font-size: 14px;
+  color: #1a1a2e;
+  background-color: #f4f6f9;
+  line-height: 1.5;
+}
+
+/* ── Screen-reader only (accesibilidad) ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   Layout principal
+   ============================================================ */
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background-color: #1a1a2e;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.app-header h1 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ── Main ── */
+.app-main {
+  flex: 1;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Sección formulario ── */
+.form-panel {
+  background: #fff;
+  border: 1px solid #dde1e9;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+/* ── Sección tabla ── */
+.table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ============================================================
+   Estados: loading, error, empty
+   ============================================================ */
+
+.loading-state,
+.error-state,
+.empty-state {
+  padding: 20px;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.loading-state {
+  color: #555;
+  background: #f0f2f5;
+}
+
+.error-state {
+  color: #c0392b;
+  background: #fdecea;
+  border: 1px solid #f5c6cb;
+}
+
+.empty-state {
+  color: #666;
+  background: #fafafa;
+  border: 1px dashed #ccc;
+}
+
+/* ============================================================
+   Botones
+   ============================================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background-color: #3a86ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: #fff;
+  color: #444;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #f5f5f5;
+}
+
+.btn-clear {
+  color: #c0392b;
+  border-color: #e0b3b3;
+}
+
+.btn-clear:hover {
+  background-color: #fff5f5;
+}
+
+/* ============================================================
+   Badges de Severidad y Estado
+   ============================================================ */
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Severidad */
+.badge-critical {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-high {
+  background-color: #ffedd5;
+  color: #9a3412;
+}
+
+.badge-medium {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.badge-low {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+/* Estado */
+.badge-open {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge-in-progress {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-closed {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+/* ============================================================
+   Barra de Filtros (IncidentFilters)
+   ============================================================ */
+
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #dde1e9;
+  border-radius: 8px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.filter-group select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  min-width: 160px;
+  transition: border-color 0.15s ease;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #3a86ff;
+  box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.15);
+}
+
+.filter-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #666;
+  align-self: center;
+}
+
+/* ============================================================
+   Tabla de Incidentes (IncidentTable)
+   ============================================================ */
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.incidents-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 0.85rem;
+}
+
+.incidents-table thead {
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+.incidents-table thead th {
+  padding: 11px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.incidents-table tbody tr {
+  border-bottom: 1px solid #eef0f4;
+  transition: background-color 0.12s ease;
+}
+
+.incidents-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.incidents-table tbody tr:hover {
+  background-color: #f7f9ff;
+}
+
+.incidents-table td {
+  padding: 10px 14px;
+  vertical-align: top;
+}
+
+/* Columnas específicas */
+.col-id {
+  width: 60px;
+  color: #888;
+  font-size: 0.78rem;
+}
+
+.col-title {
+  min-width: 200px;
+}
+
+.col-category {
+  width: 110px;
+}
+
+.col-area {
+  width: 110px;
+}
+
+.col-reporter {
+  width: 130px;
+}
+
+.col-severity {
+  width: 90px;
+  text-align: center;
+}
+
+.col-status {
+  width: 200px;
+  vertical-align: top;
+}
+
+.col-date {
+  width: 150px;
+  white-space: nowrap;
+  color: #666;
+  font-size: 0.78rem;
+}
+
+/* Contenido de la celda Título */
+.incident-title {
+  display: block;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 2px;
+}
+
+.incident-description {
+  display: block;
+  font-size: 0.78rem;
+  color: #777;
+}
+
+/* Contenedor interno de la celda de estado */
+.col-status-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-select {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #3a86ff;
+  box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.2);
+}
+
+.status-select.loading {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.row-loading {
+  font-size: 0.72rem;
+  color: #888;
+  font-style: italic;
+}
+
+.row-error {
+  font-size: 0.72rem;
+  color: #c0392b;
+}
+
+/* ============================================================
+   Formulario (IncidentForm)
+   ============================================================ */
+
+form[aria-label="Formulario de nuevo incidente"] h2 {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #1a1a2e;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #333;
+  transition: border-color 0.15s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3a86ff;
+  box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.15);
+}
+
+.form-group input[aria-invalid="true"],
+.form-group select[aria-invalid="true"] {
+  border-color: #e53e3e;
+}
+
+.field-error {
+  font-size: 0.75rem;
+  color: #c0392b;
+  margin-top: 2px;
+}
+
+.submit-error {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  background: #fdecea;
+  border-radius: 6px;
+}
+
+.submit-success {
+  color: #166534;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  background: #dcfce7;
+  border-radius: 6px;
+}
+
+/* Botón submit del formulario */
+form[aria-label="Formulario de nuevo incidente"] .btn-primary {
+  width: 100%;
+  justify-content: center;
+  padding: 10px;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   KPI Dashboard — contadores por estado
+   ============================================================ */
+
+.kpi-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  gap: 4px;
+}
+
+.kpi-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kpi-open {
+  background-color: #dbeafe;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.kpi-attention {
+  background-color: #fef3c7;
+  border-color: #fcd34d;
+  color: #92400e;
+}
+
+.kpi-closed {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+.kpi-total {
+  background-color: #f0fdf4;
+  border-color: #86efac;
+  color: #166534;
+}
+
+/* ============================================================
+   Alerta de incidentes críticos abiertos
+   ============================================================ */
+
+.critical-alert {
+  background-color: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-left: 4px solid #dc2626;
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+
+.critical-alert-header {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #991b1b;
+  margin-bottom: 8px;
+}
+
+.critical-alert-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.critical-alert-list li {
+  font-size: 0.82rem;
+  color: #7f1d1d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.critical-alert-area {
+  font-size: 0.75rem;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 1px 7px;
+  border-radius: 10px;
+  border: 1px solid #fca5a5;
+}
+
+/* ============================================================
+   Columna y botón de historial
+   ============================================================ */
+
+.col-log {
+  width: 80px;
+  text-align: center;
+}
+
+.btn-expand {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  background: #f0f2f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #444;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-expand:hover {
+  background: #e2e6ee;
+  border-color: #3a86ff;
+  color: #3a86ff;
+}
+
+/* Fila principal cuando está expandida */
+.row-expanded td {
+  background-color: #f7f9ff;
+  border-bottom: none;
+}
+
+/* Fila del log */
+.log-row td {
+  padding: 0;
+  border-bottom: 2px solid #3a86ff22;
+}
+
+.log-cell {
+  padding: 12px 16px 16px 40px !important;
+  background-color: #f7f9ff;
+}
+
+.log-loading,
+.log-empty {
+  font-size: 0.8rem;
+  color: #888;
+  padding: 4px 0;
+}
+
+.log-error {
+  font-size: 0.8rem;
+  color: #c0392b;
+  padding: 4px 0;
+}
+
+/* Tabla interna del historial */
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.log-table thead tr {
+  background-color: #e8ecf5;
+}
+
+.log-table th {
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #555;
+}
+
+.log-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #444;
+  vertical-align: top;
+}
+
+.log-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.log-table tbody tr:hover td {
+  background-color: #eef2fc;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-count {
+    margin-left: 0;
+  }
+
+  .filter-group select {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .kpi-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .col-category,
+  .col-reporter,
+  .col-date,
+  .col-log {
+    display: none;
+  }
+}

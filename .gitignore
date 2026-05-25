@@ -1,0 +1,5 @@
+# Frida specifications folder
+.frida-specs/**
+.env
+node_modules/
+dist/

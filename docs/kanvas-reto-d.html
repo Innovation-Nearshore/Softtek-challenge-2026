@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Build Challenge — Kanvas Reto D: Registro de Incidentes</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:      #091FFD;
+  --white:     #ffffff;
+  --cyan:      #1FDCF9;
+  --violet:    #7315FA;
+  --periwinkle:#A4A2F2;
+  --lavender:  #D7D7FC;
+  --mist:      #E1DEE3;
+  --blue-dark: #0718c8;
+  --blue-deep: #050f7a;
+  --blue-mid:  #2d40fd;
+  --text:      #0a0d2e;
+  --text-muted:#5a5f8a;
+  --border:    #D7D7FC;
+  --surface:   #f5f5ff;
+  --blue-900:  #050f7a;
+  --blue-800:  #0718c8;
+  --blue-700:  #091FFD;
+  --blue-600:  #2d40fd;
+  --blue-500:  #091FFD;
+  --blue-400:  #A4A2F2;
+  --blue-300:  #D7D7FC;
+  --blue-100:  #f0f0ff;
+  --blue-50:   #f5f5ff;
+  --gray-50:   #f7f7fc;
+  --gray-100:  #efeffa;
+  --gray-200:  #E1DEE3;
+  --gray-400:  #5a5f8a;
+  --gray-600:  #3a3f6a;
+  --gray-800:  #0a0d2e;
+  --green:     #0f6e56;
+  --green-bg:  #e1f5ee;
+  --green-border: #9FE1CB;
+  --amber:     #92600a;
+  --amber-bg:  #fef3dc;
+  --amber-border: #f5c842;
+  --font: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--gray-800); font-family: var(--font); font-size: 14px; line-height: 1.7; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 200; background: var(--blue); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 56px; border-bottom: 1px solid var(--blue-dark); }
+.nav-brand { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); }
+.nav-brand span { color: var(--cyan); }
+nav .nav-links { display: flex; gap: 28px; }
+nav .nav-links a { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+nav .nav-links a:hover { color: var(--cyan); }
+.nav-badge { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); border: 1px solid rgba(31,220,249,0.4); padding: 4px 12px; border-radius: 2px; }
+
+/* HERO */
+.hero { background: var(--blue); position: relative; overflow: hidden; padding: 64px 48px 56px; }
+.hero::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 40%; background: linear-gradient(135deg, transparent 0%, rgba(115,21,250,0.12) 100%); pointer-events: none; }
+.hero-inner { max-width: 1040px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-rule { width: 48px; height: 3px; background: var(--cyan); margin-bottom: 20px; }
+.hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--cyan); font-weight: 700; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(28px, 4vw, 48px); font-weight: 700; line-height: 1.1; color: var(--white); margin-bottom: 8px; letter-spacing: -0.5px; }
+.hero h1 em { font-style: normal; color: var(--cyan); }
+.hero-sub { font-size: 14px; color: rgba(255,255,255,0.70); margin-bottom: 32px; }
+.hero-meta { display: flex; gap: 0; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; }
+.meta-item { display: flex; flex-direction: column; gap: 4px; padding-right: 24px; margin-right: 24px; border-right: 1px solid rgba(255,255,255,0.15); }
+.meta-item:last-child { border-right: none; }
+.meta-label { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 700; }
+.meta-value { font-size: 14px; font-weight: 600; color: var(--white); }
+
+/* RETO D ACCENT */
+--retod: #e07b00;
+.reto-d-accent { color: #e07b00; }
+.reto-d-bg { background: #fff8f0; }
+.reto-d-border { border-top: 4px solid #e07b00; }
+
+/* LAYOUT */
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 48px; }
+section { padding: 48px 0; border-bottom: 1px solid var(--gray-200); }
+section:last-child { border-bottom: none; }
+.section-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 10px; }
+h2 { font-size: clamp(20px, 3vw, 28px); font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.3px; }
+h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+p { color: var(--gray-600); margin-bottom: 14px; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--gray-800); font-weight: 700; }
+
+/* NEGOCIO CARDS */
+.negocio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.negocio-card { border: 1px solid var(--border); padding: 20px; background: var(--white); }
+.negocio-card .nc-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.negocio-card h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.negocio-card ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.negocio-card ul li { font-size: 12px; color: var(--gray-600); padding-left: 14px; position: relative; line-height: 1.5; }
+.negocio-card ul li::before { content: '—'; position: absolute; left: 0; color: var(--text-muted); }
+.nc-caso { border-top: 3px solid #e07b00; }
+.nc-caso .nc-eyebrow { color: #e07b00; }
+.nc-metricas { border-top: 3px solid var(--violet); }
+.nc-metricas .nc-eyebrow { color: var(--violet); }
+.nc-criterios { border-top: 3px solid var(--green); }
+.nc-criterios .nc-eyebrow { color: var(--green); }
+
+/* DB INFO */
+.db-box { background: var(--gray-50); border: 1px solid var(--border); padding: 18px 22px; margin-bottom: 28px; display: flex; gap: 20px; align-items: flex-start; }
+.db-box-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+.db-box-content h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.db-box-content p { font-size: 13px; color: var(--gray-400); margin: 0; }
+.db-box-content code { font-size: 12px; background: var(--border); padding: 1px 6px; color: var(--blue-900); font-family: monospace; border-radius: 2px; }
+
+/* FEATURE TABLE */
+.feature-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+.feature-table th { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: var(--gray-400); text-align: left; padding: 10px 14px; background: var(--gray-50); border-bottom: 2px solid var(--border); }
+.feature-table th:last-child { text-align: center; }
+.feature-table td { padding: 11px 14px; border-bottom: 1px solid var(--gray-200); font-size: 13px; vertical-align: middle; }
+.feature-table tr:last-child td { border-bottom: none; }
+.feature-table tr:hover td { background: var(--surface); }
+.feature-table tr.oblig-row td { background: var(--green-bg); }
+.feature-table tr.oblig-row:hover td { background: #d0eee5; }
+.feature-table tr.diff-row td { background: var(--blue-50); }
+.feature-table tr.diff-row:hover td { background: var(--blue-100); }
+
+.feat-name { font-weight: 600; color: var(--text); font-size: 13px; }
+.feat-desc { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.feat-modulo { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
+
+.badge { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border: 1px solid; white-space: nowrap; }
+.badge-oblig { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+.badge-bonus { background: var(--surface); color: var(--blue); border-color: var(--lavender); }
+
+.score-cell { text-align: center; }
+.score-num { display: inline-block; font-size: 14px; font-weight: 700; min-width: 50px; padding: 4px 8px; border-radius: 2px; }
+.score-high { color: var(--blue-700); background: var(--blue-50); }
+.score-med  { color: #7315FA; background: #f3eeff; }
+.score-low  { color: var(--gray-400); background: var(--gray-50); }
+.score-bonus { color: #0796a8; background: #e1f7fa; }
+
+/* TOTALS */
+.totals-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+.total-card { background: var(--white); border: 1px solid var(--border); padding: 16px 18px; }
+.total-card .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
+.total-card .value { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1; }
+.total-card .sub { font-size: 11px; color: var(--gray-400); margin-top: 4px; }
+
+/* LEGEND */
+.legend-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--gray-600); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* PULL QUOTE */
+.pull-quote { border-left: 4px solid var(--cyan); padding: 14px 20px; margin: 24px 0; background: var(--surface); font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--text); }
+
+/* MVP SECTION */
+.mvp-def-box { background: var(--green-bg); border: 1px solid var(--green-border); padding: 20px 24px; margin-bottom: 32px; }
+.mvp-def-label { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+.mvp-def-text { font-size: 14px; color: var(--gray-800); line-height: 1.6; }
+
+.mvp-reto-block { margin-bottom: 36px; }
+.mvp-reto-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-top: 4px solid #e07b00; background: var(--white); border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+.reto-letter-big { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+.reto-letter-big.d { background: #fff8f0; color: #e07b00; }
+.mvp-reto-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.mvp-reto-sub { font-size: 12px; color: var(--text-muted); }
+
+.mvp-checklist { border: 1px solid var(--border); border-top: none; }
+.mvp-check-item { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; border-bottom: 1px solid var(--gray-200); min-height: 52px; cursor: pointer; }
+.mvp-check-item:last-child { border-bottom: none; }
+.mvp-check-item:hover { background: var(--surface); }
+.mvp-check-box { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-right: 1px solid var(--gray-200); padding: 0; background: none; border-top: none; border-bottom: none; border-left: none; }
+.mvp-check-inner { width: 18px; height: 18px; border: 1.5px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.mvp-check-item.checked .mvp-check-inner { background: var(--green); border-color: var(--green); }
+.mvp-check-item.checked .mvp-check-inner::after { content: '✓'; font-size: 11px; color: #fff; font-weight: 700; line-height: 1; }
+.mvp-check-item.checked { background: var(--green-bg); }
+.mvp-check-text { padding: 12px 14px; font-size: 13px; color: var(--text); line-height: 1.45; }
+.mvp-check-pts { padding: 12px 14px; font-size: 13px; font-weight: 700; color: var(--blue); white-space: nowrap; min-width: 56px; text-align: right; border-left: 1px solid var(--gray-200); }
+
+.mvp-score-footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border: 1px solid var(--border); border-top: none; background: var(--gray-50); }
+.mvp-progress-wrap { flex: 1; margin-right: 20px; }
+.mvp-progress-label { font-size: 11px; color: var(--gray-400); margin-bottom: 5px; }
+.mvp-progress-bar { height: 6px; background: var(--border); width: 100%; }
+.mvp-progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.2s; }
+.mvp-score-display { font-size: 18px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.mvp-score-display .of { font-size: 12px; font-weight: 400; color: var(--gray-400); margin-left: 2px; }
+
+/* TIPS */
+.tips-box { background: var(--blue); padding: 28px 32px; margin-top: 36px; }
+.tips-box h3 { color: var(--white); margin-bottom: 16px; font-size: 15px; }
+.tips-list { display: flex; flex-direction: column; gap: 12px; }
+.tip-item { display: flex; align-items: flex-start; gap: 14px; font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+.tip-num { font-size: 18px; font-weight: 700; color: var(--cyan); line-height: 1; flex-shrink: 0; margin-top: 1px; }
+
+.reset-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 8px 16px; cursor: pointer; border: 1px solid var(--border); background: var(--white); color: var(--text-muted); margin-top: 24px; transition: all 0.15s; }
+.reset-btn:hover { background: var(--surface); color: var(--blue); border-color: var(--blue); }
+
+/* INDUSTRY TAGS */
+.industry-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.ind-tag { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border: 1px solid; }
+.ind-tag-orange { background: #fff8f0; color: #e07b00; border-color: #f5c890; }
+.ind-tag-blue { background: var(--surface); color: var(--blue); border-color: var(--lavender); }
+
+/* CONTEXT NOTE */
+.context-note { background: #fff8f0; border: 1px solid #f5c890; border-left: 4px solid #e07b00; padding: 16px 20px; margin-bottom: 28px; font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+.context-note strong { color: #e07b00; }
+
+.footer { background: var(--blue-900); color: rgba(255,255,255,0.35); text-align: center; padding: 24px; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">AI Build <span>Challenge</span></div>
+  <div class="nav-links">
+    <a href="#negocio">Negocio</a>
+    <a href="#kanvas">Funcionalidades</a>
+    <a href="#mvp">MVP</a>
+    <a href="#resumen">Evaluación</a>
+  </div>
+  <div class="nav-badge">Dry Run · Coaches</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-rule"></div>
+    <div class="hero-eyebrow">AI Build Challenge · Reto D — Dry Run de Coaches</div>
+    <h1>Kanvas: <em>Registro de Incidentes</em></h1>
+    <p class="hero-sub">Reto exclusivo para el entrenamiento de coaches — mismo nivel de dificultad que los Retos A, B y C · Aplicable a cualquier industria</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Reto</span><span class="meta-value">D — Incidentes</span></div>
+      <div class="meta-item"><span class="meta-label">Uso</span><span class="meta-value">Dry Run · Coaches</span></div>
+      <div class="meta-item"><span class="meta-label">Base de datos</span><span class="meta-value">PostgreSQL</span></div>
+      <div class="meta-item"><span class="meta-label">Datos mockup</span><span class="meta-value">18 incidentes</span></div>
+      <div class="meta-item"><span class="meta-label">Score MVP mínimo</span><span class="meta-value">70 pts</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── NOTA DE USO ─── -->
+<section>
+  <div class="wrap">
+    <div class="context-note">
+      <strong>¿Por qué un reto nuevo para el dry run?</strong><br>
+      Este reto fue diseñado exclusivamente para que los coaches practiquen con una aplicación que no han visto antes — y puedan simular fielmente la experiencia de los participantes el día del evento. Está calibrado al mismo nivel de dificultad y estructura que los Retos A, B y C, pero con un dominio diferente: el <strong>registro y seguimiento de incidentes operativos</strong>. Este dominio funciona en IT, operaciones, manufactura, salud, banca, logística y servicios — los coaches no necesitan expertise sectorial para entenderlo.
+    </div>
+
+    <div class="industry-tags">
+      <span style="font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); align-self:center;">Aplica en:</span>
+      <span class="ind-tag ind-tag-orange">IT / Mesa de Ayuda</span>
+      <span class="ind-tag ind-tag-orange">Operaciones</span>
+      <span class="ind-tag ind-tag-orange">Manufactura</span>
+      <span class="ind-tag ind-tag-blue">Salud</span>
+      <span class="ind-tag ind-tag-blue">Banca y Seguros</span>
+      <span class="ind-tag ind-tag-blue">Logística</span>
+      <span class="ind-tag ind-tag-blue">Servicios Corporativos</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── REQUISITOS DE NEGOCIO ─── -->
+<section id="negocio">
+  <div class="wrap">
+    <div class="section-eyebrow">Requisitos de Negocio · Reto D</div>
+    <h2>Contexto, métricas y criterios de aceptación</h2>
+    <p>El contexto es ficticio y deliberadamente neutro. Cualquier coach puede entenderlo sin importar su industria o área de especialización.</p>
+
+    <div class="pull-quote">"El negocio define el qué y el porqué. El equipo define el cómo. FRIDA SDLC construye."</div>
+
+    <div class="negocio-grid">
+      <div class="negocio-card nc-caso">
+        <div class="nc-eyebrow">Caso de uso</div>
+        <h4>Contexto del área</h4>
+        <ul>
+          <li>Un área operativa registra incidentes que interrumpen procesos o servicios internos</li>
+          <li>Hoy los incidentes se reportan por email o de forma verbal — sin trazabilidad centralizada</li>
+          <li>No hay forma de saber cuántos incidentes están abiertos ni en qué etapa de resolución están</li>
+          <li>El equipo de respuesta es de 4–8 personas atendiendo ~18 incidentes activos en promedio</li>
+          <li>Contexto ficticio: "Área de Operaciones — Empresa de Servicios Genérica"</li>
+        </ul>
+      </div>
+      <div class="negocio-card nc-metricas">
+        <div class="nc-eyebrow">Métricas de éxito</div>
+        <h4>KPIs de negocio</h4>
+        <ul>
+          <li>Número de incidentes por estado (Abierto / En atención / Cerrado)</li>
+          <li>Distribución por severidad (Crítica / Alta / Media / Baja)</li>
+          <li>Incidentes de severidad Crítica aún en estado "Abierto" (riesgo operativo)</li>
+          <li>Volumen de incidentes por categoría y por área afectada</li>
+          <li>Trazabilidad completa: historial de cambios de estado accesible sin buscar en correos</li>
+        </ul>
+      </div>
+      <div class="negocio-card nc-criterios">
+        <div class="nc-eyebrow">Criterios de aceptación</div>
+        <h4>El área acepta la app si...</h4>
+        <ul>
+          <li>Un usuario puede registrar un incidente nuevo en menos de 2 minutos</li>
+          <li>El equipo de respuesta ve todos los incidentes abiertos en una sola vista</li>
+          <li>El estado de cualquier incidente se puede actualizar directamente desde la lista</li>
+          <li>Los datos no se pierden al cerrar el browser o recargar la página</li>
+          <li>Un supervisor puede identificar de inmediato los incidentes críticos sin filtrar manualmente</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="db-box">
+      <div class="db-box-icon">🗄️</div>
+      <div class="db-box-content">
+        <h4>Base de datos: PostgreSQL — Datos mockup pre-cargados</h4>
+        <p>Tabla principal: <code>incidents</code> con columnas <code>id, title, category, severity, description, reporter, area, status, created_at, updated_at</code>. Tabla secundaria (bonus): <code>incident_log</code> con <code>id, incident_id, old_status, new_status, note, changed_at</code>. Se incluyen <strong>18 incidentes ficticios</strong> con severidades, categorías y estados mixtos para que la lista tenga contenido desde el inicio del build sprint. Los nombres de áreas y categorías son genéricos (Área A, Área B; Categoría Sistema, Categoría Proceso) para que funcionen en cualquier industria. Conexión entregada en el Kit de Inicio — sin configuración.</p>
+      </div>
+    </div>
+
+    <!-- MOCKUP DATA REFERENCE -->
+    <div style="border:1px solid var(--border); padding:0; overflow:hidden; margin-top:8px;">
+      <div style="background:var(--gray-50); padding:12px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px;">
+        <span style="font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted);">Referencia de datos mockup — 18 registros pre-cargados</span>
+      </div>
+      <table style="width:100%; border-collapse:collapse; font-size:12px;">
+        <thead>
+          <tr style="background:var(--gray-50);">
+            <th style="padding:8px 14px; text-align:left; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray-400); border-bottom:1px solid var(--gray-200);">ID</th>
+            <th style="padding:8px 14px; text-align:left; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray-400); border-bottom:1px solid var(--gray-200);">Título</th>
+            <th style="padding:8px 14px; text-align:left; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray-400); border-bottom:1px solid var(--gray-200);">Categoría</th>
+            <th style="padding:8px 14px; text-align:left; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray-400); border-bottom:1px solid var(--gray-200);">Severidad</th>
+            <th style="padding:8px 14px; text-align:left; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray-400); border-bottom:1px solid var(--gray-200);">Área Afectada</th>
+            <th style="padding:8px 14px; text-align:left; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray-400); border-bottom:1px solid var(--gray-200);">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--gray-200);"><td style="padding:7px 14px; color:var(--gray-400);">INC-001</td><td style="padding:7px 14px; color:var(--text);">Falla en proceso Alpha</td><td style="padding:7px 14px; color:var(--text-muted);">Proceso</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fee2e2; color:#b91c1c; padding:2px 7px;">Crítica</span></td><td style="padding:7px 14px; color:var(--text-muted);">Área A</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fef3c7; color:#92600a; padding:2px 7px;">Abierto</span></td></tr>
+          <tr style="border-bottom:1px solid var(--gray-200); background:var(--gray-50);"><td style="padding:7px 14px; color:var(--gray-400);">INC-002</td><td style="padding:7px 14px; color:var(--text);">Interrupción sistema Beta</td><td style="padding:7px 14px; color:var(--text-muted);">Sistema</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fee2e2; color:#b91c1c; padding:2px 7px;">Crítica</span></td><td style="padding:7px 14px; color:var(--text-muted);">Área B</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#dbeafe; color:#1e40af; padding:2px 7px;">En atención</span></td></tr>
+          <tr style="border-bottom:1px solid var(--gray-200);"><td style="padding:7px 14px; color:var(--gray-400);">INC-003</td><td style="padding:7px 14px; color:var(--text);">Error en flujo Gamma</td><td style="padding:7px 14px; color:var(--text-muted);">Proceso</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fff7ed; color:#c2410c; padding:2px 7px;">Alta</span></td><td style="padding:7px 14px; color:var(--text-muted);">Área C</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fef3c7; color:#92600a; padding:2px 7px;">Abierto</span></td></tr>
+          <tr style="border-bottom:1px solid var(--gray-200); background:var(--gray-50);"><td style="padding:7px 14px; color:var(--gray-400);">INC-004</td><td style="padding:7px 14px; color:var(--text);">Acceso no disponible — módulo Delta</td><td style="padding:7px 14px; color:var(--text-muted);">Acceso</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fff7ed; color:#c2410c; padding:2px 7px;">Alta</span></td><td style="padding:7px 14px; color:var(--text-muted);">Área A</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#dbeafe; color:#1e40af; padding:2px 7px;">En atención</span></td></tr>
+          <tr style="border-bottom:1px solid var(--gray-200);"><td style="padding:7px 14px; color:var(--gray-400);">INC-005</td><td style="padding:7px 14px; color:var(--text);">Retraso en carga de reportes</td><td style="padding:7px 14px; color:var(--text-muted);">Desempeño</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#f3f4f6; color:#4b5563; padding:2px 7px;">Media</span></td><td style="padding:7px 14px; color:var(--text-muted);">Área D</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fef3c7; color:#92600a; padding:2px 7px;">Abierto</span></td></tr>
+          <tr style="border-bottom:1px solid var(--gray-200); background:var(--gray-50);"><td style="padding:7px 14px; color:var(--gray-400);">INC-006</td><td style="padding:7px 14px; color:var(--text);">Notificaciones no enviadas</td><td style="padding:7px 14px; color:var(--text-muted);">Comunicación</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#f3f4f6; color:#4b5563; padding:2px 7px;">Media</span></td><td style="padding:7px 14px; color:var(--text-muted);">Área B</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#d1fae5; color:#065f46; padding:2px 7px;">Cerrado</span></td></tr>
+          <tr style="border-bottom:1px solid var(--gray-200);"><td style="padding:7px 14px; color:var(--gray-400);">INC-007</td><td style="padding:7px 14px; color:var(--text);">Inconsistencia en datos Epsilon</td><td style="padding:7px 14px; color:var(--text-muted);">Datos</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fff7ed; color:#c2410c; padding:2px 7px;">Alta</span></td><td style="padding:7px 14px; color:var(--text-muted);">Área C</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#dbeafe; color:#1e40af; padding:2px 7px;">En atención</span></td></tr>
+          <tr style="border-bottom:1px solid var(--gray-200); background:var(--gray-50);"><td style="padding:7px 14px; color:var(--gray-400);">INC-008</td><td style="padding:7px 14px; color:var(--text);">Proceso Zeta detenido</td><td style="padding:7px 14px; color:var(--text-muted);">Proceso</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#fee2e2; color:#b91c1c; padding:2px 7px;">Crítica</span></td><td style="padding:7px 14px; color:var(--text-muted);">Área A</td><td style="padding:7px 14px;"><span style="font-size:10px; font-weight:700; background:#d1fae5; color:#065f46; padding:2px 7px;">Cerrado</span></td></tr>
+          <tr><td style="padding:7px 14px; color:var(--gray-400);" colspan="6" align="center"><span style="font-size:11px; color:var(--text-muted);">+ 10 registros adicionales con distribución equilibrada de severidades, categorías y estados</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── KANVAS FUNCIONALIDADES ─── -->
+<section id="kanvas">
+  <div class="wrap">
+    <div class="section-eyebrow">Kanvas de Funcionalidades · Reto D</div>
+    <h2>Funcionalidades esperadas y score</h2>
+    <p>Las funcionalidades <strong>obligatorias</strong> son el mínimo exigido — todas deben estar presentes para una entrega completa. Cualquier funcionalidad adicional más allá de las obligatorias cuenta como <strong>bonus</strong> y suma puntos extra al criterio de Funcionalidad Verificable.</p>
+
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Obligatoria — debe estar en la entrega final</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Bonus — suma puntos extra si está implementada</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue-700)"></div>Score alto — 15–20 pts</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--violet)"></div>Score medio — 8–14 pts</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-400)"></div>Score bajo — 5–8 pts</div>
+    </div>
+
+    <table class="feature-table">
+      <thead>
+        <tr>
+          <th style="width:90px">Módulo</th>
+          <th>Funcionalidad</th>
+          <th style="width:110px">Tipo</th>
+          <th style="width:80px;text-align:center">Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- OBLIGATORIAS -->
+        <tr class="oblig-row">
+          <td><span class="feat-modulo">Formulario</span></td>
+          <td>
+            <div class="feat-name">Formulario con todos los campos definidos</div>
+            <div class="feat-desc">Título, categoría, severidad (Crítica/Alta/Media/Baja), descripción, reportador y área afectada — todos renderizando y funcionales</div>
+          </td>
+          <td><span class="badge badge-oblig">Obligatoria</span></td>
+          <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+        </tr>
+        <tr class="oblig-row">
+          <td><span class="feat-modulo">Formulario</span></td>
+          <td>
+            <div class="feat-name">Guardar registro en PostgreSQL</div>
+            <div class="feat-desc">Al enviar el formulario, el incidente se escribe en la tabla <code>incidents</code> de la BD provista con estado inicial "Abierto"</div>
+          </td>
+          <td><span class="badge badge-oblig">Obligatoria</span></td>
+          <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+        </tr>
+        <tr class="oblig-row">
+          <td><span class="feat-modulo">Lista</span></td>
+          <td>
+            <div class="feat-name">Tabla que muestra incidentes desde la BD</div>
+            <div class="feat-desc">Lee desde PostgreSQL — los 18 incidentes mockup pre-cargados deben ser visibles sin registrar nada nuevo</div>
+          </td>
+          <td><span class="badge badge-oblig">Obligatoria</span></td>
+          <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+        </tr>
+        <tr class="oblig-row">
+          <td><span class="feat-modulo">Lista</span></td>
+          <td>
+            <div class="feat-name">Datos persisten al recargar la página</div>
+            <div class="feat-desc">F5 y los incidentes siguen visibles — vienen de PostgreSQL, no de sessionStorage ni variables en memoria</div>
+          </td>
+          <td><span class="badge badge-oblig">Obligatoria</span></td>
+          <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+        </tr>
+        <tr class="oblig-row">
+          <td><span class="feat-modulo">Lista</span></td>
+          <td>
+            <div class="feat-name">Filtro por estado</div>
+            <div class="feat-desc">Filtra la lista por Abierto / En atención / Cerrado — la tabla se actualiza sin recargar la página</div>
+          </td>
+          <td><span class="badge badge-oblig">Obligatoria</span></td>
+          <td class="score-cell"><span class="score-num score-med">12 pts</span></td>
+        </tr>
+        <tr class="oblig-row">
+          <td><span class="feat-modulo">Dashboard</span></td>
+          <td>
+            <div class="feat-name">Contadores de incidentes por estado</div>
+            <div class="feat-desc">Cards o badges que muestran cuántos incidentes hay en cada estado (Abierto / En atención / Cerrado)</div>
+          </td>
+          <td><span class="badge badge-oblig">Obligatoria</span></td>
+          <td class="score-cell"><span class="score-num score-med">10 pts</span></td>
+        </tr>
+        <tr class="oblig-row">
+          <td><span class="feat-modulo">Calidad</span></td>
+          <td>
+            <div class="feat-name">App corre sin errores en consola del browser</div>
+            <div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools al cargar y navegar la app</div>
+          </td>
+          <td><span class="badge badge-oblig">Obligatoria</span></td>
+          <td class="score-cell"><span class="score-num score-low">8 pts</span></td>
+        </tr>
+
+        <!-- BONUS -->
+        <tr class="diff-row">
+          <td><span class="feat-modulo">Bonus</span></td>
+          <td>
+            <div class="feat-name">Filtro por severidad</div>
+            <div class="feat-desc">Filtra la lista por Crítica / Alta / Media / Baja — combinable con el filtro por estado</div>
+          </td>
+          <td><span class="badge badge-bonus">Bonus</span></td>
+          <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+        </tr>
+        <tr class="diff-row">
+          <td><span class="feat-modulo">Bonus</span></td>
+          <td>
+            <div class="feat-name">Cambio de estado inline</div>
+            <div class="feat-desc">Desde la misma fila de la tabla, el usuario puede actualizar el estado del incidente sin abrir un formulario separado</div>
+          </td>
+          <td><span class="badge badge-bonus">Bonus</span></td>
+          <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
+        </tr>
+        <tr class="diff-row">
+          <td><span class="feat-modulo">Bonus</span></td>
+          <td>
+            <div class="feat-name">Alerta visual de incidentes críticos abiertos</div>
+            <div class="feat-desc">Banner o sección destacada que muestra los incidentes con severidad Crítica y estado Abierto — separados del resto de la lista</div>
+          </td>
+          <td><span class="badge badge-bonus">Bonus</span></td>
+          <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+        </tr>
+        <tr class="diff-row">
+          <td><span class="feat-modulo">Bonus</span></td>
+          <td>
+            <div class="feat-name">Validación de campos requeridos</div>
+            <div class="feat-desc">No permite guardar si título, severidad o área afectada están vacíos — muestra mensaje de error claro</div>
+          </td>
+          <td><span class="badge badge-bonus">Bonus</span></td>
+          <td class="score-cell"><span class="score-num score-bonus">+8 pts</span></td>
+        </tr>
+        <tr class="diff-row">
+          <td><span class="feat-modulo">Bonus</span></td>
+          <td>
+            <div class="feat-name">Log de historial por incidente</div>
+            <div class="feat-desc">Cada cambio de estado queda registrado en la tabla <code>incident_log</code> — visible al expandir el registro</div>
+          </td>
+          <td><span class="badge badge-bonus">Bonus</span></td>
+          <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="totals-bar">
+      <div class="total-card"><div class="label">Score obligatorio</div><div class="value">100 pts</div><div class="sub">7 funcionalidades fijas</div></div>
+      <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+55 pts</div><div class="sub">5 funcionalidades extra</div></div>
+      <div class="total-card"><div class="label">Score máximo</div><div class="value">155 pts</div><div class="sub">Todo obligatorio + todos los bonus</div></div>
+      <div class="total-card"><div class="label">Criterio funcionalidad</div><div class="value">25%</div><div class="sub">Del score total del challenge</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── MVP ─── -->
+<section id="mvp">
+  <div class="wrap">
+    <div class="section-eyebrow">Definición de MVP · Reto D</div>
+    <h2>¿Cuándo se declara el MVP?</h2>
+
+    <div class="mvp-def-box">
+      <div class="mvp-def-label">Definición de MVP — Reto D</div>
+      <div class="mvp-def-text">El MVP se alcanza cuando el equipo puede demostrar que: <strong>(1)</strong> el formulario registra un nuevo incidente, <strong>(2)</strong> el incidente se persiste en PostgreSQL, <strong>(3)</strong> la lista muestra los datos mockup pre-cargados desde el inicio, y <strong>(4)</strong> los datos siguen visibles al recargar la página. Son exactamente los 4 ítems del checklist de abajo. El coach verifica cada ítem en tiempo real y registra el minuto exacto de la declaración.</div>
+    </div>
+
+    <div class="mvp-reto-block">
+      <div class="mvp-reto-header">
+        <div class="reto-letter-big d">D</div>
+        <div>
+          <div class="mvp-reto-title">🚨 Reto D — Registro de Incidentes</div>
+          <div class="mvp-reto-sub">4 ítems obligatorios · 70 pts máximo de MVP · verificación en tiempo real</div>
+        </div>
+      </div>
+      <div id="mvp-d" class="mvp-checklist">
+        <div class="mvp-check-item" data-pts="20" data-list="d" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Formulario completo:</strong> título, categoría, severidad (Crítica/Alta/Media/Baja), descripción, reportador y área afectada — todos visibles e interactuables</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="15" data-list="d" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Guardar en PostgreSQL:</strong> al enviar, el incidente aparece en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">incidents</code> de la BD</div>
+          <div class="mvp-check-pts">15 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="20" data-list="d" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Lista con datos pre-cargados:</strong> los 18 incidentes mockup son visibles en la tabla sin registrar nada nuevo</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="15" data-list="d" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y los incidentes siguen visibles — vienen de PostgreSQL, no de memoria</div>
+          <div class="mvp-check-pts">15 pts</div>
+        </div>
+      </div>
+      <div class="mvp-score-footer">
+        <div class="mvp-progress-wrap">
+          <div class="mvp-progress-label" id="prog-label-d">0 de 4 ítems verificados</div>
+          <div class="mvp-progress-bar"><div class="mvp-progress-fill" id="bar-d"></div></div>
+        </div>
+        <div class="mvp-score-display" id="score-d">0<span class="of"> / 70 pts</span></div>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">↺ Resetear todos los checks</button>
+
+    <div class="tips-box">
+      <h3>📋 Notas para el Evaluador Central — Reto D</h3>
+      <div class="tips-list">
+        <div class="tip-item"><span class="tip-num">1</span><span>El <strong style="color:#fff">MVP se declara durante el build sprint</strong>, no al cierre. El coach registra el minuto exacto cuando el equipo lo anuncia y lo verifica contra los 4 ítems en tiempo real.</span></div>
+        <div class="tip-item"><span class="tip-num">2</span><span><strong style="color:#fff">Verificar datos mockup visibles:</strong> desde el inicio del build los 18 incidentes pre-cargados deben aparecer en la lista. Si no aparecen, la conexión a PostgreSQL no está funcionando — no es MVP válido.</span></div>
+        <div class="tip-item"><span class="tip-num">3</span><span><strong style="color:#fff">Verificar persistencia activamente:</strong> recargar la página frente al equipo es la única forma de confirmar que los datos vienen de PostgreSQL y no de memoria. No aceptar la palabra del equipo.</span></div>
+        <div class="tip-item"><span class="tip-num">4</span><span><strong style="color:#fff">Bonus no penalizan:</strong> si un equipo intentó implementar un bonus y no lo terminó, solo se excluye del score — no descuenta de las obligatorias. Se evalúan de forma independiente.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESUMEN ─── -->
+<section id="resumen">
+  <div class="wrap">
+    <div class="section-eyebrow">Resumen de evaluación</div>
+    <h2>Los 5 criterios del challenge</h2>
+    <p>El score final de cada equipo es la suma ponderada de estos 5 criterios. El Evaluador Central aplica los mismos criterios a todos los equipos garantizando consistencia. <strong>Aplica igual para el Reto D durante el dry run.</strong></p>
+    <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;">
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:var(--blue);display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">25%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Funcionalidad Verificable</h4><p style="font-size:12px;margin:0;">Checklist binario: obligatorias + bonus. Las obligatorias tienen score fijo. Los bonus suman puntos extra. Sin interpretación — o funciona o no funciona. Evaluado por el <strong>Evaluador Central</strong> al cierre del build.</p></div>
+      </div>
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:var(--violet);display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">20%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Calidad de Código</h4><p style="font-size:12px;margin:0;">El Evaluador Central pasa el código a <strong>Kardex</strong> con un prompt estándar. Score 1–10 en 4 dimensiones: estructura, complejidad ciclomática, vulnerabilidades y buenas prácticas. Mismo prompt para todos.</p></div>
+      </div>
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:#0796a8;display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">25%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Eficiencia en Uso de IA</h4><p style="font-size:12px;margin:0;">Fórmula: (ítems completados ÷ tokens consumidos) × 100. Premia al equipo que sacó más provecho por prompt. Cada equipo reporta sus tokens al cierre del build.</p></div>
+      </div>
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:var(--periwinkle);display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">20%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Cobertura del Canvas</h4><p style="font-size:12px;margin:0;">Porcentaje de lo que el equipo prometió en la Fase 1 que terminó implementado. El coach lleva el registro. Un equipo que prometió poco y cumplió todo puede superar a uno que prometió mucho y entregó la mitad.</p></div>
+      </div>
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:#9a97c0;display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">10%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Tiempo al MVP</h4><p style="font-size:12px;margin:0;">Minuto exacto en que el equipo declara y el coach verifica el MVP. Escala inversa: llegar antes da más puntos. Premia el arranque rápido y la toma de decisiones bajo presión.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">AI BUILD CHALLENGE · KANVAS RETO D — REGISTRO DE INCIDENTES · DRY RUN COACHES · USO INTERNO</div>
+
+<script>
+function toggleMvp(row) {
+  row.classList.toggle('checked');
+  updateMvpScore(row.dataset.list);
+}
+function updateMvpScore(list) {
+  const rows = document.querySelectorAll('#mvp-' + list + ' .mvp-check-item');
+  let total = 0, done = 0;
+  rows.forEach(r => { if (r.classList.contains('checked')) { total += parseInt(r.dataset.pts); done++; } });
+  document.getElementById('score-' + list).innerHTML = total + '<span class="of"> / 70 pts</span>';
+  document.getElementById('prog-label-' + list).textContent = done + ' de 4 ítems verificados';
+  document.getElementById('bar-' + list).style.width = Math.round((done / 4) * 100) + '%';
+}
+function resetAll() {
+  document.querySelectorAll('.mvp-check-item').forEach(r => r.classList.remove('checked'));
+  ['d'].forEach(l => {
+    document.getElementById('score-' + l).innerHTML = '0<span class="of"> / 70 pts</span>';
+    document.getElementById('prog-label-' + l).textContent = '0 de 4 ítems verificados';
+    document.getElementById('bar-' + l).style.width = '0%';
+  });
+}
+</script>
+</body>
+</html>
