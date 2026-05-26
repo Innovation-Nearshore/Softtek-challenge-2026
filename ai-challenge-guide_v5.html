@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Build Challenge — Guía de Facilitador</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Primary */
+  --blue:      #091FFD;
+  --white:     #ffffff;
+
+  /* Complementary */
+  --cyan:      #1FDCF9;
+  --violet:    #7315FA;
+  --periwinkle:#A4A2F2;
+  --lavender:  #D7D7FC;
+  --mist:      #E1DEE3;
+
+  /* Derived surfaces & text */
+  --blue-dark: #0718c8;   /* blue darkened for hover/nav */
+  --blue-deep: #050f7a;   /* very dark navy for text on white */
+  --blue-mid:  #2d40fd;   /* slightly lighter blue for gradients */
+  --text:      #0a0d2e;   /* near-black with blue tint */
+  --text-muted:#5a5f8a;   /* muted blue-gray */
+  --border:    #D7D7FC;   /* lavender as border */
+  --surface:   #f5f5ff;   /* very light lavender tint for surfaces */
+
+  /* Legacy aliases for compatibility */
+  --blue-900: #050f7a;
+  --blue-800: #0718c8;
+  --blue-700: #091FFD;
+  --blue-600: #2d40fd;
+  --blue-500: #091FFD;
+  --blue-400: #A4A2F2;
+  --blue-300: #D7D7FC;
+  --blue-100: #f0f0ff;
+  --blue-50:  #f5f5ff;
+  --gray-50:  #f7f7fc;
+  --gray-100: #efeffa;
+  --gray-200: #E1DEE3;
+  --gray-400: #5a5f8a;
+  --gray-600: #3a3f6a;
+  --gray-800: #0a0d2e;
+  --font: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--gray-800);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--blue);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 56px;
+  border-bottom: 1px solid var(--blue-dark);
+}
+.nav-brand {
+  font-size: 13px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--white);
+}
+.nav-brand span { color: var(--cyan); }
+nav .nav-links { display: flex; gap: 32px; }
+nav .nav-links a {
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  font-weight: 600; color: rgba(255,255,255,0.45);
+  text-decoration: none; transition: color 0.2s; cursor: pointer;
+}
+nav .nav-links a:hover { color: var(--cyan); }
+.nav-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--cyan);
+  border: 1px solid rgba(31,220,249,0.4); padding: 4px 12px;
+  border-radius: 2px;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--blue);
+  position: relative; overflow: hidden;
+  padding: 80px 48px 72px;
+}
+.hero::after {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0; width: 40%;
+  background: linear-gradient(135deg, transparent 0%, rgba(115,21,250,0.12) 100%);
+  pointer-events: none;
+}
+.hero-rule {
+  width: 48px; height: 3px;
+  background: var(--cyan);
+  margin-bottom: 24px;
+}
+.hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--cyan); font-weight: 700; margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700; line-height: 1.1;
+  color: var(--white); margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+.hero h1 em { font-style: normal; color: var(--cyan); }
+.hero-sub {
+  font-size: 15px; color: rgba(255,255,255,0.75);
+  margin-bottom: 40px; font-weight: 400;
+}
+.hero-meta {
+  display: flex; gap: 0; flex-wrap: wrap;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 28px;
+}
+.meta-item {
+  display: flex; flex-direction: column; gap: 5px;
+  padding-right: 16px; margin-right: 16px;
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+.meta-item:last-child { border-right: none; }
+.meta-label {
+  font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.6); font-weight: 700;
+}
+.meta-value { font-size: 15px; font-weight: 600; color: var(--white); }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+section { padding: 48px 0; border-bottom: 1px solid var(--gray-200); }
+section:last-child { border-bottom: none; }
+
+/* ── TYPOGRAPHY ── */
+.section-eyebrow {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--blue); font-weight: 700; margin-bottom: 10px;
+}
+h2 {
+  font-size: clamp(22px, 3vw, 30px); font-weight: 700;
+  color: var(--text); line-height: 1.2; margin-bottom: 20px;
+  letter-spacing: -0.3px;
+}
+h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+p { color: var(--gray-600); margin-bottom: 14px; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--gray-800); font-weight: 700; }
+em { color: var(--gray-800); }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  border-left: 4px solid var(--cyan);
+  padding: 16px 24px; margin: 32px 0;
+  background: var(--surface);
+  font-size: 15px; font-weight: 600;
+  line-height: 1.5; color: var(--text);
+}
+
+/* ── CARDS ── */
+.roles-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px; margin-top: 20px;
+}
+.role-card {
+  background: var(--white); border: 1px solid var(--border);
+  padding: 24px; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.role-card:hover { border-color: var(--periwinkle); box-shadow: 0 2px 16px rgba(9,31,253,0.08); }
+.role-card .role-icon { font-size: 22px; margin-bottom: 12px; }
+.role-tag {
+  display: inline-block; margin-top: 12px;
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  font-weight: 700; padding: 3px 9px; border: 1px solid;
+}
+
+/* ── TIMELINE ── */
+.timeline { margin-top: 40px; }
+.tl-item {
+  display: grid; grid-template-columns: 80px 32px 1fr;
+  margin-bottom: 0;
+}
+.tl-time {
+  font-size: 11px; font-weight: 700; color: var(--gray-400);
+  letter-spacing: 0.5px; padding-top: 20px; text-align: right;
+  padding-right: 16px; font-family: var(--font);
+}
+.tl-spine { display: flex; flex-direction: column; align-items: center; }
+.tl-dot {
+  width: 12px; height: 12px;
+  border: 2px solid var(--border);
+  background: var(--white);
+  margin-top: 22px; z-index: 1; flex-shrink: 0;
+}
+.tl-dot.active { background: var(--blue); border-color: var(--blue); }
+.tl-line { width: 1px; flex: 1; background: var(--gray-200); }
+.tl-item:last-child .tl-line { display: none; }
+.tl-content { padding: 16px 0 36px 20px; }
+.tl-phase {
+  font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+  font-weight: 700; margin-bottom: 6px; color: var(--blue-500);
+}
+.tl-content h3 { font-size: 16px; margin-bottom: 10px; color: var(--text); }
+.tl-content p { font-size: 13px; }
+
+/* ── PILLS ── */
+.tl-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+.pill {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 3px 10px; border: 1px solid var(--border);
+  background: var(--gray-50); color: var(--gray-600);
+  text-transform: uppercase;
+}
+.pill.r { background: var(--surface); color: var(--blue); border-color: var(--lavender); }
+.pill.b { background: var(--blue-50); color: var(--blue-700); border-color: var(--cyan); }
+.pill.g { background: #f0f7f4; color: #2a7a4b; border-color: #b3d9c7; }
+
+/* ── CHALLENGE CARDS ── */
+.challenges-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px; margin-top: 24px;
+}
+.challenge-card { border: 1px solid var(--border); background: var(--white); }
+.challenge-header { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); }
+.challenge-industry {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 700; margin-bottom: 8px;
+}
+.challenge-header h4 { font-size: 15px; line-height: 1.2; margin: 0; }
+.challenge-body { padding: 16px 20px; }
+.challenge-body p { font-size: 12px; margin-bottom: 12px; }
+.challenge-stack { display: flex; flex-direction: column; gap: 8px; }
+.stack-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--gray-600); }
+.stack-icon { font-size: 13px; margin-top: 1px; flex-shrink: 0; }
+
+/* ── ACCELERATOR TABLE ── */
+.acc-table { width: 100%; border-collapse: collapse; margin-top: 28px; }
+.acc-table th {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 700; color: var(--gray-400);
+  text-align: left; padding: 10px 16px;
+  background: var(--gray-50); border-bottom: 2px solid var(--border);
+}
+.acc-table td { padding: 14px 16px; border-bottom: 1px solid var(--gray-200); font-size: 13px; vertical-align: top; }
+.acc-table tr:last-child td { border-bottom: none; }
+.acc-table tr:hover td { background: var(--surface); }
+.acc-name { font-weight: 700; color: var(--text); }
+.acc-type {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 2px 8px; margin-top: 4px; border: 1px solid;
+}
+
+/* ── TIPS BOX ── */
+.tips-box strong,
+.tips-box em { color: inherit; }
+
+.tips-box {
+  background: var(--blue);
+  padding: 32px 36px; margin-top: 40px;
+}
+.tips-box h3 { color: var(--white); margin-bottom: 20px; font-size: 16px; font-weight: 700; }
+.tips-list { display: flex; flex-direction: column; gap: 14px; }
+.tip-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6;
+}
+.tip-num {
+  font-size: 18px; font-weight: 700; color: var(--cyan);
+  line-height: 1; flex-shrink: 0; margin-top: 1px;
+  font-family: var(--font);
+}
+
+/* ── TWO COL ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px; }
+
+/* ── DIVIDER ── */
+.h-rule { height: 1px; background: var(--gray-200); margin: 40px 0; }
+
+/* ── BLUE INFOBOX ── */
+.infobox {
+  padding: 14px 18px;
+  background: var(--surface);
+  border-left: 3px solid var(--blue);
+  font-size: 13px; color: var(--gray-600); line-height: 1.6;
+}
+.infobox strong { color: var(--text); }
+
+/* ── SECTION LABEL ── */
+.sub-label {
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 700; color: var(--gray-400); margin-bottom: 16px;
+  margin-top: 40px; display: block;
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--blue);
+  color: rgba(255,255,255,0.4);
+  text-align: center; padding: 24px;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+.hero-inner { animation: fadeUp 0.5s ease both; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  nav { padding: 0 20px; }
+  nav .nav-links { display: none; }
+  .hero { padding: 48px 20px 40px; }
+  .wrap { padding: 0 20px; }
+  .two-col { grid-template-columns: 1fr; }
+  .tl-item { grid-template-columns: 64px 28px 1fr; }
+  .meta-item { padding-right: 20px; margin-right: 20px; }
+}
+
+@media print {
+  nav { display: none; }
+  section { page-break-inside: avoid; }
+}
+
+/* Light background tips variant */
+.tips-list-light { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+.tips-list-light .tip-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  font-size: 13px; color: var(--gray-600); line-height: 1.6;
+}
+.tips-list-light .tip-num {
+  font-size: 18px; font-weight: 700; color: var(--blue);
+  line-height: 1; flex-shrink: 0; margin-top: 1px;
+  min-width: 20px;
+}
+.tips-list-light .tip-item strong { color: var(--gray-800); }
+
+.tip-item-light {
+  display: flex; align-items: flex-start; gap: 14px;
+  font-size: 13px; color: var(--gray-600); line-height: 1.6;
+}
+.tip-item-light .tip-num {
+  font-size: 18px; font-weight: 700; color: var(--blue);
+  line-height: 1; flex-shrink: 0; margin-top: 1px;
+  min-width: 20px;
+}
+.tip-item-light strong { color: var(--gray-800); }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">AI <span>Build Challenge</span></span>
+  <div class="nav-links">
+    <a onclick="document.getElementById('overview').scrollIntoView()">Visión General</a>
+    <a onclick="document.getElementById('retos').scrollIntoView()">Retos</a>
+    <a onclick="document.getElementById('evaluacion').scrollIntoView()">Evaluación</a>
+    <a onclick="document.getElementById('agenda').scrollIntoView()">Agenda</a>
+    <a onclick="document.getElementById('roles').scrollIntoView()">Roles</a>
+    <a onclick="document.getElementById('aceleradores').scrollIntoView()">Aceleradores</a>
+  </div>
+  <span class="nav-badge">Guía Facilitador</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-rule"></div><div class="hero-eyebrow">Guía de Facilitador · Edición 2026</div>
+    <h1>AI Build<br><em>Challenge</em></h1>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Duración</span>
+        <span class="meta-value">4h 30 min</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Participantes</span>
+        <span class="meta-value">25 – 30 personas</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Equipos</span>
+        <span class="meta-value">5 – 6 equipos de 5 personas cada uno</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Perfil</span>
+        <span class="meta-value">Técnico Senior</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Empresas</span>
+        <span class="meta-value">Multi-empresa</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Acelerador</span>
+        <span class="meta-value">FRIDA SDLC</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="wrap">
+    <div class="section-eyebrow">¿Qué es?</div>
+    <h2>Un hackathon para perfiles técnicos senior, enfocado en resultados</h2>
+    <p>El AI Build Challenge reúne líderes técnicos, arquitectos, desarrolladores senior y líderes QA de distintas empresas para construir una aplicación web funcional en 4 horas usando <strong>FRIDA SDLC</strong> como acelerador principal. No es un taller de ideación ni una demo de producto, es construcción real, con código real, evaluada con criterios objetivos.</p>
+
+    <div class="pull-quote">
+      "El reto no es aprender a programar con IA, es aprender a <em>dirigir</em> a la IA para producir más, más rápido y con mejor calidad que a la manera tradicional."
+    </div>
+
+    <!-- PARTICIPANT PROFILE -->
+    <div style="margin-top:32px; background:var(--gray-50); border:1px solid var(--border); border-radius:4px; padding:28px 32px;">
+      <h3 style="font-size:17px; margin-bottom:20px;">Perfil de participante</h3>
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:12px;">
+        <div style="background:var(--white); border:1px solid var(--lavender); padding:14px 16px; text-align:center;">
+          <div style="font-size:22px; margin-bottom:6px;">🏗️</div>
+          <div style="font-size:13px; font-weight:700;">Arquitecto de Software</div>
+        </div>
+        <div style="background:var(--white); border:1px solid var(--lavender); padding:14px 16px; text-align:center;">
+          <div style="font-size:22px; margin-bottom:6px;">👨‍💻</div>
+          <div style="font-size:13px; font-weight:700;">Desarrollador Sr / Expert</div>
+        </div>
+        <div style="background:var(--white); border:1px solid var(--lavender); padding:14px 16px; text-align:center;">
+          <div style="font-size:22px; margin-bottom:6px;">🧪</div>
+          <div style="font-size:13px; font-weight:700;">Líder QA</div>
+        </div>
+        <div style="background:var(--white); border:1px solid var(--lavender); padding:14px 16px; text-align:center;">
+          <div style="font-size:22px; margin-bottom:6px;">⚙️</div>
+          <div style="font-size:13px; font-weight:700;">Líder Técnico</div>
+        </div>
+        <div style="background:var(--white); border:1px solid var(--lavender); padding:14px 16px; text-align:center;">
+          <div style="font-size:22px; margin-bottom:6px;">🏢</div>
+          <div style="font-size:13px; font-weight:700;">Múltiples empresas</div>
+        </div>
+      </div>
+      <div style="margin-top:16px; padding:12px 16px; background:var(--surface); border-left:3px solid var(--blue); border-radius:0 6px 6px 0; font-size:13px; color:var(--gray-400); line-height:1.6;">
+        <strong style="color:var(--blue-900);">Relevancia del perfil:</strong> Perfiles senior dominan el código, el verdadero aprendizaje es soltar el control y confiar en FRIDA SDLC como copiloto. La tentación de "hacerlo a su manera" es el principal obstáculo a superar.
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:32px;">
+      <div>
+        <h3>Principios de diseño</h3>
+        <p style="margin-top:8px;">Tres principios que definen la experiencia:</p>
+        <div class="tips-list-light">
+          <div class="tip-item-light"><span class="tip-num">①</span><span><strong>Reto único, ejecuciones distintas.</strong> Todos construyen el mismo tipo de app, el diferenciador es la calidad técnica, las decisiones de arquitectura y la eficiencia con FRIDA SDLC.</span></div>
+          <div class="tip-item-light"><span class="tip-num">②</span><span><strong>FRIDA SDLC como copiloto, no como sustituto.</strong> El equipo dirige, valida y decide, FRIDA SDLC ejecuta y propone. Los mejores resultados vienen de quien mejor sabe instruir, no de quien más sabe programar.</span></div>
+          <div class="tip-item-light"><span class="tip-num">③</span><span><strong>Criterios objetivos, sin subjetividad.</strong> Code review automatizado, checklist de funcionalidad, eficiencia por token. Los mejores perfiles técnicos aprecian que el ganador se determine con datos, no con opiniones.</span></div></div>
+      </div>
+      <div>
+        <h3>Resultados esperados</h3>
+        <p style="margin-top:8px;">Al terminar las 4 horas, cada equipo habrá producido:</p>
+        <div class="challenge-stack">
+          <div class="stack-item"><span class="stack-icon">✦</span><span>Una aplicación web funcional corriendo en el browser</span></div>
+          <div class="stack-item"><span class="stack-icon">✦</span><span>Código revisado automáticamente con score de calidad</span></div>
+          <div class="stack-item"><span class="stack-icon">✦</span><span>Métricas de eficiencia: tokens consumidos vs. features entregados</span></div>
+          <div class="stack-item"><span class="stack-icon">✦</span><span>Una demo de 5 minutos con la app funcionando en vivo</span></div>
+          <div class="stack-item"><span class="stack-icon">✦</span><span>Una perspectiva propia sobre cómo FRIDA SDLC cambia (o no) su flujo de trabajo habitual</span></div>
+        </div>
+      </div>    
+</div>
+  </div>
+</section>
+<!-- PILOTOS -->
+<section id="pilotos" style="background:var(--surface);">
+  <div class="wrap">
+    <h3 style="margin-top:12px; font-size:15px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; color:var(--gray-400);">Dentro de cada equipo · 5 participantes</h3>
+    <p style="margin-top:8px; color:var(--gray-400); font-size:14px;">Todos los participantes son perfiles técnicos senior de distintas empresas. No hay roles fijos: todos son pilotos. Los equipos se arman intencionalmente mezclando empresas y especialidades para maximizar la diversidad de perspectivas durante el build.</p>
+
+    <div style="margin-top:20px; padding:16px 20px; background:var(--surface); border-left:3px solid var(--blue); border-radius:0 6px 6px 0; font-size:13px; color:var(--gray-400); line-height:1.6; margin-bottom:28px;">
+      <strong style="color:var(--blue-900);">Criterio de formación de equipos:</strong> Evitar que dos personas de la misma empresa queden en el mismo equipo. Mezclar especialidades: idealmente cada equipo tiene al menos un arquitecto, un developer y un QA. La diversidad de empresa y especialidad es el activo más valioso del challenge multi-empresa.
+    </div>
+
+    <div style="margin-top:28px; background:var(--gray-50); border:1px solid var(--border); border-radius:4px; padding:32px;">
+      <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px;">
+        <div style="font-size:36px;">🏎️</div>
+        <div>
+          <h3 style="font-size:18px; margin-bottom:4px;">La mecánica del volante</h3>
+          <p style="font-size:14px; color:var(--gray-400); margin:0;">Como en las grandes carreras automovilísticas: un solo auto, cinco pilotos, turnos cronometrados. Cada participante estará al frente del build operando la computadora durante 30 minutos y una vez se cumpla su turno, pasará el relevo al siguiente compañero.</p>
+        </div>
+      </div>
+      <div class="two-col">
+        <div>
+          <p style="font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue-600); margin-bottom:12px;">Piloto al volante · 30 min</p>
+          <div class="challenge-stack">
+            <div class="stack-item"><span class="stack-icon" style="color:var(--violet);">✦</span><span>Es el único que toca la computadora durante su turno.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:var(--violet);">✦</span><span>Usa FRIDA SDLC para avanzar en el foco del turno.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:var(--violet);">✦</span><span>Puede pedir sugerencias al equipo y al coach, pero decide él.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:var(--violet);">✦</span><span>Al terminar el turno, hace el traspaso en 2 minutos: estado actual, qué falta, qué tener en cuenta.</span></div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gray-400); margin-bottom:12px;">Como copiloto · fuera del volante</p>
+          <div class="challenge-stack">
+            <div class="stack-item"><span class="stack-icon" style="color:var(--text-muted);">✦</span><span>Observa, toma notas y sugiere — sin tocar la computadora.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:var(--text-muted);">✦</span><span>Prepara insumos para el siguiente turno: datos, instrucciones para FRIDA SDLC, diseño en papel.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:var(--text-muted);">✦</span><span>Prueba la app en su propio dispositivo si es posible — detecta bugs que el piloto no ve.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:var(--text-muted);">✦</span><span>Va construyendo el guión de la demo final a medida que avanza la app.</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px; padding:12px 16px; background:var(--surface); border-left:3px solid var(--blue); border-radius:0 6px 6px 0; font-size:13px; color:var(--gray-400); line-height:1.6;">
+        <strong style="color:var(--blue-900);">Importante:</strong> El orden de pilotos lo define el equipo durante la Fase 1, antes de abrir la computadora. Conviene que el participante más técnico sea el Piloto 1 para dejar el entorno listo, y que el que tenga más claridad sobre la demo sea el Piloto 5.
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- RETOS -->
+<section id="retos">
+  <div class="wrap">
+    <div class="section-eyebrow">Los Retos</div>
+    <h2>Tres apps. Un mismo challenge.</h2>
+    <p>Todos los equipos construyen la misma aplicación, la diferencia está en las decisiones de diseño, la calidad de ejecución y cómo cada equipo aprovecha FRIDA SDLC para llegar más lejos en el tiempo disponible. Al inicio del challenge, se presentan las alternativas a los equipos y por votación se elige la app a construir. Las opciones disponibles de apps aplican para cualquier empresa e industria.</p>
+
+    <div class="pull-quote" style="margin-top: 32px;">
+      "El reto no es la app más compleja, es la app más completa y mejor ejecutada en 4 horas."
+    </div>
+
+    <div class="challenges-grid" style="margin-top: 32px;">
+
+      <div class="challenge-card">
+        <div class="challenge-header" style="border-top: 4px solid var(--blue);">
+          <div class="challenge-industry" style="color:var(--blue);">📋 Reto A</div>
+          <h4>Tracker de Iniciativas</h4>
+        </div>
+        <div class="challenge-body">
+          <p>Web app para registrar y hacer seguimiento de iniciativas o proyectos de un área. Cualquier industria gestiona proyectos — este reto tiene aplicación universal e inmediata.</p>
+          <div class="challenge-stack">
+            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 1 — Formulario de registro:</strong> Nombre, responsable, estado (Pendiente / En curso / Completado), fecha límite, prioridad y descripción.</span></div>
+            <div class="stack-item"><span class="stack-icon">📊</span><span><strong>Módulo 2 — Dashboard:</strong> Tabla filtrable por estado y prioridad. Contador de iniciativas por estado. Vista de próximos vencimientos.</span></div>
+            <div class="stack-item"><span class="stack-icon">🗄️</span><span><strong>Persistencia:</strong> PostgreSQL con esquema predefinido — el equipo ejecuta el script incluido en el Kit y la base de datos queda lista en segundos.</span></div>
+            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> Edición inline de estado con drag & drop entre columnas estilo Kanban.</span></div>
+          </div>
+          <div class="tl-pills" style="margin-top:14px;">
+            <span class="pill r">HTML / JS / CSS</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill b">FRIDA SDLC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-header" style="border-top: 4px solid var(--violet);">
+          <div class="challenge-industry" style="color:var(--violet);">📊 Reto B</div>
+          <h4>Portal de Reportes de Área</h4>
+        </div>
+        <div class="challenge-body">
+          <p>Web app que permite cargar datos desde un CSV o formulario y genera automáticamente visualizaciones y métricas clave. Cada equipo lo contextualiza con sus propios KPIs.</p>
+          <div class="challenge-stack">
+            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 1 — Carga de datos:</strong> Upload de CSV o ingreso manual de métricas con un formulario estructurado por período.</span></div>
+            <div class="stack-item"><span class="stack-icon">📈</span><span><strong>Módulo 2 — Visualización:</strong> Gráficas de barras y líneas con los datos cargados. Tarjetas de resumen con métricas principales (total, promedio, variación).</span></div>
+            <div class="stack-item"><span class="stack-icon">🗄️</span><span><strong>Persistencia:</strong> PostgreSQL con esquema predefinido — el equipo ejecuta el script incluido en el Kit y la base de datos queda lista en segundos.</span></div>
+            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> Filtros por período, exportación del reporte a PDF o imagen.</span></div>
+          </div>
+          <div class="tl-pills" style="margin-top:14px;">
+            <span class="pill b">HTML / JS / Chart.js</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill r">FRIDA SDLC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-header" style="border-top: 4px solid var(--cyan);">
+          <div class="challenge-industry" style="color:#0796a8;">🎫 Reto C</div>
+          <h4>Gestor de Solicitudes Internas</h4>
+        </div>
+        <div class="challenge-body">
+          <p>Web app para crear, gestionar y hacer seguimiento de solicitudes internas de cualquier tipo (soporte, aprobaciones, requerimientos). Aplica a RRHH, TI, operaciones o finanzas.</p>
+          <div class="challenge-stack">
+            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 1 — Formulario de solicitud:</strong> Tipo de solicitud, urgencia (Alta/Media/Baja), descripción, solicitante y área.</span></div>
+            <div class="stack-item"><span class="stack-icon">📋</span><span><strong>Módulo 2 — Bandeja de solicitudes:</strong> Tabla con todas las solicitudes, filtros por tipo y urgencia, cambio de estado (Recibida / En revisión / Resuelta).</span></div>
+            <div class="stack-item"><span class="stack-icon">🗄️</span><span><strong>Persistencia:</strong> PostgreSQL con esquema predefinido — el equipo ejecuta el script incluido en el Kit y la base de datos queda lista en segundos.</span></div>
+            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> Vista de detalle por solicitud con historial de cambios de estado y timestamp.</span></div>
+          </div>
+          <div class="tl-pills" style="margin-top:14px;">
+            <span class="pill g">HTML / JS / CSS</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill b">FRIDA SDLC</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tips-box" style="margin-top:40px;">
+      <h3>🧭 Guía para elegir el reto</h3>
+      <div class="tips-list">
+        <div class="tip-item"><span class="tip-num">A</span><span><strong>Tracker de Iniciativas</strong> — Recomendado si el equipo tiene más perfiles de negocio o poca experiencia con visualización de datos. El resultado es visualmente sólido y fácil de demostrar.</span></div>
+        <div class="tip-item"><span class="tip-num">B</span><span><strong>Portal de Reportes</strong> — Recomendado si hay al menos un Builder con experiencia en manipulación de datos o librerías de gráficas. El mayor impacto visual en la demo.</span></div>
+        <div class="tip-item"><span class="tip-num">C</span><span><strong>Gestor de Solicitudes</strong> — Recomendado si el equipo quiere un reto más orientado a flujo de trabajo y lógica de estados. Más complejo en lógica, menos en visualización.</span></div>
+        <div class="tip-item"><span class="tip-num">🗄</span><span><strong>Base de datos:</strong> Todos los retos usan <strong>PostgreSQL</strong>. Cada Kit incluye un script SQL con el esquema predefinido del reto — tablas, tipos de datos y relaciones listas para ejecutar. El equipo corre el script al inicio de la Fase 2 y arranca el build directamente sobre la base de datos funcional, sin invertir tiempo en diseño de esquema.</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- EVALUACION -->
+<section id="evaluacion">
+  <div class="wrap">
+    <div class="section-eyebrow">Evaluación</div>
+    <h2>Criterios objetivos, sin panel de jueces</h2>
+    <p>La evaluación está diseñada para ser completamente objetiva y medible — sin subjetividad ni sesgo. No hay panel de jueces. Un <strong>Evaluador Central</strong> del equipo organizador aplica los mismos criterios a todos los equipos usando herramientas y checklists predefinidos. Los 3 criterios principales son evaluados al cierre; el Tiempo al MVP se registra durante el build.</p>
+
+    <!-- ROLES DE EVALUACIÓN -->
+    <div style="margin-top:32px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div style="background:var(--gray-50); border:1px solid var(--border); border-radius:4px; padding:24px;">
+        <div style="font-size:22px; margin-bottom:10px;">🔎</div>
+        <h4 style="font-size:16px; font-weight:700; margin-bottom:8px;">Evaluador Central</h4>
+        <p style="font-size:13px; color:var(--gray-400); line-height:1.6; margin:0;">Evalúa a todos los equipos con los mismos criterios y herramientas. Corre el code review con Kardex, verifica el checklist de funcionalidad y calcula la eficiencia relativa con los tokens reportados. Garantiza consistencia entre equipos.</p>
+        <span class="role-tag" style="background:var(--surface); color:var(--blue-500); margin-top:12px;">1 persona · equipo organizador</span>
+      </div>
+      <div style="background:var(--gray-50); border:1px solid var(--border); border-radius:4px; padding:24px;">
+        <div style="font-size:22px; margin-bottom:10px;">🧑‍🏫</div>
+        <h4 style="font-size:16px; font-weight:700; margin-bottom:8px;">Coach (rol de registro)</h4>
+        <p style="font-size:13px; color:var(--gray-400); line-height:1.6; margin:0;">Durante el build, el coach registra un dato objetivo de su equipo: el minuto exacto en que se declara el MVP (verificado contra la definición estándar). Este dato lo entrega al Evaluador Central al cierre del build.</p>
+        <span class="role-tag" style="background:var(--surface); color:var(--blue-600); margin-top:12px;">No califica · solo registra hechos</span>
+      </div>
+    </div>
+
+    <!-- CRITERIOS -->
+    <h3 style="margin-top:48px; font-size:15px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; color:var(--gray-400);">Los 3 criterios + tiempo al MVP</h3>
+
+    <div style="margin-top:20px; display:flex; flex-direction:column; gap:16px;">
+
+      <!-- C1 -->
+      <div style="border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+        <div style="display:grid; grid-template-columns:64px 1fr; min-height:100%;">
+          <div style="background:var(--blue-500); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; padding:16px;">
+            <span style="font-size:26px; font-weight:900; color:#fff; line-height:1;">35%</span>
+          </div>
+          <div style="padding:20px 24px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <h4 style="font-size:16px; font-weight:700;">Funcionalidad Verificable</h4>
+              <span class="pill r" style="background:var(--surface); color:var(--blue); border-color:var(--lavender); flex-shrink:0;">Evaluador Central</span>
+            </div>
+            <p style="font-size:13px; color:var(--gray-400); margin-bottom:12px; line-height:1.6;">Checklist binario predefinido por reto. Cada ítem completado suma puntos fijos. No hay interpretación — o funciona o no funciona.</p>
+            <div style="background:var(--gray-50); border-radius:4px; padding:12px 16px; font-size:12px; color:var(--gray-400); line-height:1.7;">
+              <strong style="color:var(--blue-900);">Ejemplo Reto A (Tracker):</strong> ¿El formulario guarda un registro en la base de datos? · ¿La tabla muestra los registros guardados? · ¿Hay filtro por al menos un campo? · ¿Los datos persisten al recargar la página desde la DB? · ¿Funciona sin errores en consola?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C2 -->
+      <div style="border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+        <div style="display:grid; grid-template-columns:64px 1fr;">
+          <div style="background:var(--violet); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; padding:16px;">
+            <span style="font-size:26px; font-weight:900; color:#fff; line-height:1;">30%</span>
+          </div>
+          <div style="padding:20px 24px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <h4 style="font-size:16px; font-weight:700;">Calidad de Código</h4>
+              <span class="pill b" style="background:var(--surface); color:var(--blue); border-color:var(--lavender); flex-shrink:0;">Evaluador Central · Kardex</span>
+            </div>
+            <p style="font-size:13px; color:var(--gray-400); margin-bottom:12px; line-height:1.6;">El Evaluador Central pasa el código de cada equipo a Kardex con un prompt estándar de code review y obtiene un score 1–10 en 4 dimensiones. Mismo prompt para todos — resultados comparables.</p>
+            <div style="background:var(--gray-50); border-radius:4px; padding:12px 16px; font-size:12px; color:var(--gray-400); line-height:1.7;">
+              <strong style="color:var(--blue-900);">4 dimensiones evaluadas:</strong> Estructura y organización del código · Complejidad ciclomática · Vulnerabilidades · Buenas prácticas (sin código duplicado, sin variables sin usar, etc.)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C3 -->
+      <div style="border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+        <div style="display:grid; grid-template-columns:64px 1fr;">
+          <div style="background:#0796a8; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; padding:16px;">
+            <span style="font-size:26px; font-weight:900; color:#fff; line-height:1;">25%</span>
+          </div>
+          <div style="padding:20px 24px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <h4 style="font-size:16px; font-weight:700;">Eficiencia en Uso de IA</h4>
+              <span class="pill g" style="background:var(--surface); color:var(--blue); border-color:var(--lavender); flex-shrink:0;">Evaluador Central</span>
+            </div>
+            <p style="font-size:13px; color:var(--gray-400); margin-bottom:12px; line-height:1.6;">No mide cuántos tokens se gastaron en total — mide cuánto se produjo por cada token. El equipo con el mejor ratio obtiene 100%; los demás se normalizan contra ese máximo. Premia al equipo que sacó más provecho por prompt, no al que usó menos IA.</p>
+            <div style="background:var(--gray-50); border-radius:4px; padding:12px 16px; font-size:12px; color:var(--gray-400); line-height:1.9;">
+              <strong style="color:var(--blue-900);">Paso 1 — Ratio bruto por equipo:</strong><br>
+              <code style="background:#e8e8f8; padding:2px 6px; border-radius:3px; font-size:11px;">ratio = (ítems_completados / tokens_consumidos) × 10,000</code><br><br>
+              <strong style="color:var(--blue-900);">Paso 2 — Normalización 0–100% entre equipos:</strong><br>
+              <code style="background:#e8e8f8; padding:2px 6px; border-radius:3px; font-size:11px;">eficiencia = (ratio_equipo / ratio_máximo_del_grupo) × 100</code><br><br>
+              <strong style="color:var(--blue-900);">Ejemplo:</strong> Equipo A completa 8 ítems con 12,000 tokens → ratio = 6.67. Equipo B completa 7 ítems con 8,000 tokens → ratio = 8.75 (máximo). Equipo A = 76%, Equipo B = 100%. El factor ×10,000 es de escala — no cambia la proporción. Cada equipo reporta sus tokens al cierre del build.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C5 -->
+      <div style="border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+        <div style="display:grid; grid-template-columns:64px 1fr;">
+          <div style="background:#9a97c0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; padding:16px;">
+            <span style="font-size:26px; font-weight:900; color:#fff; line-height:1;">10%</span>
+          </div>
+          <div style="padding:20px 24px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <h4 style="font-size:16px; font-weight:700;">Tiempo al MVP</h4>
+              <span class="pill" style="background:var(--surface); color:var(--blue); border-color:var(--lavender); flex-shrink:0;">Coach · registro</span>
+            </div>
+            <p style="font-size:13px; color:var(--gray-400); margin-bottom:12px; line-height:1.6;">Minuto exacto en que el equipo declara su MVP y el coach lo verifica contra la lista de funcionalidades mínimas del reto elegido. Escala de llegada: el primero obtiene 100 puntos y cada posición siguiente resta 10. Premia el arranque rápido y la toma de decisiones bajo presión.</p>
+
+            <!-- ESCALA DE PUNTUACIÓN -->
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+              <div style="background:var(--blue-500); color:#fff; border-radius:3px; padding:6px 12px; font-size:11px; font-weight:700; text-align:center; min-width:54px;">1.º<br><span style="font-size:14px;">100</span></div>
+              <div style="background:#3a50fd; color:#fff; border-radius:3px; padding:6px 12px; font-size:11px; font-weight:700; text-align:center; min-width:54px;">2.º<br><span style="font-size:14px;">90</span></div>
+              <div style="background:#6070fe; color:#fff; border-radius:3px; padding:6px 12px; font-size:11px; font-weight:700; text-align:center; min-width:54px;">3.º<br><span style="font-size:14px;">80</span></div>
+              <div style="background:#8a94f5; color:#fff; border-radius:3px; padding:6px 12px; font-size:11px; font-weight:700; text-align:center; min-width:54px;">4.º<br><span style="font-size:14px;">70</span></div>
+              <div style="background:#9a97c0; color:#fff; border-radius:3px; padding:6px 12px; font-size:11px; font-weight:700; text-align:center; min-width:54px;">5.º+<br><span style="font-size:14px;">60…</span></div>
+            </div>
+
+            <!-- MVP POR RETO -->
+            <div style="background:var(--gray-50); border-radius:4px; padding:14px 16px; font-size:12px; color:var(--gray-400); line-height:1.8;">
+              <strong style="color:var(--blue-900); display:block; margin-bottom:8px;">Definición de MVP por reto — todas las funcionalidades deben estar presentes para que el coach valide:</strong>
+
+              <div style="margin-bottom:10px;">
+                <span style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue-500);">Reto A — Tracker de Iniciativas</span><br>
+                ① App corriendo en el browser sin errores en consola &nbsp;·&nbsp;
+                ② Formulario que guarda al menos 1 iniciativa en la base de datos &nbsp;·&nbsp;
+                ③ Tabla que muestra los registros guardados &nbsp;·&nbsp;
+                ④ Datos persisten al recargar la página
+              </div>
+
+              <div style="margin-bottom:10px; padding-top:10px; border-top:1px solid var(--border);">
+                <span style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--violet);">Reto B — Portal de Reportes</span><br>
+                ① App corriendo en el browser sin errores en consola &nbsp;·&nbsp;
+                ② Al menos 1 gráfica o visualización renderizada con datos reales &nbsp;·&nbsp;
+                ③ Los datos provienen de la base de datos (no hardcodeados en el frontend) &nbsp;·&nbsp;
+                ④ Datos persisten al recargar la página
+              </div>
+
+              <div style="padding-top:10px; border-top:1px solid var(--border);">
+                <span style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#0796a8;">Reto C — Gestor de Solicitudes</span><br>
+                ① App corriendo en el browser sin errores en consola &nbsp;·&nbsp;
+                ② Formulario que guarda al menos 1 solicitud en la base de datos &nbsp;·&nbsp;
+                ③ Bandeja que lista las solicitudes con su estado &nbsp;·&nbsp;
+                ④ Cambio de estado funcional y persistente en la base de datos
+              </div>
+            </div>
+
+            <p style="font-size:11px; color:var(--text-muted); margin-top:10px; margin-bottom:0;">El coach verifica cada ítem en vivo antes de registrar el timestamp. Un MVP declarado con ítems incompletos no se valida — el equipo debe corregir y re-declarar.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SCORECARD -->
+    <div style="margin-top:48px; background:var(--blue-900); color:var(--white); overflow:hidden;">
+      <div style="padding:24px 28px; border-bottom:1px solid rgba(255,255,255,0.08);">
+        <h3 style="font-size:18px; color:var(--white); margin:0;">Resumen de la evaluación</h3>
+      </div>
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.06);">
+            <th style="padding:12px 20px; text-align:left; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.7); font-weight:700; border-bottom:1px solid rgba(255,255,255,0.12);">Criterio</th>
+            <th style="padding:12px 20px; text-align:center; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.7); font-weight:700; border-bottom:1px solid rgba(255,255,255,0.12);">Peso</th>
+            <th style="padding:12px 20px; text-align:left; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.7); font-weight:700; border-bottom:1px solid rgba(255,255,255,0.12);">Quién mide</th>
+            <th style="padding:12px 20px; text-align:left; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.7); font-weight:700; border-bottom:1px solid rgba(255,255,255,0.12);">Cuándo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:14px 20px; font-weight:600;">Funcionalidad Verificable</td>
+            <td style="padding:14px 20px; text-align:center; color:var(white); font-weight:700; ">35%</td>
+            <td style="padding:14px 20px; color:rgba(255,255,255,0.8);">Evaluador Central</td>
+            <td style="padding:14px 20px; color:rgba(255,255,255,0.8);">Al cierre del build</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.04);">
+            <td style="padding:14px 20px; font-weight:600;">Calidad de Código</td>
+            <td style="padding:14px 20px; text-align:center; color:var(white); font-weight:700; ">30%</td>
+            <td style="padding:14px 20px; color:rgba(255,255,255,0.8);">Evaluador Central + Kardex</td>
+            <td style="padding:14px 20px; color:rgba(255,255,255,0.8);">Durante las demos</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:14px 20px; font-weight:600;">Eficiencia en Uso de IA</td>
+            <td style="padding:14px 20px; text-align:center; color:var(white); font-weight:700; ">25%</td>
+            <td style="padding:14px 20px; color:rgba(255,255,255,0.8);">Evaluador Central</td>
+            <td style="padding:14px 20px; color:rgba(255,255,255,0.8);">Al cierre del build</td>
+          </tr>
+          <tr>
+            <td style="padding:14px 20px; font-weight:600;">Tiempo al MVP</td>
+            <td style="padding:14px 20px; text-align:center; color:var(white); font-weight:700; ">10%</td>
+            <td style="padding:14px 20px; color:rgba(255,255,255,0.8);">Coach → Evaluador Central</td>
+            <td style="padding:14px 20px; color:rgba(255,255,255,0.8);">Durante el build sprint</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PREMIOS -->
+    <div style="margin-top:48px;">
+      <h3 style="font-size:20px; margin-bottom:8px;">Premios</h3>
+      <p style="color:var(--gray-400); font-size:14px; margin-bottom:20px;">Cada premio corresponde directamente a un criterio — cualquier equipo puede ganar algo, lo que mantiene la motivación hasta el final.</p>
+      <div class="two-col">
+        <div class="challenge-stack">
+          <div class="stack-item"><span class="stack-icon" style="color:var(--periwinkle);">🏆</span><span><strong>Mejor Puntaje Overall</strong> — suma ponderada de los 4 criterios. El ganador principal.</span></div>
+          <div class="stack-item"><span class="stack-icon" style="color:var(--violet);">🔍</span><span><strong>Código más limpio</strong> — mayor score en el code review de Kardex.</span></div>
+          <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">⚡</span><span><strong>Más eficiente con IA</strong> — mayor índice de features por token (100% normalizado).</span></div>
+        </div>
+        <div class="challenge-stack">
+          <div class="stack-item"><span class="stack-icon" style="color:var(--blue);">🚀</span><span><strong>MVP más rápido</strong> — primer equipo en declarar y verificar su MVP.</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- AGENDA -->
+<section id="agenda">
+  <div class="wrap">
+    <div class="section-eyebrow">Agenda</div>
+    <h2>Las 4 horas, bloque a bloque</h2>
+    <p>Cada bloque tiene un objetivo claro y un entregable. El facilitador debe ser inflexible con los tiempos — la presión del reloj es parte del diseño.</p>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-time">00:00</div>
+        <div class="tl-spine"><div class="tl-dot active"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-phase" style="color:var(--blue)">Fase 0 · Ignición</div>
+          <h3>Kick-off & Formación de Equipos</h3>
+          <p><strong>Duración: 20 min.</strong> El facilitador abre la sesión con energía y presenta las reglas del challenge. Se presentan los equipos (pre-armados con mix negocio/TI) y se asigna un coach a cada uno. Cada equipo elige su reto: A, B o C.</p>
+          <p>Se entrega el Kit de Inicio: Spec base del reto elegido, datos de prueba, acceso a FRIDA SDLC, Prompt Registry y Canvas del Reto. El facilitador explica la mecánica de rotación al volante.</p>
+          <div class="tl-pills">
+            <span class="pill r">Canvas del Reto</span>
+            <span class="pill">Kit de Inicio digital</span>
+            <span class="pill b">FRIDA SDLC activo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">00:20</div>
+        <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-phase" style="color:var(--violet)">Fase 1 · Definir</div>
+          <h3>Canvas del Reto — Alinear antes de construir</h3>
+          <p><strong>Duración: 25 min.</strong> Antes de abrir FRIDA SDLC, el equipo completa el Canvas del Reto: reto elegido, caso de uso acordado entre los miembros, campos del formulario, métricas del dashboard y criterio de éxito. Con perfiles senior este bloque es más rápido — el foco debe ser alinear el criterio técnico del equipo, no explicar qué es un formulario.</p>
+          <p>Los datos de prueba deben ser <strong>sintéticos y neutrales</strong> — sin referencias a sistemas, clientes o terminología propietaria de ninguna de las empresas participantes. El equipo acuerda un contexto ficticio genérico (ej. "empresa de servicios" o "área de operaciones").</p>
+          <p>Tiempo máximo 25 minutos. Si el equipo sigue debatiendo decisiones técnicas a los 20 min, el coach interviene: <em>"Eso lo resuelven construyendo — elijan la opción más simple ahora y ajustan en el turno 3."</em></p>
+          <div class="tl-pills">
+            <span class="pill b">Canvas completado</span>
+            <span class="pill">Contexto ficticio acordado</span>
+            <span class="pill">Orden de pilotos definido</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">00:45</div>
+        <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-phase" style="color:var(--periwinkle)">Pausa</div>
+          <h3>Break — 15 minutos</h3>
+          <p><strong>Duración: 15 min.</strong> Pausa activa a media jornada. Los participantes se desconectan del build, comen algo y recargan energía. El coach puede usar este espacio para hacer una observación rápida al equipo — sin presión, sin computadora.</p>
+          <p>El facilitador anuncia en voz alta el fin del break y el inicio del Build Sprint. A partir de este momento el reloj del challenge corre sin más interrupciones.</p>
+          <div class="tl-pills">
+            <span class="pill">Sin computadoras</span>
+            <span class="pill">Refrigerio</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">01:00</div>
+        <div class="tl-spine"><div class="tl-dot active"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-phase" style="color:var(--blue)">Fase 2 · Construir</div>
+          <h3>Build Sprint — 5 pilotos, 1 volante</h3>
+          <p><strong>Duración: 150 min (2.5h).</strong> El corazón del challenge. Los 5 participantes se turnan al volante en bloques de 30 minutos cada uno. Solo quien está al volante toca la computadora — los demás actúan como copilotos: sugieren, revisan, preparan el siguiente turno.</p>
+
+          <!-- ROTATION TABLE -->
+          <div style="margin-top:20px; border:1px solid var(--border); border-radius:6px; overflow:hidden;">
+            <div style="background:var(--blue); color:var(--white); padding:12px 16px; font-size:10px; letter-spacing:2px; text-transform:uppercase; font-weight:700;">Rotación de pilotos · Build Sprint</div>
+            <table style="width:100%; border-collapse:collapse; font-size:13px;">
+              <thead>
+                <tr style="background:var(--blue-dark);">
+                  <th style="padding:10px 16px; text-align:left; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.75); font-weight:700; border-bottom:1px solid rgba(255,255,255,0.15);">Turno</th>
+                  <th style="padding:10px 16px; text-align:left; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.75); font-weight:700; border-bottom:1px solid rgba(255,255,255,0.15);">Tiempo</th>
+                  <th style="padding:10px 16px; text-align:left; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.75); font-weight:700; border-bottom:1px solid rgba(255,255,255,0.15);">Foco sugerido</th>
+                  <th style="padding:10px 16px; text-align:left; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.75); font-weight:700; border-bottom:1px solid rgba(255,255,255,0.15);">Copiloto activo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px 16px; font-weight:700; color:var(--blue);">Piloto 1</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Min 0–30</td>
+                  <td style="padding:12px 16px;">Setup + template base corriendo en el browser</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Pilotos 2 y 3 revisan el Canvas y preparan instrucciones para FRIDA SDLC</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border); background:var(--gray-50);">
+                  <td style="padding:12px 16px; font-weight:700; color:var(--blue);">Piloto 2</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Min 30–60</td>
+                  <td style="padding:12px 16px;">Formulario funcional con todos los campos definidos</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Piloto 3 diseña el layout del dashboard en papel</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:12px 16px; font-weight:700; color:var(--blue);">Piloto 3</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Min 60–90</td>
+                  <td style="padding:12px 16px;">Dashboard / tabla con datos de prueba cargados</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Piloto 4 carga y valida los datos de prueba</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border); background:var(--gray-50);">
+                  <td style="padding:12px 16px; font-weight:700; color:var(--blue);">Piloto 4</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Min 90–120</td>
+                  <td style="padding:12px 16px;">Iteración: filtros, validaciones, mejoras de UI</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Piloto 5 empieza a construir el guión de la demo</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 16px; font-weight:700; color:var(--blue);">Piloto 5</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Min 120–150</td>
+                  <td style="padding:12px 16px;">Pulido final + preparación y ensayo de la demo</td>
+                  <td style="padding:12px 16px; color:var(--gray-400);">Todo el equipo apoya el ensayo de la demo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:16px; padding:12px 16px; background:var(--surface); border-left:3px solid var(--blue); border-radius:0 6px 6px 0; font-size:13px; color:var(--gray-400); line-height:1.6;">
+            <strong style="color:var(--blue-900);">Regla del relevo:</strong> Al cumplirse los 30 minutos, el facilitador anuncia el cambio en voz alta para todos los equipos simultáneamente. El piloto saliente hace un traspaso de 2 minutos: <em>"estamos aquí, falta esto, cuidado con aquello"</em>. El coach puede sugerir el orden de pilotos pero el equipo decide.
+          </div>
+
+          <div class="tl-pills" style="margin-top:16px;">
+            <span class="pill r">Aplicación v0.1 funcionando</span>
+            <span class="pill b">Demo preparada</span>
+            <span class="pill">Los 5 tocaron el volante</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">03:30</div>
+        <div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-phase" style="color:#0796a8">Fase 3 · Demo</div>
+          <h3>Pitches en Vivo — Demo o no cuenta</h3>
+          <p><strong>Duración: 35 min.</strong> Cada equipo tiene exactamente 5 minutos para demostrar su solución funcionando. No slides — solo la aplicación en pantalla. El Evaluador Central aplica el checklist en vivo. Se permite 1 minuto de preguntas por equipo.</p>
+          <p>Regla de oro: <strong>si no pueden demostrar que corre, no califica</strong>. Esto mantiene el foco durante el build.</p>
+          <div class="tl-pills">
+            <span class="pill g">Demo en vivo</span>
+            <span class="pill">Rúbrica de evaluación</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">04:05</div>
+        <div class="tl-spine"><div class="tl-dot active"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-phase" style="color:var(--periwinkle)">Fase 4 · Cierre</div>
+          <h3>Deliberación, Premiación & Compromisos</h3>
+          <p><strong>Duración: 25 min.</strong> El Evaluador Central anuncia el equipo ganador junto con los resultados de cada criterio. Se destacan los momentos más creativos de cada equipo (no solo el ganador). Cada equipo define su "próximo paso" concreto: ¿llevarían esto a producción? ¿qué necesitarían?</p>
+          <div class="tl-pills">
+            <span class="pill" style="background:var(--surface); color:var(--blue); border-color:var(--lavender);">Premio equipo ganador</span>
+            <span class="pill">Compromisos firmados</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+        <div class="tips-box" style="margin-top:40px;">
+      <h3>💡 Consejos de facilitación para el día</h3>
+      <div class="tips-list">
+        <div class="tip-item"><span class="tip-num">1</span><span>Anuncia los tiempos en voz alta cada 30 min durante el Build Sprint. Un contador visible en pantalla para todos los equipos ayuda más que cualquier recordatorio verbal.</span></div>
+        <div class="tip-item"><span class="tip-num">2</span><span><strong>Alerta de perfil senior:</strong> El instinto de un developer experimentado es reescribir lo que FRIDA SDLC generó "a su manera". El coach debe detectarlo y redirigir: <em>"¿Puedes pedirle a FRIDA SDLC que lo refactorice en lugar de hacerlo tú?"</em></span></div>
+        <div class="tip-item"><span class="tip-num">3</span><span>Si un coach está tentado a tomar el teclado, es señal de que el equipo necesita reducir el scope — no más ayuda técnica. El facilitador debe detectarlo y actuar.</span></div>
+        <div class="tip-item"><span class="tip-num">4</span><span>Anuncia cada relevo de piloto en voz alta para todos los equipos al mismo tiempo — crea un momento de energía colectiva y evita que un equipo se "olvide" de rotar.</span></div>
+        <div class="tip-item"><span class="tip-num">5</span><span>Recuerda a los equipos reportar sus tokens al cierre del Piloto 4 — antes del último turno. Bajo la presión de la demo ese dato se pierde fácilmente.</span></div>
+        <div class="tip-item"><span class="tip-num">6</span><span>Termina con una reflexión abierta: <em>"¿Cambiaría FRIDA SDLC tu flujo de trabajo habitual?"</em> Con perfiles senior esa conversación es más valiosa que cualquier cierre motivacional.</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- ROLES -->
+<section id="roles">
+  <div class="wrap">
+    <div class="section-eyebrow">Equipo del Challenge</div>
+    <h2>Roles y responsabilidades</h2>
+    <p>El challenge opera con dos capas de roles bien separadas: el <strong>equipo organizador</strong>, que diseña y facilita la sesión, y los <strong>equipos participantes</strong>, que construyen. La regla de oro que define la dinámica: <strong>el coach nunca toca la computadora</strong>.</p>
+
+    <h3 style="margin-top:36px; font-size:15px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; color:var(--gray-400);">Equipo organizador</h3>
+    <div class="roles-grid" style="margin-top:16px;">
+
+      <div class="role-card">
+        <div class="role-icon">⚖️</div>
+        <h4>Evaluador Central</h4>
+        <p>Aplica los 5 criterios objetivos a todos los equipos con las mismas herramientas. Corre el code review con Kardex, verifica el checklist de funcionalidad y calcula la eficiencia relativa. Recibe los datos de registro de cada coach al cierre del build.</p>
+        <span class="role-tag" style="background:var(--surface); color:var(--blue-500);">1 persona</span>
+      </div>
+
+      <div class="role-card">
+        <div class="role-icon">🎙️</div>
+        <h4>Facilitador Principal</h4>
+        <p>Conduce la sesión completa: kick-off, transiciones entre fases, control de tiempos y cierre. Es la voz visible del challenge. No se involucra en el trabajo técnico de los equipos — su foco es la energía y el ritmo de la sala.</p>
+        <span class="role-tag" style="background:var(--surface); color:var(--blue-500);">1 persona</span>
+      </div>
+
+      <div class="role-card" style="border: 1px solid var(--periwinkle); background: var(--surface);">
+        <div class="role-icon">🧑‍🏫</div>
+        <h4>Coach de Equipo</h4>
+        <p>Experto en FRIDA SDLC asignado a un equipo durante toda la sesión. Acompaña, pregunta y orienta — pero <strong>nunca toca la computadora</strong>. Su trabajo es desbloquear al equipo con preguntas y sugerencias, no resolver por ellos.</p>
+        <div style="margin-top:12px; padding: 10px 14px; background: var(--blue-50); border-left: 3px solid var(--blue); border-radius: 0 6px 6px 0; font-size:12px; color: var(--gray-400); line-height:1.5;">
+          <strong style="color:var(--blue-900);">Regla fundamental:</strong> Si el coach tiene que escribir código para que el equipo avance, algo salió mal antes — en la formación de equipos o en el setup técnico.
+        </div>
+        <span class="role-tag" style="background:var(--surface); color:var(--blue-600);">1 por equipo · 5–6 personas</span>
+      </div>
+
+      <div class="role-card" style="border: 1px solid var(--lavender); background: var(--surface);">
+        <div class="role-icon">📋</div>
+        <h4>Registro de Evaluación</h4>
+        <p>Durante las demos, el Evaluador Central aplica el checklist de funcionalidad en vivo, toma nota del código review y consolida los datos de tokens y Canvas entregados por cada coach. No hay panel — un solo evaluador, los mismos criterios para todos.</p>
+        <span class="role-tag" style="background:var(--surface); color:var(--blue-400);">Evaluador Central · en demos</span>
+      </div>
+
+    </div>
+
+    <!-- COACH DETAIL -->
+    <div style="margin-top:40px; background:var(--gray-50); border:1px solid var(--border); border-radius:4px; padding:32px;">
+      <h3 style="font-size:19px; margin-bottom:6px;">El Coach: perfil y comportamiento esperado</h3>
+      <p style="color:var(--gray-400); font-size:14px; margin-bottom:24px;">El coach es el rol más crítico y más difícil del challenge. Con perfiles técnicos senior, el desafío no es enseñar a programar — es convencer a alguien que domina su oficio de que confíe en FRIDA SDLC en lugar de hacerlo a su manera.</p>
+      <div class="two-col">
+        <div>
+          <p style="font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue-500); margin-bottom:12px;">✓ Qué SÍ hace el coach</p>
+          <div class="challenge-stack">
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">✦</span><span>Hace preguntas que guían: <em>"¿Qué pasa si le pides a FRIDA SDLC que genere solo el formulario primero?"</em></span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">✦</span><span>Anticipa bloqueos: avisa al equipo cuando ve que están yendo por un camino que los dejará sin tiempo.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">✦</span><span>Sugiere reducir el scope cuando el equipo se excede: <em>"Ese feature es para la v2 — enfóquense en que corra primero."</em></span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">✦</span><span>Celebra los avances pequeños para mantener la motivación durante el build.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">✦</span><span>Ayuda al equipo a preparar la demo: <em>"¿Cuál es el flujo de 3 pasos que más impresiona al jurado?"</em></span></div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2a7a4b; margin-bottom:12px;">✗ Qué NO hace el coach</p>
+          <div class="challenge-stack">
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">—</span><span>Escribir código, aunque sea "solo para mostrar cómo se hace".</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">—</span><span>Dictar instrucciones exactas a FRIDA SDLC — puede sugerir la dirección, no el comando.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">—</span><span>Tomar decisiones de diseño por el equipo — puede plantear opciones, no elegir.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">—</span><span>Resolver un bug directamente — puede señalar dónde buscar, no cómo solucionarlo.</span></div>
+            <div class="stack-item"><span class="stack-icon" style="color:#0796a8;">—</span><span>Intervenir cuando el equipo está funcionando bien — saber cuándo callar es parte del rol.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+<!-- ACELERADORES -->
+<section id="aceleradores">
+  <div class="wrap">
+    <div class="section-eyebrow">Kit de Aceleradores</div>
+    <h2>Lo que recibe cada equipo al inicio</h2>
+    <p>El kit elimina la fricción del "setup desde cero" y permite que los equipos lleguen a una primera versión funcional en los primeros 30 minutos. El acelerador central es <strong>FRIDA SDLC</strong> — el Builder lo usa como copiloto para generar código, resolver errores y proponer mejoras sin salir del flujo.</p>
+
+    <table class="acc-table">
+      <thead>
+        <tr>
+          <th>Acelerador</th>
+          <th>Tipo</th>
+          <th>Descripción</th>
+          <th>Para quién</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="acc-name">FRIDA SDLC</div>
+            <span class="acc-type" style="background:var(--surface); color:var(--blue-500);">Instalado en VS Code</span>
+          </td>
+          <td style="color:var(--text-muted);">Entorno</td>
+          <td>Herramienta principal del challenge. El Builder la usa para generar el scaffold inicial de la app, añadir módulos bajo demanda, depurar errores y refactorizar código. Pre-instalada y configurada en el ambiente del challenge.</td>
+          <td style="color:var(--text-muted);">Builder</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="acc-name">Solution Spec</div>
+            <span class="acc-type" style="background:var(--surface); color:var(--blue-600);">Documento</span>
+          </td>
+          <td style="color:var(--text-muted);">Código</td>
+          <td>Archivo de una sola página con la estructura base del reto elegido, incluyendo requerimientos de alto nivel. El equipo parte desde aquí, no desde cero. FRIDA SDLC se encarga del resto.</td>
+          <td style="color:var(--text-muted);">Todos los equipos</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="acc-name">PostgreSQL + Scripts de Esquema</div>
+            <span class="acc-type" style="background:var(--surface); color:var(--blue-500);">BD SQL</span>
+          </td>
+          <td style="color:var(--text-muted);">Base de datos</td>
+          <td>Base de datos relacional pre-configurada en el ambiente del challenge. Cada Kit incluye un script <code>.sql</code> con el esquema predefinido del reto — tablas, tipos de datos, relaciones y datos semilla. El equipo ejecuta el script una sola vez al inicio del build y arranca directamente con la base de datos funcional, sin invertir tiempo en diseño de esquema. FRIDA SDLC genera las queries y el código de conexión sin fricción.</td>
+          <td style="color:var(--text-muted);">Builder · Arquitecto</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="acc-name">Plataforma Playground y Prompt Registry</div>
+            <span class="acc-type" style="background:#f0f7f4; color:#2a7a4b;">Prompts</span>
+          </td>
+          <td style="color:var(--text-muted);">Conocimiento</td>
+          <td>Asistente para la construcción de prompts avanzados para uso en la plataforma FRIDA SDLC.</td>
+          <td style="color:var(--text-muted);">Builder / UX</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="acc-name">Canvas del Reto</div>
+            <span class="acc-type" style="background:var(--surface); color:var(--blue-400);">Framework</span>
+          </td>
+          <td style="color:var(--text-muted);">Framework</td>
+          <td>Plantilla de una página que el equipo completa en los primeros 20 minutos: reto elegido, contexto del área que lo usaría, campos del formulario, métricas del dashboard y criterio de éxito de la demo. Evita el análisis paralelo durante el build.</td>
+          <td style="color:var(--text-muted);">Product Owner</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="acc-name">Datos de Prueba</div>
+            <span class="acc-type" style="background:var(--gray-50); color:var(--gray-400);">Datos</span>
+          </td>
+          <td style="color:var(--text-muted);">Datos</td>
+          <td>CSVs y JSONs sintéticos con datos genéricos y neutrales — sin referencias a empresas reales, sistemas propietarios ni terminología específica de industria. Listos para importar: iniciativas ficticias (Reto A), métricas mensuales genéricas (Reto B) y solicitudes de ejemplo (Reto C). Cualquier participante de cualquier empresa puede usarlos sin fricción.</td>
+          <td style="color:var(--text-muted);">Tester / Todos</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="acc-name">Ambiente de Respaldo (Replit)</div>
+            <span class="acc-type" style="background:var(--gray-50); color:var(--gray-400);">Entorno</span>
+          </td>
+          <td style="color:var(--text-muted);">Entorno</td>
+          <td>Workspace pre-configurado en Replit con el template base de cada reto. Para equipos con restricciones de IT que no puedan instalar FRIDA SDLC localmente. Accesible desde el browser sin instalación.</td>
+          <td style="color:var(--text-muted);">Equipos bloqueados</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="acc-name">Playwright + FRIDA SDLC</div>
+            <span class="acc-type" style="background:var(--surface); color:var(--blue); border-color:var(--lavender);">Testing</span>
+          </td>
+          <td style="color:var(--text-muted);">Herramienta</td>
+          <td>Suite de pruebas end-to-end pre-configurada con Playwright. Los equipos usan FRIDA SDLC para generar los scripts de test automáticamente a partir de los flujos definidos en el Canvas: carga del formulario, guardado de registros, filtros del dashboard y persistencia de datos. Permite verificar la funcionalidad de la app de forma automatizada antes de la demo, sin escribir los tests manualmente.</td>
+          <td style="color:var(--text-muted);">Builder · Líder QA</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tips-box">
+      <h3>⚙️ Setup técnico pre-challenge (responsabilidad del organizador)</h3>
+      <div class="tips-list">
+        <div class="tip-item"><span class="tip-num">1</span><span>Verificar que FRIDA SDLC esté instalado y autenticado en las laptops de los Builders el día anterior. Las laptops corporativas suelen tener restricciones de red o permisos.</span></div>
+        <div class="tip-item"><span class="tip-num">2</span><span>Preparar los Replit workspaces como respaldo y probarlos desde una red externa — son el plan B ante cualquier bloqueo de IT.</span></div>
+        <div class="tip-item"><span class="tip-num">3</span><span>Tener una versión pre-construida de cada reto al 60% de avance. Si la demo de un equipo falla totalmente, el facilitador puede mostrar el potencial de todas formas.</span></div>
+        <div class="tip-item"><span class="tip-num">4</span><span>Verificar que el servidor PostgreSQL esté corriendo y accesible desde las laptops de los Builders. Ejecutar los scripts de esquema de cada reto con anticipación y confirmar que las conexiones funcionan. Tener las cadenas de conexión (host, puerto, usuario, contraseña, nombre de BD) documentadas y listas para entregar en el Kit de inicio.</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="footer">
+  AI BUILD CHALLENGE · GUÍA DE FACILITADOR · USO INTERNO
+</div>
+
+</body>
+</html>

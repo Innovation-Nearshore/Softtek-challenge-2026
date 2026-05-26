@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Build Challenge — Kanvas de Funcionalidades & MVP</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:      #091FFD;
+  --white:     #ffffff;
+  --cyan:      #1FDCF9;
+  --violet:    #7315FA;
+  --periwinkle:#A4A2F2;
+  --lavender:  #D7D7FC;
+  --mist:      #E1DEE3;
+  --blue-dark: #0718c8;
+  --blue-deep: #050f7a;
+  --blue-mid:  #2d40fd;
+  --text:      #0a0d2e;
+  --text-muted:#5a5f8a;
+  --border:    #D7D7FC;
+  --surface:   #f5f5ff;
+  --blue-900:  #050f7a;
+  --blue-800:  #0718c8;
+  --blue-700:  #091FFD;
+  --blue-600:  #2d40fd;
+  --blue-500:  #091FFD;
+  --blue-400:  #A4A2F2;
+  --blue-300:  #D7D7FC;
+  --blue-100:  #f0f0ff;
+  --blue-50:   #f5f5ff;
+  --gray-50:   #f7f7fc;
+  --gray-100:  #efeffa;
+  --gray-200:  #E1DEE3;
+  --gray-400:  #5a5f8a;
+  --gray-600:  #3a3f6a;
+  --gray-800:  #0a0d2e;
+  --green:     #0f6e56;
+  --green-bg:  #e1f5ee;
+  --green-border: #9FE1CB;
+  --amber:     #92600a;
+  --amber-bg:  #fef3dc;
+  --amber-border: #f5c842;
+  --font: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--gray-800); font-family: var(--font); font-size: 14px; line-height: 1.7; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 200; background: var(--blue); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 56px; border-bottom: 1px solid var(--blue-dark); }
+.nav-brand { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); }
+.nav-brand span { color: var(--cyan); }
+nav .nav-links { display: flex; gap: 28px; }
+nav .nav-links a { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+nav .nav-links a:hover { color: var(--cyan); }
+.nav-badge { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); border: 1px solid rgba(31,220,249,0.4); padding: 4px 12px; border-radius: 2px; }
+
+/* HERO */
+.hero { background: var(--blue); position: relative; overflow: hidden; padding: 64px 48px 56px; }
+.hero::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 40%; background: linear-gradient(135deg, transparent 0%, rgba(115,21,250,0.12) 100%); pointer-events: none; }
+.hero-inner { max-width: 1040px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-rule { width: 48px; height: 3px; background: var(--cyan); margin-bottom: 20px; }
+.hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--cyan); font-weight: 700; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(28px, 4vw, 48px); font-weight: 700; line-height: 1.1; color: var(--white); margin-bottom: 8px; letter-spacing: -0.5px; }
+.hero h1 em { font-style: normal; color: var(--cyan); }
+.hero-sub { font-size: 14px; color: rgba(255,255,255,0.70); margin-bottom: 32px; }
+.hero-meta { display: flex; gap: 0; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; }
+.meta-item { display: flex; flex-direction: column; gap: 4px; padding-right: 24px; margin-right: 24px; border-right: 1px solid rgba(255,255,255,0.15); }
+.meta-item:last-child { border-right: none; }
+.meta-label { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 700; }
+.meta-value { font-size: 14px; font-weight: 600; color: var(--white); }
+
+/* LAYOUT */
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 48px; }
+section { padding: 48px 0; border-bottom: 1px solid var(--gray-200); }
+section:last-child { border-bottom: none; }
+.section-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); font-weight: 700; margin-bottom: 10px; }
+h2 { font-size: clamp(20px, 3vw, 28px); font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.3px; }
+h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+p { color: var(--gray-600); margin-bottom: 14px; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--gray-800); font-weight: 700; }
+
+/* TABS */
+.tabs-wrap { display: flex; gap: 2px; margin-bottom: 28px; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+.tab-btn { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; padding: 10px 20px; cursor: pointer; border: none; background: none; color: var(--text-muted); transition: all 0.15s; position: relative; bottom: -2px; border-bottom: 2px solid transparent; }
+.tab-btn:hover { color: var(--blue); }
+.tab-btn.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
+.reto-panel { display: none; }
+.reto-panel.active { display: block; }
+
+/* NEGOCIO CARDS */
+.negocio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.negocio-card { border: 1px solid var(--border); padding: 20px; background: var(--white); }
+.negocio-card .nc-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.negocio-card h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.negocio-card ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.negocio-card ul li { font-size: 12px; color: var(--gray-600); padding-left: 14px; position: relative; line-height: 1.5; }
+.negocio-card ul li::before { content: '—'; position: absolute; left: 0; color: var(--text-muted); }
+.nc-caso { border-top: 3px solid var(--blue); }
+.nc-caso .nc-eyebrow { color: var(--blue); }
+.nc-metricas { border-top: 3px solid var(--violet); }
+.nc-metricas .nc-eyebrow { color: var(--violet); }
+.nc-criterios { border-top: 3px solid var(--green); }
+.nc-criterios .nc-eyebrow { color: var(--green); }
+
+/* DB INFO */
+.db-box { background: var(--gray-50); border: 1px solid var(--border); padding: 18px 22px; margin-bottom: 28px; display: flex; gap: 20px; align-items: flex-start; }
+.db-box-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+.db-box-content h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.db-box-content p { font-size: 13px; color: var(--gray-400); margin: 0; }
+.db-box-content code { font-size: 12px; background: var(--border); padding: 1px 6px; color: var(--blue-900); font-family: monospace; border-radius: 2px; }
+
+/* FEATURE TABLE */
+.feature-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+.feature-table th { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: var(--gray-400); text-align: left; padding: 10px 14px; background: var(--gray-50); border-bottom: 2px solid var(--border); }
+.feature-table th:last-child { text-align: center; }
+.feature-table td { padding: 11px 14px; border-bottom: 1px solid var(--gray-200); font-size: 13px; vertical-align: middle; }
+.feature-table tr:last-child td { border-bottom: none; }
+.feature-table tr:hover td { background: var(--surface); }
+.feature-table tr.oblig-row td { background: var(--green-bg); }
+.feature-table tr.oblig-row:hover td { background: #d0eee5; }
+.feature-table tr.diff-row td { background: var(--blue-50); }
+.feature-table tr.diff-row:hover td { background: var(--blue-100); }
+
+.feat-name { font-weight: 600; color: var(--text); font-size: 13px; }
+.feat-desc { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.feat-modulo { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
+
+.badge { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border: 1px solid; white-space: nowrap; }
+.badge-oblig { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+.badge-bonus { background: var(--surface); color: var(--blue); border-color: var(--lavender); }
+
+.score-cell { text-align: center; }
+.score-num { display: inline-block; font-size: 14px; font-weight: 700; min-width: 50px; padding: 4px 8px; border-radius: 2px; }
+.score-high { color: var(--blue-700); background: var(--blue-50); }
+.score-med  { color: #7315FA; background: #f3eeff; }
+.score-low  { color: var(--gray-400); background: var(--gray-50); }
+.score-bonus { color: #0796a8; background: #e1f7fa; }
+
+/* TOTALS */
+.totals-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+.total-card { background: var(--white); border: 1px solid var(--border); padding: 16px 18px; }
+.total-card .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
+.total-card .value { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1; }
+.total-card .sub { font-size: 11px; color: var(--gray-400); margin-top: 4px; }
+
+/* LEGEND */
+.legend-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--gray-600); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* PULL QUOTE */
+.pull-quote { border-left: 4px solid var(--cyan); padding: 14px 20px; margin: 24px 0; background: var(--surface); font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--text); }
+
+/* MVP SECTION */
+.mvp-def-box { background: var(--green-bg); border: 1px solid var(--green-border); padding: 20px 24px; margin-bottom: 32px; }
+.mvp-def-label { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+.mvp-def-text { font-size: 14px; color: var(--gray-800); line-height: 1.6; }
+
+.mvp-reto-block { margin-bottom: 36px; }
+.mvp-reto-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-top: 4px solid var(--blue); background: var(--white); border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+.mvp-reto-header.violet-top { border-top-color: var(--violet); }
+.mvp-reto-header.cyan-top { border-top-color: #0796a8; }
+.reto-letter-big { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+.reto-letter-big.a { background: var(--blue-50); color: var(--blue); }
+.reto-letter-big.b { background: #f3eeff; color: var(--violet); }
+.reto-letter-big.c { background: var(--green-bg); color: var(--green); }
+.mvp-reto-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.mvp-reto-sub { font-size: 12px; color: var(--text-muted); }
+
+.mvp-checklist { border: 1px solid var(--border); border-top: none; }
+.mvp-check-item { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; border-bottom: 1px solid var(--gray-200); min-height: 52px; cursor: pointer; }
+.mvp-check-item:last-child { border-bottom: none; }
+.mvp-check-item:hover { background: var(--surface); }
+.mvp-check-box { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-right: 1px solid var(--gray-200); padding: 0; background: none; border-top: none; border-bottom: none; border-left: none; }
+.mvp-check-inner { width: 18px; height: 18px; border: 1.5px solid var(--border); background: var(--white); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.mvp-check-item.checked .mvp-check-inner { background: var(--green); border-color: var(--green); }
+.mvp-check-item.checked .mvp-check-inner::after { content: '✓'; font-size: 11px; color: #fff; font-weight: 700; line-height: 1; }
+.mvp-check-item.checked { background: var(--green-bg); }
+.mvp-check-text { padding: 12px 14px; font-size: 13px; color: var(--text); line-height: 1.45; }
+.mvp-check-pts { padding: 12px 14px; font-size: 13px; font-weight: 700; color: var(--blue); white-space: nowrap; min-width: 56px; text-align: right; border-left: 1px solid var(--gray-200); }
+
+.mvp-score-footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border: 1px solid var(--border); border-top: none; background: var(--gray-50); }
+.mvp-progress-wrap { flex: 1; margin-right: 20px; }
+.mvp-progress-label { font-size: 11px; color: var(--gray-400); margin-bottom: 5px; }
+.mvp-progress-bar { height: 6px; background: var(--border); width: 100%; }
+.mvp-progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.2s; }
+.mvp-score-display { font-size: 18px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.mvp-score-display .of { font-size: 12px; font-weight: 400; color: var(--gray-400); margin-left: 2px; }
+
+/* TIPS */
+.tips-box { background: var(--blue); padding: 28px 32px; margin-top: 36px; }
+.tips-box h3 { color: var(--white); margin-bottom: 16px; font-size: 15px; }
+.tips-list { display: flex; flex-direction: column; gap: 12px; }
+.tip-item { display: flex; align-items: flex-start; gap: 14px; font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+.tip-num { font-size: 18px; font-weight: 700; color: var(--cyan); line-height: 1; flex-shrink: 0; margin-top: 1px; }
+
+.reset-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 8px 16px; cursor: pointer; border: 1px solid var(--border); background: var(--white); color: var(--text-muted); margin-top: 24px; transition: all 0.15s; }
+.reset-btn:hover { background: var(--surface); color: var(--blue); border-color: var(--blue); }
+
+.footer { background: var(--blue-900); color: rgba(255,255,255,0.35); text-align: center; padding: 24px; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">AI Build <span>Challenge</span></div>
+  <div class="nav-links">
+    <a href="#negocio">Negocio</a>
+    <a href="#kanvas">Funcionalidades</a>
+    <a href="#mvp">MVP</a>
+    <a href="#resumen">Evaluación</a>
+  </div>
+  <div class="nav-badge">Viernes 15 · Andrea · Arnoldo · Nico</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-rule"></div>
+    <div class="hero-eyebrow">AI Build Challenge · Criterios de evaluación</div>
+    <h1>Kanvas de <em>Funcionalidades</em> & MVP</h1>
+    <p class="hero-sub">Requisitos de negocio · Funcionalidades obligatorias y bonus · Definición de MVP por aplicación · Base de datos PostgreSQL con datos mockup</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Retos disponibles</span><span class="meta-value">3 aplicaciones</span></div>
+      <div class="meta-item"><span class="meta-label">Criterio funcionalidad</span><span class="meta-value">25% del score total</span></div>
+      <div class="meta-item"><span class="meta-label">Base de datos</span><span class="meta-value">PostgreSQL</span></div>
+      <div class="meta-item"><span class="meta-label">Datos</span><span class="meta-value">Mockup pre-cargados</span></div>
+      <div class="meta-item"><span class="meta-label">Score MVP mínimo</span><span class="meta-value">70 pts</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── REQUISITOS DE NEGOCIO ─── -->
+<section id="negocio">
+  <div class="wrap">
+    <div class="section-eyebrow">Requisitos de Negocio</div>
+    <h2>Contexto, métricas y criterios de aceptación por reto</h2>
+    <p>Cada reto tiene un contexto de negocio definido. Los equipos construyen sobre este contexto — los datos mockup ya están pre-cargados en la base de datos al inicio del build sprint.</p>
+
+    <div class="pull-quote">"El negocio define el qué y el porqué. El equipo define el cómo. FRIDA SDLC construye."</div>
+
+    <!-- TABS NEGOCIO -->
+    <div class="tabs-wrap">
+      <button class="tab-btn active" onclick="showNeg('na', this)">📋 Reto A — Tracker de Iniciativas</button>
+      <button class="tab-btn" onclick="showNeg('nb', this)">📊 Reto B — Portal de Reportes</button>
+      <button class="tab-btn" onclick="showNeg('nc', this)">🎫 Reto C — Gestor de Solicitudes</button>
+    </div>
+
+    <!-- NEGOCIO A -->
+    <div id="neg-na" class="reto-panel active">
+      <div class="negocio-grid">
+        <div class="negocio-card nc-caso">
+          <div class="nc-eyebrow">Caso de uso</div>
+          <h4>Contexto del área</h4>
+          <ul>
+            <li>Un área de operaciones gestiona 20–30 iniciativas activas simultáneamente</li>
+            <li>El seguimiento hoy es manual en hojas de cálculo sin visibilidad centralizada</li>
+            <li>Los líderes no tienen forma rápida de ver qué está vencido o en riesgo</li>
+            <li>El equipo es de 5–10 personas que registran avances semanalmente</li>
+            <li>Contexto ficticio: "Área de Operaciones — Empresa de Servicios Genérica"</li>
+          </ul>
+        </div>
+        <div class="negocio-card nc-metricas">
+          <div class="nc-eyebrow">Métricas de éxito</div>
+          <h4>KPIs de negocio</h4>
+          <ul>
+            <li>% de iniciativas en estado "Completado" vs total registradas</li>
+            <li>Número de iniciativas con fecha vencida aún en estado "Pendiente"</li>
+            <li>Distribución de iniciativas por prioridad (Alta / Media / Baja)</li>
+            <li>Tiempo promedio entre registro y cambio a "En curso"</li>
+            <li>Visibilidad: todos los registros accesibles sin abrir Excel</li>
+          </ul>
+        </div>
+        <div class="negocio-card nc-criterios">
+          <div class="nc-eyebrow">Criterios de aceptación</div>
+          <h4>El área acepta la app si...</h4>
+          <ul>
+            <li>Un usuario puede registrar una iniciativa nueva en menos de 2 minutos</li>
+            <li>El dashboard muestra el estado actual sin necesidad de filtrar manualmente</li>
+            <li>Los datos no se pierden al cerrar el browser o recargar la página</li>
+            <li>Cualquier miembro del área puede ver todas las iniciativas activas de un vistazo</li>
+            <li>La app corre sin instalación adicional — solo browser</li>
+          </ul>
+        </div>
+      </div>
+      <div class="db-box">
+        <div class="db-box-icon">🗄️</div>
+        <div class="db-box-content">
+          <h4>Base de datos: PostgreSQL — Datos mockup pre-cargados</h4>
+          <p>La base de datos estará lista al inicio del build sprint con datos ficticios cargados. Tabla principal: <code>initiatives</code> con columnas <code>id, name, owner, status, due_date, priority, description, created_at</code>. Se incluyen <strong>20 registros ficticios</strong> con nombres genéricos (Iniciativa Alpha, Proyecto Beta, etc.), estados mixtos y fechas variadas para que el dashboard tenga contenido real desde el primer minuto. Los equipos se conectan con las credenciales entregadas en el Kit de Inicio — sin configurar nada.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEGOCIO B -->
+    <div id="neg-nb" class="reto-panel">
+      <div class="negocio-grid">
+        <div class="negocio-card nc-caso">
+          <div class="nc-eyebrow">Caso de uso</div>
+          <h4>Contexto del área</h4>
+          <ul>
+            <li>Un área de planeación consolida métricas mensuales de distintas fuentes</li>
+            <li>El reporte hoy toma 2–3 días de trabajo manual por mes</li>
+            <li>Los gerentes necesitan ver tendencias de 6–12 meses de un vistazo</li>
+            <li>Los datos vienen de distintos responsables en formatos inconsistentes (CSV)</li>
+            <li>Contexto ficticio: "Área de Planeación — Empresa de Servicios Genérica"</li>
+          </ul>
+        </div>
+        <div class="negocio-card nc-metricas">
+          <div class="nc-eyebrow">Métricas de éxito</div>
+          <h4>KPIs de negocio</h4>
+          <ul>
+            <li>Total acumulado del período seleccionado (ej. ventas, unidades, tickets)</li>
+            <li>Promedio mensual y variación vs período anterior</li>
+            <li>Mes con mejor y peor desempeño identificados visualmente</li>
+            <li>Tendencia general: gráfica de líneas muestra si la métrica sube o baja</li>
+            <li>Tiempo para generar el reporte: de días a minutos</li>
+          </ul>
+        </div>
+        <div class="negocio-card nc-criterios">
+          <div class="nc-eyebrow">Criterios de aceptación</div>
+          <h4>El área acepta la app si...</h4>
+          <ul>
+            <li>Un analista puede cargar datos nuevos en menos de 5 minutos</li>
+            <li>Las gráficas se actualizan automáticamente tras cargar datos</li>
+            <li>Los datos cargados persisten entre sesiones sin reingresarlos</li>
+            <li>Un gerente sin conocimientos técnicos puede leer el reporte sin explicación</li>
+            <li>El reporte es exportable o compartible (PDF, imagen, o pantalla)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="db-box">
+        <div class="db-box-icon">🗄️</div>
+        <div class="db-box-content">
+          <h4>Base de datos: PostgreSQL — Datos mockup pre-cargados</h4>
+          <p>Tabla principal: <code>metrics</code> con columnas <code>id, period, metric_name, value, unit, created_at</code>. Se incluyen <strong>24 registros ficticios</strong> con 2 años de datos mensuales para 2 métricas genéricas (Métrica A y Métrica B) con valores variados que muestren tendencias claras — subidas, caídas y estacionalidad simulada. Las gráficas tendrán contenido real desde el minuto 1 del build sprint. Conexión entregada en el Kit de Inicio.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEGOCIO C -->
+    <div id="neg-nc" class="reto-panel">
+      <div class="negocio-grid">
+        <div class="negocio-card nc-caso">
+          <div class="nc-eyebrow">Caso de uso</div>
+          <h4>Contexto del área</h4>
+          <ul>
+            <li>Un área de soporte interno recibe solicitudes de distintos departamentos</li>
+            <li>Hoy las solicitudes llegan por email o WhatsApp — sin trazabilidad ni priorización</li>
+            <li>No hay forma de saber cuántas solicitudes están pendientes ni cuánto tardan en resolverse</li>
+            <li>El equipo resolutor es de 3–5 personas atendiendo ~15 solicitudes semanales</li>
+            <li>Contexto ficticio: "Área de Soporte Interno — Empresa de Servicios Genérica"</li>
+          </ul>
+        </div>
+        <div class="negocio-card nc-metricas">
+          <div class="nc-eyebrow">Métricas de éxito</div>
+          <h4>KPIs de negocio</h4>
+          <ul>
+            <li>Número de solicitudes por estado (Recibida / En revisión / Resuelta)</li>
+            <li>Distribución por urgencia (Alta / Media / Baja)</li>
+            <li>Solicitudes de alta urgencia aún en estado "Recibida" (riesgo)</li>
+            <li>Volumen de solicitudes por tipo y por área solicitante</li>
+            <li>Trazabilidad: historial de cada solicitud disponible sin buscar en emails</li>
+          </ul>
+        </div>
+        <div class="negocio-card nc-criterios">
+          <div class="nc-eyebrow">Criterios de aceptación</div>
+          <h4>El área acepta la app si...</h4>
+          <ul>
+            <li>Un solicitante puede registrar una solicitud nueva en menos de 2 minutos</li>
+            <li>El equipo resolutor ve todas las solicitudes pendientes en una sola vista</li>
+            <li>El estado de cualquier solicitud se puede cambiar directamente desde la bandeja</li>
+            <li>Los datos no se pierden al cerrar el browser o recargar la página</li>
+            <li>Cualquier miembro del área puede ver el historial sin acceso al servidor</li>
+          </ul>
+        </div>
+      </div>
+      <div class="db-box">
+        <div class="db-box-icon">🗄️</div>
+        <div class="db-box-content">
+          <h4>Base de datos: PostgreSQL — Datos mockup pre-cargados</h4>
+          <p>Tabla principal: <code>requests</code> con columnas <code>id, type, urgency, description, requester, area, status, created_at, updated_at</code>. Tabla secundaria (bonus): <code>request_history</code> con <code>id, request_id, old_status, new_status, changed_at</code>. Se incluyen <strong>15 solicitudes ficticias</strong> con urgencias y estados mixtos para que la bandeja tenga contenido desde el inicio. Conexión entregada en el Kit de Inicio — sin configuración.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── KANVAS FUNCIONALIDADES ─── -->
+<section id="kanvas">
+  <div class="wrap">
+    <div class="section-eyebrow">Kanvas de Funcionalidades</div>
+    <h2>Funcionalidades esperadas por aplicación y score</h2>
+    <p>Las funcionalidades <strong>obligatorias</strong> son el mínimo exigido — todas deben estar presentes para una entrega completa. Cualquier funcionalidad adicional más allá de las obligatorias cuenta como <strong>bonus</strong> y suma puntos extra al criterio de Funcionalidad Verificable.</p>
+
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Obligatoria — debe estar en la entrega final</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Bonus — suma puntos extra si está implementada</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue-700)"></div>Score alto — 15–20 pts</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--violet)"></div>Score medio — 8–14 pts</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-400)"></div>Score bajo — 5–8 pts</div>
+    </div>
+
+    <!-- TABS FUNCIONALIDADES -->
+    <div class="tabs-wrap">
+      <button class="tab-btn active" onclick="showTab('a', this)">📋 Reto A — Tracker de Iniciativas</button>
+      <button class="tab-btn" onclick="showTab('b', this)">📊 Reto B — Portal de Reportes</button>
+      <button class="tab-btn" onclick="showTab('c', this)">🎫 Reto C — Gestor de Solicitudes</button>
+    </div>
+
+    <!-- RETO A -->
+    <div id="tab-a" class="reto-panel active">
+      <table class="feature-table">
+        <thead>
+          <tr>
+            <th style="width:90px">Módulo</th>
+            <th>Funcionalidad</th>
+            <th style="width:110px">Tipo</th>
+            <th style="width:80px;text-align:center">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Formulario</span></td>
+            <td><div class="feat-name">Formulario con todos los campos definidos</div><div class="feat-desc">Nombre, responsable, estado, fecha límite, prioridad y descripción — todos renderizando y funcionales</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Formulario</span></td>
+            <td><div class="feat-name">Guardar registro en PostgreSQL</div><div class="feat-desc">Al enviar el formulario, el registro se escribe en la tabla <code>initiatives</code> de la BD provista</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Dashboard</span></td>
+            <td><div class="feat-name">Tabla que muestra registros desde la BD</div><div class="feat-desc">Lee desde PostgreSQL — los datos mockup pre-cargados deben ser visibles sin agregar registros</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Dashboard</span></td>
+            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y los registros siguen visibles — vienen de PostgreSQL, no de sessionStorage ni variables</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Dashboard</span></td>
+            <td><div class="feat-name">Filtro por estado</div><div class="feat-desc">Filtra la tabla por Pendiente / En curso / Completado</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">12 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Dashboard</span></td>
+            <td><div class="feat-name">Contadores de iniciativas por estado</div><div class="feat-desc">Cards o badges que muestran cuántas iniciativas hay en cada estado</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">10 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Calidad</span></td>
+            <td><div class="feat-name">App corre sin errores en consola del browser</div><div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-low">8 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Filtro por prioridad</div><div class="feat-desc">Filtra la tabla por Alta / Media / Baja</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Vista de próximos vencimientos</div><div class="feat-desc">Sección que destaca iniciativas con fecha límite en los próximos 7 días</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Validación de campos requeridos</div><div class="feat-desc">No permite guardar si los campos obligatorios están vacíos</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+8 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Drag &amp; drop estilo Kanban</div><div class="feat-desc">Edición inline de estado arrastrando tarjetas entre columnas</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Pruebas automatizadas con cobertura ≥ 50%</div><div class="feat-desc">Suite de tests (unitarios o de integración) ejecutable con un solo comando que cubre al menos la mitad del código fuente — reporte de cobertura visible</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Edición inline de iniciativas</div><div class="feat-desc">El usuario modifica nombre, responsable o prioridad directamente en la tabla sin abrir un formulario separado — cambio persiste en PostgreSQL al confirmar</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">README con instrucciones de despliegue</div><div class="feat-desc">Archivo README.md en el repositorio con pasos claros para levantar la app localmente: dependencias, variables de entorno y comando de inicio — verificado por el evaluador en menos de 5 minutos</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+8 pts</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="totals-bar">
+        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">100 pts</div><div class="sub">7 funcionalidades fijas</div></div>
+        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+78 pts</div><div class="sub">7 funcionalidades extra</div></div>
+        <div class="total-card"><div class="label">Score total posible</div><div class="value">178 pts</div><div class="sub">Todo implementado</div></div>
+        <div class="total-card"><div class="label">Peso en evaluación</div><div class="value">25%</div><div class="sub">Funcionalidad Verificable</div></div>
+      </div>
+    </div>
+
+    <!-- RETO B -->
+    <div id="tab-b" class="reto-panel">
+      <table class="feature-table">
+        <thead>
+          <tr>
+            <th style="width:90px">Módulo</th>
+            <th>Funcionalidad</th>
+            <th style="width:110px">Tipo</th>
+            <th style="width:80px;text-align:center">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Carga</span></td>
+            <td><div class="feat-name">Formulario de ingreso manual de métricas</div><div class="feat-desc">Campos de métrica, valor y período — funcionales y conectados a PostgreSQL</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Carga</span></td>
+            <td><div class="feat-name">Guardar datos en PostgreSQL</div><div class="feat-desc">Al guardar, los datos se escriben en la tabla <code>metrics</code> de la BD provista</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Visualización</span></td>
+            <td><div class="feat-name">Gráfica de barras con datos de la BD</div><div class="feat-desc">Lee desde PostgreSQL — los 24 registros mockup pre-cargados deben ser visibles en la gráfica desde el inicio</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Visualización</span></td>
+            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y las gráficas se rehidratan desde PostgreSQL — no dependen de estado en memoria</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Visualización</span></td>
+            <td><div class="feat-name">Tarjetas de resumen: total, promedio, variación</div><div class="feat-desc">Cards con métricas clave calculadas desde los datos de la BD</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">12 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Calidad</span></td>
+            <td><div class="feat-name">App corre sin errores en consola del browser</div><div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-low">8 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Upload de CSV con procesamiento</div><div class="feat-desc">El usuario carga un CSV y los datos se leen e insertan en PostgreSQL automáticamente</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Gráfica de líneas</div><div class="feat-desc">Segunda gráfica mostrando tendencia de una métrica en el tiempo</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Filtros por período</div><div class="feat-desc">El usuario filtra el rango de fechas mostrado en las gráficas</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Exportación a PDF o imagen</div><div class="feat-desc">Botón que genera y descarga el reporte en PDF o PNG</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Pruebas automatizadas con cobertura ≥ 50%</div><div class="feat-desc">Suite de tests (unitarios o de integración) ejecutable con un solo comando que cubre al menos la mitad del código fuente — reporte de cobertura visible</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Anotaciones en gráficas: máximo y mínimo destacados</div><div class="feat-desc">Los puntos de mejor y peor desempeño se marcan visualmente con etiqueta y valor directo en la gráfica — sin necesidad de leer tabla adicional</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">README con instrucciones de despliegue</div><div class="feat-desc">Archivo README.md en el repositorio con pasos claros para levantar la app localmente: dependencias, variables de entorno y comando de inicio — verificado por el evaluador en menos de 5 minutos</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+8 pts</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="totals-bar">
+        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">90 pts</div><div class="sub">6 funcionalidades fijas</div></div>
+        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+85 pts</div><div class="sub">7 funcionalidades extra</div></div>
+        <div class="total-card"><div class="label">Score total posible</div><div class="value">175 pts</div><div class="sub">Todo implementado</div></div>
+        <div class="total-card"><div class="label">Peso en evaluación</div><div class="value">25%</div><div class="sub">Funcionalidad Verificable</div></div>
+      </div>
+    </div>
+
+    <!-- RETO C -->
+    <div id="tab-c" class="reto-panel">
+      <table class="feature-table">
+        <thead>
+          <tr>
+            <th style="width:90px">Módulo</th>
+            <th>Funcionalidad</th>
+            <th style="width:110px">Tipo</th>
+            <th style="width:80px;text-align:center">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Formulario</span></td>
+            <td><div class="feat-name">Formulario con todos los campos definidos</div><div class="feat-desc">Tipo de solicitud, urgencia (Alta/Media/Baja), descripción, solicitante y área</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Formulario</span></td>
+            <td><div class="feat-name">Guardar solicitud en PostgreSQL</div><div class="feat-desc">Al enviar, la solicitud se escribe en la tabla <code>requests</code> de la BD provista</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Bandeja</span></td>
+            <td><div class="feat-name">Tabla con todas las solicitudes desde la BD</div><div class="feat-desc">Lee desde PostgreSQL — las 15 solicitudes mockup pre-cargadas deben ser visibles sin registrar nada</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Bandeja</span></td>
+            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y las solicitudes siguen visibles — vienen de PostgreSQL</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Bandeja</span></td>
+            <td><div class="feat-name">Cambio de estado inline</div><div class="feat-desc">El usuario cambia el estado directo en la bandeja: Recibida → En revisión → Resuelta — se guarda en PostgreSQL</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">12 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Calidad</span></td>
+            <td><div class="feat-name">App corre sin errores en consola del browser</div><div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-low">8 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Filtro por tipo de solicitud</div><div class="feat-desc">Dropdown o botones que filtran la bandeja por categoría</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Filtro por urgencia</div><div class="feat-desc">Filtra la bandeja por Alta / Media / Baja</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Vista de detalle por solicitud</div><div class="feat-desc">Modal o página que muestra todos los campos de la solicitud seleccionada</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Vista de detalle por solicitud</div><div class="feat-desc">Modal o página que muestra todos los campos de la solicitud seleccionada</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Historial de cambios de estado con timestamp</div><div class="feat-desc">Registro auditado en tabla <code>request_history</code> con fecha y hora de cada cambio</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Pruebas automatizadas con cobertura ≥ 50%</div><div class="feat-desc">Suite de tests (unitarios o de integración) ejecutable con un solo comando que cubre al menos la mitad del código fuente — reporte de cobertura visible</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Dashboard de métricas de bandeja</div><div class="feat-desc">Cards o gráfica que muestran conteo de solicitudes por estado y por urgencia — calculados en tiempo real desde PostgreSQL</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">README con instrucciones de despliegue</div><div class="feat-desc">Archivo README.md en el repositorio con pasos claros para levantar la app localmente: dependencias, variables de entorno y comando de inicio — verificado por el evaluador en menos de 5 minutos</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+8 pts</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="totals-bar">
+        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">90 pts</div><div class="sub">6 funcionalidades fijas</div></div>
+        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+80 pts</div><div class="sub">7 funcionalidades extra</div></div>
+        <div class="total-card"><div class="label">Score total posible</div><div class="value">170 pts</div><div class="sub">Todo implementado</div></div>
+        <div class="total-card"><div class="label">Peso en evaluación</div><div class="value">25%</div><div class="sub">Funcionalidad Verificable</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── MVP ─── -->
+<section id="mvp">
+  <div class="wrap">
+    <div class="section-eyebrow">Kanvas MVP</div>
+    <h2>Funcionalidades mínimas para el MVP</h2>
+    <p>El coach registra el minuto exacto en que el equipo declara su MVP y lo verifica contra esta definición estándar. Todas son funcionalidades <strong>obligatorias</strong> — si alguna falta, el MVP no es válido.</p>
+
+    <div class="mvp-def-box">
+      <div class="mvp-def-label">Definición estándar de MVP — igual para los 3 retos</div>
+      <div class="mvp-def-text">
+        <strong>App corriendo en el browser · formulario que guarda al menos 1 registro en PostgreSQL · tabla o gráfica que muestra ese registro.</strong><br>
+        Los datos mockup pre-cargados deben ser visibles. Sin importar el diseño visual ni funcionalidades adicionales. Si estos 4 ítems están completos, el MVP es válido.
+      </div>
+    </div>
+
+    <!-- MVP A -->
+    <div class="mvp-reto-block">
+      <div class="mvp-reto-header">
+        <div class="reto-letter-big a">A</div>
+        <div><div class="mvp-reto-title">Tracker de Iniciativas — MVP mínimo</div><div class="mvp-reto-sub">4 ítems obligatorios · 70 puntos · Evaluador Central</div></div>
+      </div>
+      <div class="mvp-checklist" id="mvp-a">
+        <div class="mvp-check-item" data-pts="20" data-list="a" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Formulario completo:</strong> nombre, responsable, estado, fecha límite, prioridad y descripción — todos visibles e interactuables</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="15" data-list="a" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Guardar en PostgreSQL:</strong> al enviar el formulario, el registro aparece en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">initiatives</code> — verificar con query directo si es necesario</div>
+          <div class="mvp-check-pts">15 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="20" data-list="a" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Tabla visible con datos:</strong> los 20 registros mockup pre-cargados son visibles en la tabla sin necesidad de agregar nuevos registros</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="15" data-list="a" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y los registros siguen visibles — datos vienen de PostgreSQL, no de memoria</div>
+          <div class="mvp-check-pts">15 pts</div>
+        </div>
+      </div>
+      <div class="mvp-score-footer">
+        <div class="mvp-progress-wrap">
+          <div class="mvp-progress-label" id="prog-label-a">0 de 4 ítems verificados</div>
+          <div class="mvp-progress-bar"><div class="mvp-progress-fill" id="bar-a"></div></div>
+        </div>
+        <div class="mvp-score-display" id="score-a">0<span class="of"> / 70 pts</span></div>
+      </div>
+    </div>
+
+    <!-- MVP B -->
+    <div class="mvp-reto-block">
+      <div class="mvp-reto-header violet-top">
+        <div class="reto-letter-big b">B</div>
+        <div><div class="mvp-reto-title">Portal de Reportes — MVP mínimo</div><div class="mvp-reto-sub">4 ítems obligatorios · 70 puntos · Evaluador Central</div></div>
+      </div>
+      <div class="mvp-checklist" id="mvp-b">
+        <div class="mvp-check-item" data-pts="20" data-list="b" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Formulario de métricas:</strong> al menos un formulario con campos de métrica, valor y período — funcional y conectado a PostgreSQL</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="15" data-list="b" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Guardar en PostgreSQL:</strong> al guardar, los datos aparecen en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">metrics</code> de la BD</div>
+          <div class="mvp-check-pts">15 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="20" data-list="b" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Gráfica con datos pre-cargados:</strong> los 24 registros mockup son visibles en la gráfica de barras o líneas desde el primer minuto</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="15" data-list="b" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y las gráficas se rehidratan desde PostgreSQL — no dependen de estado en memoria</div>
+          <div class="mvp-check-pts">15 pts</div>
+        </div>
+      </div>
+      <div class="mvp-score-footer">
+        <div class="mvp-progress-wrap">
+          <div class="mvp-progress-label" id="prog-label-b">0 de 4 ítems verificados</div>
+          <div class="mvp-progress-bar"><div class="mvp-progress-fill" id="bar-b"></div></div>
+        </div>
+        <div class="mvp-score-display" id="score-b">0<span class="of"> / 70 pts</span></div>
+      </div>
+    </div>
+
+    <!-- MVP C -->
+    <div class="mvp-reto-block">
+      <div class="mvp-reto-header cyan-top">
+        <div class="reto-letter-big c">C</div>
+        <div><div class="mvp-reto-title">Gestor de Solicitudes — MVP mínimo</div><div class="mvp-reto-sub">4 ítems obligatorios · 70 puntos · Evaluador Central</div></div>
+      </div>
+      <div class="mvp-checklist" id="mvp-c">
+        <div class="mvp-check-item" data-pts="20" data-list="c" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Formulario completo:</strong> tipo, urgencia (Alta/Media/Baja), descripción, solicitante y área — todos visibles e interactuables</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="15" data-list="c" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Guardar en PostgreSQL:</strong> al enviar, la solicitud aparece en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">requests</code> de la BD</div>
+          <div class="mvp-check-pts">15 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="20" data-list="c" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Bandeja con datos pre-cargados:</strong> las 15 solicitudes mockup son visibles en la tabla de bandeja sin registrar nada nuevo</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="15" data-list="c" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y las solicitudes siguen visibles — vienen de PostgreSQL, no de memoria</div>
+          <div class="mvp-check-pts">15 pts</div>
+        </div>
+      </div>
+      <div class="mvp-score-footer">
+        <div class="mvp-progress-wrap">
+          <div class="mvp-progress-label" id="prog-label-c">0 de 4 ítems verificados</div>
+          <div class="mvp-progress-bar"><div class="mvp-progress-fill" id="bar-c"></div></div>
+        </div>
+        <div class="mvp-score-display" id="score-c">0<span class="of"> / 70 pts</span></div>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">↺ Resetear todos los checks</button>
+
+    <div class="tips-box">
+      <h3>📋 Notas para el Evaluador Central</h3>
+      <div class="tips-list">
+        <div class="tip-item"><span class="tip-num">1</span><span>El <strong style="color:#fff">MVP se declara durante el build sprint</strong>, no al cierre. El coach registra el minuto exacto cuando el equipo lo anuncia y lo verifica contra los 4 ítems en tiempo real. La posición de llegada determina el puntaje: 1.º = 100 pts · 2.º = 90 pts · 3.º = 80 pts · 4.º = 70 pts · 5.º+ = 60 pts.</span></div>
+        <div class="tip-item"><span class="tip-num">2</span><span><strong style="color:#fff">Verificar datos mockup visibles:</strong> desde el inicio del build los 20/24/15 registros pre-cargados deben aparecer. Si no aparecen, la conexión a PostgreSQL no está funcionando — no es MVP válido.</span></div>
+        <div class="tip-item"><span class="tip-num">3</span><span><strong style="color:#fff">Verificar persistencia activamente:</strong> recargar la página frente al equipo es la única forma de confirmar que los datos vienen de PostgreSQL y no de memoria. No aceptar la palabra del equipo.</span></div>
+        <div class="tip-item"><span class="tip-num">4</span><span><strong style="color:#fff">Bonus no penalizan:</strong> si un equipo intentó implementar un bonus y no lo terminó, solo se excluye del score — no descuenta de las obligatorias. Se evalúan de forma independiente.</span></div>
+        <div class="tip-item"><span class="tip-num">5</span><span><strong style="color:#fff">Verificar pruebas automatizadas:</strong> pedir al equipo que ejecute el comando de tests en vivo (<code style="font-size:11px;background:rgba(255,255,255,0.1);padding:1px 5px;">npm test</code> o equivalente). El reporte de cobertura debe mostrar ≥ 50% — no se acepta capturas de pantalla previas al build.</span></div>
+        <div class="tip-item"><span class="tip-num">6</span><span><strong style="color:#fff">Verificar README:</strong> clonar el repositorio en una máquina limpia y seguir los pasos del README sin ayuda del equipo. Si el evaluador no puede levantar la app en menos de 5 minutos siguiendo las instrucciones, el bonus no aplica.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESUMEN ─── -->
+<section id="resumen">
+  <div class="wrap">
+    <div class="section-eyebrow">Resumen de evaluación</div>
+    <h2>Los 4 criterios del challenge</h2>
+    <p>El score final de cada equipo es la suma ponderada de estos 4 criterios. El Evaluador Central aplica los mismos criterios a todos los equipos garantizando consistencia.</p>
+    <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;">
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:var(--blue);display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">35%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Funcionalidad Verificable</h4><p style="font-size:12px;margin:0;">Checklist binario: obligatorias + bonus. Las obligatorias tienen score fijo. Los bonus suman puntos extra. Sin interpretación — o funciona o no funciona. Evaluado por el <strong>Evaluador Central</strong> al cierre del build.</p></div>
+      </div>
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:var(--violet);display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">30%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Calidad de Código</h4><p style="font-size:12px;margin:0;">El Evaluador Central pasa el código a <strong>Kardex</strong> con un prompt estándar. Score 1–10 en 4 dimensiones: estructura, complejidad ciclomática, vulnerabilidades y buenas prácticas. Mismo prompt para todos.</p></div>
+      </div>
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:#0796a8;display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">25%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Eficiencia en Uso de IA</h4><p style="font-size:12px;margin:0;">No mide cuántos tokens se gastaron — mide cuánto se produjo por cada token. Fórmula: <strong>ratio = (ítems completados ÷ tokens consumidos) × 10,000</strong>, normalizado contra el equipo con mayor ratio (100%). Premia al equipo que sacó más provecho por prompt. Cada equipo reporta sus tokens al cierre del build.</p></div>
+      </div>
+      <div style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:72px 1fr;">
+        <div style="background:#9a97c0;display:flex;align-items:center;justify-content:center;padding:16px;"><span style="font-size:24px;font-weight:700;color:#fff;line-height:1;">10%</span></div>
+        <div style="padding:16px 20px;"><h4 style="font-size:15px;margin-bottom:4px;">Tiempo al MVP</h4><p style="font-size:12px;margin:0;">Minuto exacto en que el equipo declara y el coach verifica el MVP. Escala de posiciones: 1.º = 100 pts · 2.º = 90 pts · 3.º = 80 pts · 4.º = 70 pts · 5.º+ = 60 pts. Premia el arranque rápido y la toma de decisiones bajo presión.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">AI BUILD CHALLENGE · KANVAS DE FUNCIONALIDADES & MVP · USO INTERNO · ANDREA · ARNOLDO · NICO</div>
+
+<script>
+function showNeg(id, btn) {
+  document.querySelectorAll('#negocio .reto-panel').forEach(p => p.classList.remove('active'));
+  btn.closest('.tabs-wrap').querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  document.getElementById('neg-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+function showTab(id, btn) {
+  document.querySelectorAll('#kanvas .reto-panel').forEach(p => p.classList.remove('active'));
+  btn.closest('.tabs-wrap').querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleMvp(row) {
+  row.classList.toggle('checked');
+  updateMvpScore(row.dataset.list);
+}
+function updateMvpScore(list) {
+  const rows = document.querySelectorAll('#mvp-' + list + ' .mvp-check-item');
+  let total = 0, done = 0;
+  rows.forEach(r => { if (r.classList.contains('checked')) { total += parseInt(r.dataset.pts); done++; } });
+  document.getElementById('score-' + list).innerHTML = total + '<span class="of"> / 70 pts</span>';
+  document.getElementById('prog-label-' + list).textContent = done + ' de 4 ítems verificados';
+  document.getElementById('bar-' + list).style.width = Math.round((done / 4) * 100) + '%';
+}
+function resetAll() {
+  document.querySelectorAll('.mvp-check-item').forEach(r => r.classList.remove('checked'));
+  ['a','b','c'].forEach(l => {
+    document.getElementById('score-' + l).innerHTML = '0<span class="of"> / 70 pts</span>';
+    document.getElementById('prog-label-' + l).textContent = '0 de 4 ítems verificados';
+    document.getElementById('bar-' + l).style.width = '0%';
+  });
+}
+</script>
+</body>
+</html>
