@@ -1,158 +1,227 @@
-# AI Build Challenge — Guía de Facilitador
-### Edición 2026 · Documento de Uso Interno
+# Gestor de Solicitudes — Softtek AI Challenge 2026
+
+Aplicación web full-stack para el registro y gestión de solicitudes internas, construida con React, Express.js y PostgreSQL.
 
 ---
 
-## 📊 Ficha Técnica del Challenge
+## Tabla de Contenidos
 
-* **Duración:** 4h 30 min
-* **Participantes:** 25 – 30 personas
-* **Equipos:** 5 – 6 equipos de 5 personas cada uno
-* **Perfil:** Técnico Senior (Multi-empresa)
-* **Acelerador Principal:** FRIDA SDLC
-
----
-
-## 🏗️ 1. Visión General
-
-El **AI Build Challenge** reúne a líderes técnicos, arquitectos, desarrolladores senior y líderes QA de distintas empresas para construir una aplicación web funcional en 4 horas usando **FRIDA SDLC** como acelerador principal. No es un taller de ideación ni una demo de producto; es construcción real, con código real, evaluada con criterios objetivos.
-
-> 💡 **Principio Clave:** "El reto no es aprender a programar con IA, es aprender a *dirigir* a la IA para producir más, más rápido y con mejor calidad que a la manera tradicional."
-
-### Perfil de Participante
-* **Arquitecto de Software**
-* **Desarrollador Sr / Expert**
-* **Líder QA**
-* **Líder Técnico**
-
-> ⚠️ **Nota para el Facilitador:** Los perfiles senior dominan el código; el verdadero aprendizaje es soltar el control y confiar en FRIDA SDLC como copiloto. La tentación de "hacerlo a su manera" es el principal obstáculo a superar.
-
-### Principios de Diseño
-1.  **Reto único, ejecuciones distintas:** Todos construyen el mismo tipo de app, el diferenciador es la calidad técnica, las decisiones de arquitectura y la eficiencia con FRIDA SDLC.
-2.  **FRIDA SDLC como copiloto, no como sustituto:** El equipo dirige, valida y decide; FRIDA SDLC ejecuta y propone. Los mejores resultados vienen de quien mejor sabe instruir.
-3.  **Criterios objetivos, sin subjetividad:** Code review automatizado, checklist de funcionalidad, eficiencia por token. El ganador se determina con datos, no con opiniones.
-
-### Resultados Esperados (al finalizar las 4 horas)
-* Una aplicación web funcional corriendo en el navegador.
-* Código revisado automáticamente con score de calidad.
-* Métricas de eficiencia: tokens consumidos vs. features entregados.
-* Una demo de 5 minutos con la app funcionando en vivo.
-* Una perspectiva propia sobre cómo FRIDA SDLC cambia su flujo de trabajo habitual.
+- [Requisitos Previos](#requisitos-previos)
+- [Variables de Entorno](#variables-de-entorno)
+- [Instalación y Despliegue Local](#instalación-y-despliegue-local)
+- [Ejecución de Tests y Cobertura](#ejecución-de-tests-y-cobertura)
+- [Funcionalidades Implementadas](#funcionalidades-implementadas)
+- [Arquitectura](#arquitectura)
+- [Puertos](#puertos)
 
 ---
 
-## 🏎️ 2. Dinámica de Equipos: La Mecánica del Volante
+## Requisitos Previos
 
-Cada equipo cuenta con 5 participantes. No hay roles fijos: todos son pilotos. Como en las carreras de resistencia: un solo auto, cinco pilotos, turnos cronometrados. Cada participante estará al frente del build operando la computadora durante **30 minutos** y luego pasará el relevo.
+| Herramienta | Versión mínima |
+|-------------|----------------|
+| Node.js     | 18 LTS          |
+| npm         | 9+              |
+| PostgreSQL  | 14+             |
 
-| Rol de Turno | Responsabilidades y Reglas |
-| :--- | :--- |
-| **Piloto al Volante** *(30 min)* | • Es el único que toca la computadora durante su turno.<br>• Usa FRIDA SDLC para avanzar en el foco asignado.<br>• Puede pedir sugerencias, pero él decide.<br>• Al finalizar, hace el traspaso en 2 minutos (estado, faltantes, consideraciones). |
-| **Copilotos** *(Fuera del volante)* | • Observan, toman notas y sugieren, sin tocar la máquina.<br>• Preparan insumos para el siguiente turno: datos, prompts, diseños en papel.<br>• Prueban la app en sus dispositivos para detectar bugs prematuros.<br>• Construyen el guión de la demo final sobre la marcha. |
-
-> 🛠️ **Criterio de Formación de Equipos:** Se debe evitar que dos personas de la misma empresa queden en el mismo equipo. Se deben mezclar especialidades (arquitecto, developer, QA) para maximizar la diversidad de perspectivas. El orden de los pilotos lo define el equipo en la Fase 1: se recomienda que el perfil más técnico sea el Piloto 1 (configuración de entorno) y el que tenga más claridad comunicativa sea el Piloto 5 (cierre y demo).
-
----
-
-## 💻 3. Los Retos Tecnológicos
-
-Todos los equipos construyen la misma aplicación base (elegida por votación al inicio). Las opciones tienen un stack tecnológico estándar: **HTML / JS / CSS** para el Frontend, asistidos por **FRIDA SDLC**, y almacenamiento persistente real.
-
-### Opción A: Tracker de Iniciativas
-* **Descripción:** Web app para registrar y hacer seguimiento de iniciativas o proyectos de un área.
-* **Módulo 1:** Formulario de registro (Nombre, responsable, estado [Pendiente / En curso / Completado], fecha límite, prioridad y descripción).
-* **Módulo 2:** Dashboard con tabla filtrable por estado/prioridad, contador de estados y vista de próximos vencimientos.
-* **Feature Diferenciador:** Edición inline de estado con Drag & Drop entre columnas estilo Kanban.
-
-### Opción B: Portal de Reportes de Área
-* **Descripción:** Web app que permite cargar datos desde un CSV o formulario y genera automáticamente visualizaciones gráficos y métricas clave.
-* **Módulo 1:** Carga de datos mediante upload de archivos CSV o ingreso manual estructurado por período.
-* **Módulo 2:** Visualización con gráficas de barras y líneas (usando Chart.js), tarjetas de resumen analítico (totales, promedios, variaciones).
-* **Feature Diferenciador:** Filtros dinámicos por período y exportación del reporte a PDF o imagen.
-
-### Opción C: Gestor de Solicitudes Internas
-* **Descripción:** Web app para crear, gestionar y hacer seguimiento de solicitudes internas de cualquier tipo (soporte, aprobaciones, requerimientos).
-* **Módulo 1:** Formulario de solicitud (Tipo, urgencia [Alta/Media/Baja], descripción, solicitante y área).
-* **Módulo 2:** Bandeja de solicitudes con tabla general, filtros avanzados y cambio de estado dinámico (Recibida / En revisión / Resuelta).
-* **Feature Diferenciador:** Vista detallada de solicitud con historial de cambios de estado y marcas de tiempo (*timestamps*).
-
-### 🧭 Guía de Selección y Persistencia
-* **Tracker de Iniciativas:** Ideal si el equipo es más de negocio o con poca experiencia en visualización gráfica.
-* **Portal de Reportes:** Recomendado si hay experiencia previa con librerías de gráficas. Brinda el mayor impacto visual en la demo.
-* **Gestor de Solicitudes:** Recomendado para equipos que deseen priorizar flujos de trabajo avanzados y lógica estricta de estados.
-* **🗄️ Persistencia de Datos (A elegir en Fase 1):**
-    * **SQLite:** Default recomendado. SQL estándar, sin servidor, almacena en un archivo local que FRIDA SDLC configura en minutos.
-    * **PocketBase:** Alternativa NoSQL. REST API lista al instante y panel de administración visual incluido para potenciar la demo.
+Asegúrate de tener PostgreSQL corriendo con la base de datos `ai_challenge` creada y el schema `reto_c` inicializado con el script provisto.
 
 ---
 
-## 🔎 4. Modelo de Evaluación Objetiva
+## Variables de Entorno
 
-La evaluación no cuenta con un panel de jueces tradicional ni valoraciones subjetivas. Un **Evaluador Central** aplica los mismos criterios métricos a todos los repositorios. El **Coach** de cada equipo actúa únicamente como registrador de hechos en tiempo real (hora del MVP y cobertura del Canvas).
+Crea el archivo `backend/.env` copiando la plantilla:
 
-### Los 5 Criterios de Evaluación
+```bash
+cp backend/.env.example backend/.env
+```
 
-1.  **Funcionalidad Verificable (25%):** Checklist binario por reto. Cada ítem completado suma puntos fijos (ej. ¿El formulario guarda en la DB?, ¿Los datos persisten al recargar?, ¿Funciona sin errores en la consola?).
-2.  **Calidad de Código (20%):** Code review automatizado mediante herramientas (Kardex). Mide legibilidad, modularidad, manejo de errores y seguridad del código generado por la IA y guiado por el humano.
-3.  **Velocidad de Entrega / Tiempo al MVP (20%):** Registrado por el Coach. Premia al equipo que declare y valide funcionalmente su Producto Mínimo Viable de forma más rápida.
-4.  **Eficiencia en el Uso de Tokens (20%):** Relación matemática entre las funcionalidades entregadas y los tokens consumidos en las solicitudes a FRIDA SDLC. Premia la precisión en el *prompting* y la reducción del desperdicio de contexto.
-5.  **Alineación Estratégica / Canvas (15%):** Porcentaje de cobertura y consistencia del AI Build Canvas al cierre del evento.
+Contenido de `backend/.env`:
 
----
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=ai_challenge
+DB_USER=postgres
+DB_PASSWORD=Admin123
+DB_SCHEMA=reto_c
+PORT=3001
+NODE_ENV=development
+```
 
-## 📅 5. Agenda Detallada del Evento (Total: 4h 30min)
-
-[00:00 - 00:20] ── FASE 1: Alineación & Configuración (20 min)
-[00:20 - 02:50] ── FASE 2: Ciclos de Build - Turnos 1 a 5 (150 min)
-[02:50 - 03:50] ── FASE 3: Estabilización, QA & Cierre de Canvas (60 min)
-[03:50 - 04:30] ── FASE 4: Demos & Resultados Finales (40 min)
-
-
-### ⏱️ Desglose Técnico por Fases
-
-#### FASE 1: Alineación y Configuración Territorial (20 min)
-* **Acciones:** Explicación de reglas, votación del reto común y selección del motor de persistencia (SQLite/PocketBase). Cada equipo define su orden de pilotos y abre el AI Build Canvas.
-* **Hito:** Prohibido tocar el teclado o inicializar el espacio de trabajo antes de terminar esta fase.
-
-#### FASE 2: Ciclos de Build — Los Relevos (150 min)
-* **Estructura:** 5 turnos consecutivos de 30 minutos estrictos cada uno.
-
-Turno 1 (30 min) ── Focus: Setup del entorno, Arquitectura Base y Conexión DB.
-Turno 2 (30 min) ── Focus: Módulo 1 (Formularios de Captura e Ingesta).
-Turno 3 (30 min) ── Focus: Módulo 2 (Dashboard, Tablas, Lógica de Estados).
-Turno 4 (30 min) ── Focus: Refinamiento UI/UX y Funcionalidades Core.
-Turno 5 (30 min) ── Focus: Integración de Feature Diferenciador y Demo Prep.
-
-
-* **Regla de Oro:** Cada cambio de turno obliga a un *handoff* verbal de 2 minutos sobre el estado del build.
-
-#### FASE 3: Estabilización, QA & Cierre de Canvas (60 min)
-* **Acciones:** Todo el equipo puede colaborar en las pruebas (sin romper la regla del volante si se requiere refactorizar). Se congela el código (*Code Freeze*), se ejecuta el code review automatizado y se entrega el AI Build Canvas completado al Coach.
-* **Hito:** Envío de métricas de tokens y repositorio al Evaluador Central.
-
-#### FASE 4: Showroom de Demos y Resultados (40 min)
-* **Acciones:** Demos estrictas de 5 minutos por equipo en un entorno de producción en vivo o local. Presentación de la tabla de posiciones consolidada por el Evaluador Central y premiación de ganadores.
+> **Nota:** No modifiques estos valores si usas la configuración estándar del Kit de Inicio del challenge.
 
 ---
 
-## 🛠️ 6. Matriz de Aceleradores Técnicos
+## Instalación y Despliegue Local
 
-Para cumplir con el tiempo límite de 4 horas, los equipos disponen de aceleradores preconfigurados que deben ser asignados de acuerdo al perfil del piloto en turno:
+### 1. Clonar el repositorio
 
-| Nombre del Acelerador | Tipo de Componente | Propósito / Beneficio Técnico | Usuario Ideal Recomendado |
-| :--- | :--- | :--- | :--- |
-| **FRIDA SDLC** | Core AI Assistant | Generación de componentes estructurados, resolución de bugs de lógica, optimización de consultas SQL y automatizaciones del despliegue. | *Todos los Pilotos* |
-| **SQLite Quickstart** | Database Script | Script de inicialización de tablas relacionales comunes, configuración de conexión local mediante archivos planos sin dependencias de infraestructura. | *Piloto 1 · Arquitecto* |
-| **PocketBase SDK Blueprint** | Backend Services | SDK preconfigurado para mapeo NoSQL inmediato, autenticación básica y habilitación del panel de administración visual. | *Piloto 1 · Arquitecto / Dev* |
-| **Chart.js Wrapper** | Frontend Component | Plantilla funcional para inyectar gráficos dinámicos de barras, líneas y donas alimentados por arreglos JSON nativos. | *Piloto 3 · Desarrollador* |
-| **Kardex Automator** | Testing & QA Tools | Suite local de análisis estático para validar calidad de código, modularidad y apego a buenas prácticas de forma automatizada previa a la evaluación final. | *Piloto 5 · Líder QA* |
+```bash
+git clone https://github.com/Innovation-Nearshore/Softtek-challenge-2026.git
+cd Softtek-challenge-2026
+```
+
+### 2. Cargar el esquema y datos de prueba en PostgreSQL
+
+Ejecuta el script SQL provisto:
+
+```bash
+psql -U postgres -d ai_challenge -f mockups_aichallenge.sql
+```
+
+O ábrelo directamente en pgAdmin y ejecútalo sobre la base de datos `ai_challenge`.
+
+### 3. Instalar dependencias del Backend
+
+```bash
+cd backend
+npm install
+```
+
+### 4. Iniciar el Backend (puerto 3001)
+
+```bash
+npm run dev
+```
+
+Verifica que el servidor esté corriendo:
+
+```
+GET http://localhost:3001/health
+→ { "status": "OK", "timestamp": "..." }
+```
+
+### 5. Instalar dependencias del Frontend (en otra terminal)
+
+```bash
+cd frontend
+npm install
+```
+
+### 6. Iniciar el Frontend (puerto 3000)
+
+```bash
+npm start
+```
+
+Abre el navegador en **http://localhost:3000**
+
+> Las 15 solicitudes precargadas deben ser visibles en la bandeja inmediatamente sin necesidad de registrar nada.
 
 ---
 
-## ⚙️ 7. Checklist de Setup Técnico Pre-Challenge
-*(Responsabilidad del Organizador — Ejecutar el día anterior)*
+## Ejecución de Tests y Cobertura
 
-- [ ] **FRIDA SDLC:** Verificar instalación y autenticación activa en las laptops corporativas de todos los Builders para mitigar bloqueos de permisos o proxies de red.
-- [ ] **Plan B (Workspaces):** Tener listos entornos de respaldo en Replit configurados y validados desde una red externa a la corporativa.
-- [ ] **Estrategia de Respaldo:** Mantener una versión pre-construida de cada reto al 60% de avance. Si el entorno o la demo de algún equipo colapsa por completo, el facilitador puede usar esta base para asegurar el aprendizaje.
-- [ ] **Librerías Locales:** Asegurar la disponibilidad y descarga previa de paquetes (Chart.js
+Los tests de integración están en `backend/src/__tests__/solicitudes.test.js` y usan mocks de la base de datos (no requieren conexión real a PostgreSQL).
+
+```bash
+cd backend
+npm test
+```
+
+Esto ejecuta Jest con cobertura y muestra el reporte en consola. El reporte de cobertura HTML se genera en `backend/coverage/lcov-report/index.html`.
+
+**Cobertura objetivo:** ≥ 50% de líneas del código fuente backend.
+
+---
+
+## Funcionalidades Implementadas
+
+### Obligatorias (70 pts)
+
+| Funcionalidad | Descripción |
+|---------------|-------------|
+| ✅ Formulario completo | Campos: tipo, urgencia (Alta/Media/Baja), descripción, solicitante y área |
+| ✅ Guardar en PostgreSQL | `POST /api/solicitudes` escribe en la tabla `solicitudes` del schema `reto_c` |
+| ✅ Bandeja con datos precargados | Las 15 solicitudes mockup son visibles sin registrar nada nuevo |
+| ✅ Persistencia real (F5) | Datos vienen de PostgreSQL, no de memoria del browser |
+| ✅ Cambio de estado inline | Dropdown en bandeja: `Recibida → En revisión → Resuelta`, guardado en BD |
+| ✅ Sin errores de consola | Zero excepciones JS ni errores de red en DevTools |
+
+### Bonus
+
+| Bonus | Descripción |
+|-------|-------------|
+| ✅ Filtro por tipo | Dropdown que filtra la bandeja por categoría de solicitud |
+| ✅ Filtro por urgencia | Botones/dropdown que filtra por Alta / Media / Baja |
+| ✅ Vista de detalle | Modal con todos los campos de la solicitud seleccionada |
+| ✅ Historial con timestamp | Tabla `historial_solicitudes` con `changed_at` en cada cambio de estado |
+| ✅ Tests automatizados ≥50% | Suite Jest + Supertest ejecutable con `npm test`, reporte de cobertura visible |
+| ✅ Dashboard de métricas | Cards con conteos por estado y urgencia calculados desde PostgreSQL |
+| ✅ README con instrucciones | Este archivo — despliegue verificable en menos de 5 minutos |
+
+---
+
+## Arquitectura
+
+```
+Softtek-challenge-2026/
+├── backend/                    # API Express.js (puerto 3001)
+│   ├── src/
+│   │   ├── app.js              # Express app (CORS, Helmet, rate-limit, caché)
+│   │   ├── server.js           # Entrada del servidor
+│   │   ├── config/
+│   │   │   └── database.js     # Pool de conexión PostgreSQL (pg)
+│   │   ├── models/
+│   │   │   └── SolicitudModel.js   # Todas las queries SQL (parameterizadas)
+│   │   ├── controllers/
+│   │   │   └── SolicitudController.js  # Lógica de negocio
+│   │   ├── middlewares/
+│   │   │   └── validationMiddleware.js # express-validator (anti SQL injection)
+│   │   ├── routes/
+│   │   │   └── solicitudRoutes.js      # Definición de endpoints REST
+│   │   └── __tests__/
+│   │       └── solicitudes.test.js     # Tests de integración con mocks
+│   ├── .env.example
+│   └── package.json
+│
+├── frontend/                   # React App (puerto 3000)
+│   ├── src/
+│   │   ├── App.jsx             # Layout principal y navegación
+│   │   ├── services/
+│   │   │   └── api.js          # Axios con interceptores y helpers
+│   │   └── components/
+│   │       ├── RequestForm.jsx         # Formulario de nueva solicitud
+│   │       ├── RequestsTable.jsx       # Bandeja con filtros e inline status
+│   │       ├── RequestDetailModal.jsx  # Modal de detalle e historial
+│   │       └── Dashboard.jsx           # Cards de métricas
+│   └── package.json
+│
+├── mockups_aichallenge.sql     # Script de creación de tablas y datos ficticios
+└── README.md
+```
+
+### Decisiones de diseño
+
+- **MVC estricto**: el modelo contiene todas las queries SQL; el controlador solo orquesta; las rutas son solo declarativas.
+- **Queries parameterizadas**: todos los valores de usuario pasan como parámetros `$n`, nunca concatenados, eliminando SQL injection.
+- **Caché en memoria**: `node-cache` con TTL de 60 s en `GET /api/solicitudes`, invalidado automáticamente en POST y PATCH.
+- **CORS restringido**: solo acepta peticiones de `http://localhost:3000`.
+- **Helmet + rate-limit**: headers de seguridad y máximo 100 req/15 min por IP.
+- **Transacciones**: el cambio de estado usa `BEGIN/COMMIT/ROLLBACK` para garantizar atomicidad entre update y log de historial.
+
+---
+
+## Puertos
+
+| Servicio  | Puerto |
+|-----------|--------|
+| Backend   | 3001   |
+| Frontend  | 3000   |
+
+---
+
+## Endpoints principales de la API
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET    | `/health` | Health check del servidor |
+| GET    | `/api/solicitudes` | Listar solicitudes (filtros: tipo, urgencia, estado) |
+| GET    | `/api/solicitudes/:id` | Detalle de una solicitud |
+| POST   | `/api/solicitudes` | Crear nueva solicitud |
+| PATCH  | `/api/solicitudes/:id/status` | Cambiar estado de una solicitud |
+| GET    | `/api/solicitudes/:id/historial` | Historial de cambios de estado |
+| GET    | `/api/solicitudes/metricas/dashboard` | Métricas del dashboard |
+| GET    | `/api/solicitudes/referencias/tipos` | Tipos de solicitud disponibles |
+| GET    | `/api/solicitudes/referencias/areas` | Áreas disponibles |
