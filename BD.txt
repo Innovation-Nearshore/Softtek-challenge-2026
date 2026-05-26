@@ -1,0 +1,174 @@
+-- Table: reto_c.tipos_solicitud
+
+-- DROP TABLE IF EXISTS reto_c.tipos_solicitud;
+
+CREATE TABLE IF NOT EXISTS reto_c.tipos_solicitud
+(
+    id integer NOT NULL DEFAULT nextval('reto_c.tipos_solicitud_id_seq'::regclass),
+    codigo character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    nombre character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    descripcion text COLLATE pg_catalog."default",
+    sla_horas integer DEFAULT 48,
+    requiere_aprobacion boolean DEFAULT false,
+    CONSTRAINT tipos_solicitud_pkey PRIMARY KEY (id),
+    CONSTRAINT tipos_solicitud_codigo_key UNIQUE (codigo)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS reto_c.tipos_solicitud
+    OWNER to postgres;
+
+COMMENT ON TABLE reto_c.tipos_solicitud
+    IS 'Tipos de solicitudes disponibles con SLA definido';
+
+
+-- Table: reto_c.historial_solicitudes
+
+-- DROP TABLE IF EXISTS reto_c.historial_solicitudes;
+
+CREATE TABLE IF NOT EXISTS reto_c.historial_solicitudes
+(
+    id integer NOT NULL DEFAULT nextval('reto_c.historial_solicitudes_id_seq'::regclass),
+    solicitud_id integer NOT NULL,
+    estado_anterior character varying(20) COLLATE pg_catalog."default",
+    estado_nuevo character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    usuario character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    comentario text COLLATE pg_catalog."default",
+    fecha_cambio timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT historial_solicitudes_pkey PRIMARY KEY (id),
+    CONSTRAINT historial_solicitudes_solicitud_id_fkey FOREIGN KEY (solicitud_id)
+        REFERENCES reto_c.solicitudes (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS reto_c.historial_solicitudes
+    OWNER to postgres;
+
+COMMENT ON TABLE reto_c.historial_solicitudes
+    IS 'Historial de cambios de estado de cada solicitud';
+-- Index: idx_historial_solicitud
+
+-- DROP INDEX IF EXISTS reto_c.idx_historial_solicitud;
+
+CREATE INDEX IF NOT EXISTS idx_historial_solicitud
+    ON reto_c.historial_solicitudes USING btree
+    (solicitud_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Table: reto_c.solicitudes
+
+-- DROP TABLE IF EXISTS reto_c.solicitudes;
+
+CREATE TABLE IF NOT EXISTS reto_c.solicitudes
+(
+    id integer NOT NULL DEFAULT nextval('reto_c.solicitudes_id_seq'::regclass),
+    numero_ticket character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    tipo_solicitud_id integer NOT NULL,
+    titulo character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    descripcion text COLLATE pg_catalog."default" NOT NULL,
+    urgencia character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    estado character varying(20) COLLATE pg_catalog."default" NOT NULL DEFAULT 'Recibida'::character varying,
+    solicitante character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    email_solicitante character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    area_solicitante_id integer NOT NULL,
+    area_asignada_id integer,
+    asignado_a character varying(100) COLLATE pg_catalog."default",
+    fecha_creacion timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    fecha_vencimiento timestamp without time zone,
+    fecha_resolucion timestamp without time zone,
+    solucion text COLLATE pg_catalog."default",
+    calificacion integer,
+    comentario_calificacion text COLLATE pg_catalog."default",
+    CONSTRAINT solicitudes_pkey PRIMARY KEY (id),
+    CONSTRAINT solicitudes_numero_ticket_key UNIQUE (numero_ticket),
+    CONSTRAINT solicitudes_area_asignada_id_fkey FOREIGN KEY (area_asignada_id)
+        REFERENCES reto_c.areas (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT solicitudes_area_solicitante_id_fkey FOREIGN KEY (area_solicitante_id)
+        REFERENCES reto_c.areas (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT solicitudes_tipo_solicitud_id_fkey FOREIGN KEY (tipo_solicitud_id)
+        REFERENCES reto_c.tipos_solicitud (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT solicitudes_calificacion_check CHECK (calificacion >= 1 AND calificacion <= 5),
+    CONSTRAINT solicitudes_estado_check CHECK (estado::text = ANY (ARRAY['Recibida'::character varying, 'En revisión'::character varying, 'Resuelta'::character varying, 'Rechazada'::character varying, 'Cancelada'::character varying]::text[])),
+    CONSTRAINT solicitudes_urgencia_check CHECK (urgencia::text = ANY (ARRAY['Alta'::character varying, 'Media'::character varying, 'Baja'::character varying]::text[]))
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS reto_c.solicitudes
+    OWNER to postgres;
+
+COMMENT ON TABLE reto_c.solicitudes
+    IS 'Tabla principal de solicitudes internas con workflow';
+-- Index: idx_solicitudes_area_solicitante
+
+-- DROP INDEX IF EXISTS reto_c.idx_solicitudes_area_solicitante;
+
+CREATE INDEX IF NOT EXISTS idx_solicitudes_area_solicitante
+    ON reto_c.solicitudes USING btree
+    (area_solicitante_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: idx_solicitudes_estado
+
+-- DROP INDEX IF EXISTS reto_c.idx_solicitudes_estado;
+
+CREATE INDEX IF NOT EXISTS idx_solicitudes_estado
+    ON reto_c.solicitudes USING btree
+    (estado COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: idx_solicitudes_fecha
+
+-- DROP INDEX IF EXISTS reto_c.idx_solicitudes_fecha;
+
+CREATE INDEX IF NOT EXISTS idx_solicitudes_fecha
+    ON reto_c.solicitudes USING btree
+    (fecha_creacion ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: idx_solicitudes_tipo
+
+-- DROP INDEX IF EXISTS reto_c.idx_solicitudes_tipo;
+
+CREATE INDEX IF NOT EXISTS idx_solicitudes_tipo
+    ON reto_c.solicitudes USING btree
+    (tipo_solicitud_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: idx_solicitudes_urgencia
+
+-- DROP INDEX IF EXISTS reto_c.idx_solicitudes_urgencia;
+
+CREATE INDEX IF NOT EXISTS idx_solicitudes_urgencia
+    ON reto_c.solicitudes USING btree
+    (urgencia COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Table: reto_c.areas
+
+-- DROP TABLE IF EXISTS reto_c.areas;
+
+CREATE TABLE IF NOT EXISTS reto_c.areas
+(
+    id integer NOT NULL DEFAULT nextval('reto_c.areas_id_seq'::regclass),
+    nombre character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    descripcion text COLLATE pg_catalog."default",
+    email_contacto character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT areas_pkey PRIMARY KEY (id),
+    CONSTRAINT areas_nombre_key UNIQUE (nombre)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS reto_c.areas
+    OWNER to postgres;
+
+COMMENT ON TABLE reto_c.areas
+    IS 'Catálogo de áreas organizacionales';
+
