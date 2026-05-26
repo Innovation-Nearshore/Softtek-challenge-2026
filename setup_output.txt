@@ -1,0 +1,3 @@
+=== Buscando JDK instalado ===
+ERROR: No se encontro un JDK instalado.
+Por favor instala un JDK desde https://adoptium.net
