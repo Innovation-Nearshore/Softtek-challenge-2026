@@ -56,7 +56,7 @@ Cada equipo cuenta con 5 participantes. No hay roles fijos: todos son pilotos. C
 
 ## 💻 3. Los Retos Tecnológicos
 
-Todos los equipos construyen la misma aplicación base (elegida por votación al inicio). Las opciones tienen un stack tecnológico estándar: **HTML / JS / CSS** para el Frontend, asistidos por **FRIDA SDLC**, y almacenamiento persistente real.
+Todos los equipos construyen la misma aplicación base (elegida por votación al inicio). Las opciones tienen un stack tecnológico estándar: **REACT y NODE.JS**, asistidos por **FRIDA SDLC**, y almacenamiento persistente real.
 
 ### Opción A: Tracker de Iniciativas
 * **Descripción:** Web app para registrar y hacer seguimiento de iniciativas o proyectos de un área.
@@ -81,22 +81,20 @@ Todos los equipos construyen la misma aplicación base (elegida por votación al
 * **Portal de Reportes:** Recomendado si hay experiencia previa con librerías de gráficas. Brinda el mayor impacto visual en la demo.
 * **Gestor de Solicitudes:** Recomendado para equipos que deseen priorizar flujos de trabajo avanzados y lógica estricta de estados.
 * **🗄️ Persistencia de Datos (A elegir en Fase 1):**
-    * **SQLite:** Default recomendado. SQL estándar, sin servidor, almacena en un archivo local que FRIDA SDLC configura en minutos.
-    * **PocketBase:** Alternativa NoSQL. REST API lista al instante y panel de administración visual incluido para potenciar la demo.
-
+    * **POSGRESQL:** Default recomendado. SQL estándar, sin servidor, almacena en un archivo local que FRIDA SDLC configura en minutos.
+    
 ---
 
 ## 🔎 4. Modelo de Evaluación Objetiva
 
 La evaluación no cuenta con un panel de jueces tradicional ni valoraciones subjetivas. Un **Evaluador Central** aplica los mismos criterios métricos a todos los repositorios. El **Coach** de cada equipo actúa únicamente como registrador de hechos en tiempo real (hora del MVP y cobertura del Canvas).
 
-### Los 5 Criterios de Evaluación
+### Los 4 Criterios de Evaluación
 
-1.  **Funcionalidad Verificable (25%):** Checklist binario por reto. Cada ítem completado suma puntos fijos (ej. ¿El formulario guarda en la DB?, ¿Los datos persisten al recargar?, ¿Funciona sin errores en la consola?).
-2.  **Calidad de Código (20%):** Code review automatizado mediante herramientas (Kardex). Mide legibilidad, modularidad, manejo de errores y seguridad del código generado por la IA y guiado por el humano.
-3.  **Velocidad de Entrega / Tiempo al MVP (20%):** Registrado por el Coach. Premia al equipo que declare y valide funcionalmente su Producto Mínimo Viable de forma más rápida.
-4.  **Eficiencia en el Uso de Tokens (20%):** Relación matemática entre las funcionalidades entregadas y los tokens consumidos en las solicitudes a FRIDA SDLC. Premia la precisión en el *prompting* y la reducción del desperdicio de contexto.
-5.  **Alineación Estratégica / Canvas (15%):** Porcentaje de cobertura y consistencia del AI Build Canvas al cierre del evento.
+1.  **Funcionalidad Verificable (35%):** Checklist binario por reto. Cada ítem completado suma puntos fijos (ej. ¿El formulario guarda en la DB?, ¿Los datos persisten al recargar?, ¿Funciona sin errores en la consola?).
+2.  **Calidad de Código (30%):** Code review automatizado mediante herramientas (Kardex). Mide legibilidad, modularidad, manejo de errores y seguridad del código generado por la IA y guiado por el humano.
+3.  **Velocidad de Entrega / Tiempo al MVP (10%):** Registrado por el Coach. Premia al equipo que declare y valide funcionalmente su Producto Mínimo Viable de forma más rápida.
+4.  **Eficiencia en el Uso de Tokens (25%):** Relación matemática entre las funcionalidades entregadas y los tokens consumidos en las solicitudes a FRIDA SDLC. Premia la precisión en el *prompting* y la reducción del desperdicio de contexto.
 
 ---
 
@@ -142,9 +140,7 @@ Para cumplir con el tiempo límite de 4 horas, los equipos disponen de acelerado
 | Nombre del Acelerador | Tipo de Componente | Propósito / Beneficio Técnico | Usuario Ideal Recomendado |
 | :--- | :--- | :--- | :--- |
 | **FRIDA SDLC** | Core AI Assistant | Generación de componentes estructurados, resolución de bugs de lógica, optimización de consultas SQL y automatizaciones del despliegue. | *Todos los Pilotos* |
-| **SQLite Quickstart** | Database Script | Script de inicialización de tablas relacionales comunes, configuración de conexión local mediante archivos planos sin dependencias de infraestructura. | *Piloto 1 · Arquitecto* |
-| **PocketBase SDK Blueprint** | Backend Services | SDK preconfigurado para mapeo NoSQL inmediato, autenticación básica y habilitación del panel de administración visual. | *Piloto 1 · Arquitecto / Dev* |
-| **Chart.js Wrapper** | Frontend Component | Plantilla funcional para inyectar gráficos dinámicos de barras, líneas y donas alimentados por arreglos JSON nativos. | *Piloto 3 · Desarrollador* |
+| **PosgreSQL** | Database Script | Script de inicialización de tablas relacionales comunes, configuración de conexión local mediante archivos planos sin dependencias de infraestructura. | *Piloto 1 · Arquitecto* |
 | **Kardex Automator** | Testing & QA Tools | Suite local de análisis estático para validar calidad de código, modularidad y apego a buenas prácticas de forma automatizada previa a la evaluación final. | *Piloto 5 · Líder QA* |
 
 ---
