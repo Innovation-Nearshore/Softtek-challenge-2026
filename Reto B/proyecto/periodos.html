@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Catálogo de períodos — reto_b" />
+  <title>Períodos | Web App de Métricas</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" aria-hidden="true">📊</div>
+      <div>
+        <div class="sidebar-brand-name">Métricas</div>
+        <div class="sidebar-brand-sub">reto_b</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a class="nav-item" href="index.html" data-page="index.html">
+        <span class="nav-icon" aria-hidden="true">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" href="metricas.html" data-page="metricas.html">
+        <span class="nav-icon" aria-hidden="true">📋</span> Métricas
+      </a>
+      <div class="sidebar-section-label">Carga de datos</div>
+      <a class="nav-item" href="carga.html" data-page="carga.html">
+        <span class="nav-icon" aria-hidden="true">📤</span> Cargar CSV
+      </a>
+      <a class="nav-item" href="formulario.html" data-page="formulario.html">
+        <span class="nav-icon" aria-hidden="true">✏️</span> Ingreso Manual
+      </a>
+      <div class="sidebar-section-label">Catálogos</div>
+      <a class="nav-item" href="categorias.html" data-page="categorias.html">
+        <span class="nav-icon" aria-hidden="true">🏷️</span> Categorías
+      </a>
+      <a class="nav-item active" href="periodos.html" data-page="periodos.html">
+        <span class="nav-icon" aria-hidden="true">📅</span> Períodos
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="theme-selector" role="group" aria-label="Seleccionar tema">
+        <span class="theme-label">Tema:</span>
+        <button class="theme-btn" data-theme-target="light"         title="Tema claro"     aria-label="Tema claro"></button>
+        <button class="theme-btn" data-theme-target="dark"          title="Tema oscuro"    aria-label="Tema oscuro"></button>
+        <button class="theme-btn" data-theme-target="high-contrast" title="Alto contraste" aria-label="Alto contraste"></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-menu-toggle" id="btnMenuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <div>
+          <div class="topbar-title">Períodos</div>
+          <div class="topbar-subtitle">Gestión del catálogo de períodos mensuales</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-primary btn-sm" id="btnNuevoPeriodo" aria-label="Nuevo período">
+          + Nuevo período
+        </button>
+      </div>
+    </header>
+
+    <main class="page-content" id="main-content">
+
+      <!-- FILTROS -->
+      <section class="filters-bar" aria-label="Filtros de períodos">
+        <div class="filters-title"><span aria-hidden="true">🔍</span> Filtros</div>
+        <div class="filters-grid">
+          <div class="filter-group">
+            <label for="filtroAnio">Año</label>
+            <select id="filtroAnio" aria-label="Filtrar por año"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filtroTrimestre">Trimestre</label>
+            <select id="filtroTrimestre" aria-label="Filtrar por trimestre">
+              <option value="">Todos</option>
+              <option value="1">Q1 – Ene/Mar</option>
+              <option value="2">Q2 – Abr/Jun</option>
+              <option value="3">Q3 – Jul/Sep</option>
+              <option value="4">Q4 – Oct/Dic</option>
+            </select>
+          </div>
+          <div class="filter-group" style="align-self:end">
+            <button class="btn btn-secondary w-full" id="btnLimpiarFiltros">Limpiar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TABLA -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title"><span aria-hidden="true">📅</span> Períodos registrados</span>
+          <span id="totalPeriodos" class="text-secondary" style="font-size:0.85rem;"></span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="tablaPeriodos" aria-label="Tabla de períodos">
+            <thead>
+              <tr>
+                <th class="sortable" data-col="id"        tabindex="0" aria-sort="none">ID <span class="sort-icon">↕</span></th>
+                <th class="sortable" data-col="anio"      tabindex="0" aria-sort="none">Año <span class="sort-icon">↕</span></th>
+                <th class="sortable" data-col="mes"       tabindex="0" aria-sort="none">Mes <span class="sort-icon">↕</span></th>
+                <th>Nombre mes</th>
+                <th class="sortable" data-col="trimestre" tabindex="0" aria-sort="none">Trimestre <span class="sort-icon">↕</span></th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyPeriodos">
+              <tr>
+                <td colspan="8" style="text-align:center;padding:48px;color:var(--text-secondary);">
+                  <span class="spinner" aria-label="Cargando…"></span> Cargando…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== MODAL CREAR / EDITAR PERÍODO ===== -->
+  <div class="modal-overlay" id="modalPeriodo" role="dialog" aria-modal="true"
+       aria-labelledby="modalPeriodoTitle" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalPeriodoTitle">Nuevo período</h2>
+        <button class="modal-close" data-modal-close aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="perId" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="perAnio">
+              Año <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input class="form-control" type="number" id="perAnio" name="perAnio"
+                   min="2000" max="2100" placeholder="2024"
+                   aria-required="true" />
+            <div class="form-error" id="errPerAnio" role="alert"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="perMes">
+              Mes <span class="required" aria-hidden="true">*</span>
+            </label>
+            <select class="form-control" id="perMes" name="perMes" aria-required="true">
+              <option value="">Seleccionar…</option>
+              <option value="1">1 – Enero</option>
+              <option value="2">2 – Febrero</option>
+              <option value="3">3 – Marzo</option>
+              <option value="4">4 – Abril</option>
+              <option value="5">5 – Mayo</option>
+              <option value="6">6 – Junio</option>
+              <option value="7">7 – Julio</option>
+              <option value="8">8 – Agosto</option>
+              <option value="9">9 – Septiembre</option>
+              <option value="10">10 – Octubre</option>
+              <option value="11">11 – Noviembre</option>
+              <option value="12">12 – Diciembre</option>
+            </select>
+            <div class="form-error" id="errPerMes" role="alert"></div>
+          </div>
+        </div>
+
+        <div class="form-row mt-16">
+          <div class="form-group">
+            <label class="form-label" for="perFechaInicio">
+              Fecha inicio <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input class="form-control" type="date" id="perFechaInicio" name="perFechaInicio"
+                   aria-required="true" />
+            <div class="form-error" id="errPerFechaInicio" role="alert"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="perFechaFin">
+              Fecha fin <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input class="form-control" type="date" id="perFechaFin" name="perFechaFin"
+                   aria-required="true" />
+            <div class="form-error" id="errPerFechaFin" role="alert"></div>
+          </div>
+        </div>
+
+        <div class="form-group mt-8">
+          <p class="form-hint">
+            El nombre del mes y el trimestre se calculan automáticamente a partir del mes seleccionado.
+            Las fechas se autocompletan al seleccionar el mes; puedes ajustarlas manualmente.
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cancelar</button>
+        <button class="btn btn-primary" id="btnGuardarPeriodo">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL CONFIRMAR ELIMINACIÓN ===== -->
+  <div class="modal-overlay" id="modalEliminarPer" role="dialog" aria-modal="true"
+       aria-labelledby="modalEliminarPerTitle" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalEliminarPerTitle">Confirmar eliminación</h2>
+        <button class="modal-close" data-modal-close aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas eliminar este período?</p>
+        <div class="alert alert-warning mt-16" role="alert">
+          ⚠️ Las métricas asociadas a este período quedarán sin referencia temporal.
+        </div>
+        <p id="eliminarNombrePer" style="font-weight:600;margin-top:12px;"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cancelar</button>
+        <button class="btn btn-danger" id="btnConfirmarEliminarPer">🗑️ Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/periodos.js"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Listado de métricas mensuales — reto_b" />
+  <title>Métricas | Web App de Métricas</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" aria-hidden="true">📊</div>
+      <div>
+        <div class="sidebar-brand-name">Métricas</div>
+        <div class="sidebar-brand-sub">reto_b</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a class="nav-item" href="index.html" data-page="index.html">
+        <span class="nav-icon" aria-hidden="true">🏠</span> Dashboard
+      </a>
+      <a class="nav-item active" href="metricas.html" data-page="metricas.html">
+        <span class="nav-icon" aria-hidden="true">📋</span> Métricas
+      </a>
+
+      <div class="sidebar-section-label">Carga de datos</div>
+      <a class="nav-item" href="carga.html" data-page="carga.html">
+        <span class="nav-icon" aria-hidden="true">📤</span> Cargar CSV
+      </a>
+      <a class="nav-item" href="formulario.html" data-page="formulario.html">
+        <span class="nav-icon" aria-hidden="true">✏️</span> Ingreso Manual
+      </a>
+
+      <div class="sidebar-section-label">Catálogos</div>
+      <a class="nav-item" href="categorias.html" data-page="categorias.html">
+        <span class="nav-icon" aria-hidden="true">🏷️</span> Categorías
+      </a>
+      <a class="nav-item" href="periodos.html" data-page="periodos.html">
+        <span class="nav-icon" aria-hidden="true">📅</span> Períodos
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector" role="group" aria-label="Seleccionar tema">
+        <span class="theme-label">Tema:</span>
+        <button class="theme-btn" data-theme-target="light"         title="Tema claro"     aria-label="Tema claro"></button>
+        <button class="theme-btn" data-theme-target="dark"          title="Tema oscuro"    aria-label="Tema oscuro"></button>
+        <button class="theme-btn" data-theme-target="high-contrast" title="Alto contraste" aria-label="Alto contraste"></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-menu-toggle" id="btnMenuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <div>
+          <div class="topbar-title">Métricas Mensuales</div>
+          <div class="topbar-subtitle">Consulta y gestión de registros de métricas</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="formulario.html" class="btn btn-primary btn-sm" aria-label="Agregar métrica">
+          + Nueva métrica
+        </a>
+        <button class="btn btn-secondary btn-sm" id="btnExportCSV" aria-label="Exportar a CSV">
+          ⬇️ Exportar CSV
+        </button>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="page-content" id="main-content">
+
+      <!-- FILTROS -->
+      <section class="filters-bar" aria-label="Filtros de métricas">
+        <div class="filters-title">
+          <span aria-hidden="true">🔍</span> Filtros
+        </div>
+        <div class="filters-grid">
+          <div class="filter-group">
+            <label for="filtroAnio">Año</label>
+            <select id="filtroAnio" data-select="anio" aria-label="Filtrar por año"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filtroPeriodo">Período</label>
+            <select id="filtroPeriodo" data-select="periodo" aria-label="Filtrar por período"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filtroCategoria">Categoría</label>
+            <select id="filtroCategoria" data-select="categoria" aria-label="Filtrar por categoría"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filtroTrimestre">Trimestre</label>
+            <select id="filtroTrimestre" data-select="trimestre" aria-label="Filtrar por trimestre"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filtroBusqueda">Buscar</label>
+            <input type="search" id="filtroBusqueda" class="form-control"
+                   placeholder="Nombre de métrica…" aria-label="Buscar por nombre de métrica" />
+          </div>
+          <div class="filter-group" style="align-self:end">
+            <button class="btn btn-primary w-full" id="btnAplicarFiltros">Aplicar</button>
+          </div>
+          <div class="filter-group" style="align-self:end">
+            <button class="btn btn-secondary w-full" id="btnLimpiarFiltros">Limpiar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS BAR -->
+      <div class="stats-bar" id="statsBar" aria-live="polite">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- TABLA -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title"><span aria-hidden="true">📋</span> Registros</span>
+          <div id="paginationInfo" class="text-secondary" style="font-size:0.85rem;"></div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="tablaMetricas" aria-label="Tabla de métricas mensuales">
+            <thead>
+              <tr>
+                <th class="sortable" data-col="periodo"         tabindex="0" aria-sort="none">Período <span class="sort-icon">↕</span></th>
+                <th class="sortable" data-col="categoria"       tabindex="0" aria-sort="none">Categoría <span class="sort-icon">↕</span></th>
+                <th class="sortable" data-col="nombre_metrica"  tabindex="0" aria-sort="none">Métrica <span class="sort-icon">↕</span></th>
+                <th class="sortable text-right" data-col="valor_actual"   tabindex="0" aria-sort="none">Valor actual <span class="sort-icon">↕</span></th>
+                <th class="sortable text-right" data-col="valor_objetivo" tabindex="0" aria-sort="none">Objetivo <span class="sort-icon">↕</span></th>
+                <th>Unidad</th>
+                <th>Cumplimiento</th>
+                <th>Registro</th>
+                <th>Notas</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyMetricas">
+              <tr>
+                <td colspan="10" style="text-align:center;padding:48px;color:var(--text-secondary);">
+                  <span class="spinner" aria-label="Cargando…"></span> Cargando datos…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PAGINACIÓN -->
+        <div class="pagination-bar" id="paginationBar" aria-label="Paginación"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== MODAL VER DETALLE ===== -->
+  <div class="modal-overlay" id="modalDetalle" role="dialog" aria-modal="true"
+       aria-labelledby="modalDetalleTitle" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalDetalleTitle">Detalle de métrica</h2>
+        <button class="modal-close" data-modal-close aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body" id="modalDetalleBody"><!-- JS --></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cerrar</button>
+        <button class="btn btn-primary" id="btnEditarDesdeDetalle">✏️ Editar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL CONFIRMAR ELIMINACIÓN ===== -->
+  <div class="modal-overlay" id="modalEliminar" role="dialog" aria-modal="true"
+       aria-labelledby="modalEliminarTitle" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalEliminarTitle">Confirmar eliminación</h2>
+        <button class="modal-close" data-modal-close aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas eliminar esta métrica? Esta acción no se puede deshacer.</p>
+        <p id="eliminarNombreMetrica" style="font-weight:600;margin-top:8px;"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cancelar</button>
+        <button class="btn btn-danger" id="btnConfirmarEliminar">🗑️ Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/metricas.js"></script>
+</body>
+</html>

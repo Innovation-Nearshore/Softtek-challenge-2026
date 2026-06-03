@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dashboard de métricas mensuales — reto_b" />
+  <title>Dashboard | Web App de Métricas</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" aria-hidden="true">📊</div>
+      <div>
+        <div class="sidebar-brand-name">Métricas</div>
+        <div class="sidebar-brand-sub">reto_b</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a class="nav-item active" href="index.html" data-page="index.html">
+        <span class="nav-icon" aria-hidden="true">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" href="metricas.html" data-page="metricas.html">
+        <span class="nav-icon" aria-hidden="true">📋</span> Métricas
+      </a>
+
+      <div class="sidebar-section-label">Carga de datos</div>
+      <a class="nav-item" href="carga.html" data-page="carga.html">
+        <span class="nav-icon" aria-hidden="true">📤</span> Cargar CSV
+      </a>
+      <a class="nav-item" href="formulario.html" data-page="formulario.html">
+        <span class="nav-icon" aria-hidden="true">✏️</span> Ingreso Manual
+      </a>
+
+      <div class="sidebar-section-label">Catálogos</div>
+      <a class="nav-item" href="categorias.html" data-page="categorias.html">
+        <span class="nav-icon" aria-hidden="true">🏷️</span> Categorías
+      </a>
+      <a class="nav-item" href="periodos.html" data-page="periodos.html">
+        <span class="nav-icon" aria-hidden="true">📅</span> Períodos
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector" role="group" aria-label="Seleccionar tema">
+        <span class="theme-label">Tema:</span>
+        <button class="theme-btn" data-theme-target="light"         title="Tema claro"     aria-label="Tema claro"></button>
+        <button class="theme-btn" data-theme-target="dark"          title="Tema oscuro"    aria-label="Tema oscuro"></button>
+        <button class="theme-btn" data-theme-target="high-contrast" title="Alto contraste" aria-label="Alto contraste"></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-menu-toggle" id="btnMenuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <div>
+          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-subtitle">Resumen de métricas mensuales</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-secondary btn-sm" id="btnExportPDF" aria-label="Exportar PDF">
+          🖨️ Exportar
+        </button>
+        <button class="btn btn-primary btn-sm" data-modal-target="#modalPreset" aria-label="Guardar preset">
+          💾 Guardar preset
+        </button>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="page-content" id="main-content">
+
+      <!-- FILTROS -->
+      <section class="filters-bar" aria-label="Filtros del dashboard">
+        <div class="filters-title">
+          <span aria-hidden="true">🔍</span> Filtros
+        </div>
+        <div class="filters-grid">
+          <div class="filter-group">
+            <label for="filtroAnio">Año</label>
+            <select id="filtroAnio" data-select="anio" aria-label="Filtrar por año"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filtroPeriodo">Período</label>
+            <select id="filtroPeriodo" data-select="periodo" aria-label="Filtrar por período"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filtroCategoria">Categoría</label>
+            <select id="filtroCategoria" data-select="categoria" aria-label="Filtrar por categoría"></select>
+          </div>
+          <div class="filter-group">
+            <label for="filtroTrimestre">Trimestre</label>
+            <select id="filtroTrimestre" data-select="trimestre" aria-label="Filtrar por trimestre"></select>
+          </div>
+          <div class="filter-group" style="align-self:end">
+            <button class="btn btn-primary w-full" id="btnAplicarFiltros">Aplicar</button>
+          </div>
+          <div class="filter-group" style="align-self:end">
+            <button class="btn btn-secondary w-full" id="btnLimpiarFiltros">Limpiar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPI CARDS -->
+      <section class="kpi-grid" id="kpiGrid" aria-label="Indicadores clave">
+
+        <article class="kpi-card" style="--kpi-color:#091FFD;">
+          <div class="kpi-icon" aria-hidden="true">💰</div>
+          <div class="kpi-label">Total Métricas</div>
+          <div class="kpi-value" id="kpiTotal">—</div>
+          <div id="kpiBadgeTotal"></div>
+        </article>
+
+        <article class="kpi-card" style="--kpi-color:#10b981;">
+          <div class="kpi-icon" aria-hidden="true">📈</div>
+          <div class="kpi-label">Promedio</div>
+          <div class="kpi-value" id="kpiPromedio">—</div>
+          <div id="kpiBadgePromedio"></div>
+        </article>
+
+        <article class="kpi-card" style="--kpi-color:#f59e0b;">
+          <div class="kpi-icon" aria-hidden="true">🎯</div>
+          <div class="kpi-label">Cumplimiento objetivo</div>
+          <div class="kpi-value" id="kpiCumplimiento">—</div>
+          <div id="kpiBadgeCumplimiento"></div>
+        </article>
+
+        <article class="kpi-card" style="--kpi-color:#8b5cf6;">
+          <div class="kpi-icon" aria-hidden="true">📊</div>
+          <div class="kpi-label">Registros cargados</div>
+          <div class="kpi-value" id="kpiRegistros">—</div>
+          <div id="kpiBadgeRegistros"></div>
+        </article>
+
+      </section>
+
+      <!-- CHARTS -->
+      <section class="charts-grid" aria-label="Gráficas">
+
+        <!-- Gráfica de líneas — evolución -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><span aria-hidden="true">📈</span> Evolución mensual</span>
+            <div class="chart-actions">
+              <button class="btn btn-secondary btn-sm" id="btnChartLine" aria-pressed="true">Líneas</button>
+              <button class="btn btn-secondary btn-sm" id="btnChartBar"  aria-pressed="false">Barras</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" role="img" aria-label="Gráfica de evolución mensual">
+              <canvas id="chartEvolucion"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfica de barras — por categoría -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><span aria-hidden="true">🏷️</span> Por categoría</span>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" role="img" aria-label="Gráfica de métricas por categoría">
+              <canvas id="chartCategoria"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- TABLA RESUMEN -->
+      <div class="card mb-24">
+        <div class="card-header">
+          <span class="card-title"><span aria-hidden="true">📋</span> Métricas recientes</span>
+          <a href="metricas.html" class="btn btn-secondary btn-sm">Ver todas</a>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="tablaResumen" aria-label="Tabla de métricas recientes">
+            <thead>
+              <tr>
+                <th>Período</th>
+                <th>Categoría</th>
+                <th>Métrica</th>
+                <th>Valor actual</th>
+                <th>Objetivo</th>
+                <th>Unidad</th>
+                <th>Cumplimiento</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyResumen">
+              <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text-secondary);">Cargando datos…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ANOTACIONES -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title"><span aria-hidden="true">📝</span> Anotaciones</span>
+          <button class="btn btn-primary btn-sm" data-modal-target="#modalAnotacion">
+            + Nueva
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="annotation-list" id="annotationList">
+            <div class="empty-state">
+              <span class="empty-state-icon" aria-hidden="true">📝</span>
+              <div class="empty-state-title">Sin anotaciones</div>
+              <div class="empty-state-desc">Agrega notas o comentarios sobre las métricas visualizadas.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== MODAL PRESET ===== -->
+  <div class="modal-overlay" id="modalPreset" role="dialog" aria-modal="true" aria-labelledby="modalPresetTitle" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalPresetTitle">Guardar preset de dashboard</h2>
+        <button class="modal-close" data-modal-close aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="presetNombre">Nombre del preset <span class="required" aria-hidden="true">*</span></label>
+          <input class="form-control" type="text" id="presetNombre" name="presetNombre"
+                 placeholder="Ej: Dashboard Q1 2024" maxlength="100" autocomplete="off" />
+        </div>
+        <div class="form-group mt-16">
+          <label class="form-label" for="presetDescripcion">Descripción</label>
+          <textarea class="form-control" id="presetDescripcion" name="presetDescripcion"
+                    placeholder="Descripción opcional del preset…" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cancelar</button>
+        <button class="btn btn-primary" id="btnGuardarPreset">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL ANOTACIÓN ===== -->
+  <div class="modal-overlay" id="modalAnotacion" role="dialog" aria-modal="true" aria-labelledby="modalAnotacionTitle" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalAnotacionTitle">Nueva anotación</h2>
+        <button class="modal-close" data-modal-close aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="anotacionTexto">Anotación <span class="required" aria-hidden="true">*</span></label>
+          <textarea class="form-control" id="anotacionTexto" name="anotacionTexto"
+                    placeholder="Escribe tu anotación…" rows="4"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cancelar</button>
+        <button class="btn btn-primary" id="btnGuardarAnotacion">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

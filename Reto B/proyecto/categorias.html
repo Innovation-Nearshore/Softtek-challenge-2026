@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Catálogo de categorías de métricas — reto_b" />
+  <title>Categorías | Web App de Métricas</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" aria-hidden="true">📊</div>
+      <div>
+        <div class="sidebar-brand-name">Métricas</div>
+        <div class="sidebar-brand-sub">reto_b</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a class="nav-item" href="index.html" data-page="index.html">
+        <span class="nav-icon" aria-hidden="true">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" href="metricas.html" data-page="metricas.html">
+        <span class="nav-icon" aria-hidden="true">📋</span> Métricas
+      </a>
+      <div class="sidebar-section-label">Carga de datos</div>
+      <a class="nav-item" href="carga.html" data-page="carga.html">
+        <span class="nav-icon" aria-hidden="true">📤</span> Cargar CSV
+      </a>
+      <a class="nav-item" href="formulario.html" data-page="formulario.html">
+        <span class="nav-icon" aria-hidden="true">✏️</span> Ingreso Manual
+      </a>
+      <div class="sidebar-section-label">Catálogos</div>
+      <a class="nav-item active" href="categorias.html" data-page="categorias.html">
+        <span class="nav-icon" aria-hidden="true">🏷️</span> Categorías
+      </a>
+      <a class="nav-item" href="periodos.html" data-page="periodos.html">
+        <span class="nav-icon" aria-hidden="true">📅</span> Períodos
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="theme-selector" role="group" aria-label="Seleccionar tema">
+        <span class="theme-label">Tema:</span>
+        <button class="theme-btn" data-theme-target="light"         title="Tema claro"     aria-label="Tema claro"></button>
+        <button class="theme-btn" data-theme-target="dark"          title="Tema oscuro"    aria-label="Tema oscuro"></button>
+        <button class="theme-btn" data-theme-target="high-contrast" title="Alto contraste" aria-label="Alto contraste"></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-menu-toggle" id="btnMenuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <div>
+          <div class="topbar-title">Categorías de Métricas</div>
+          <div class="topbar-subtitle">Gestión del catálogo de categorías</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-primary btn-sm" id="btnNuevaCategoria" aria-label="Nueva categoría">
+          + Nueva categoría
+        </button>
+      </div>
+    </header>
+
+    <main class="page-content" id="main-content">
+
+      <!-- FILTRO BÚSQUEDA -->
+      <section class="filters-bar" aria-label="Búsqueda de categorías">
+        <div class="filters-title"><span aria-hidden="true">🔍</span> Buscar</div>
+        <div class="filters-grid">
+          <div class="filter-group">
+            <label for="filtroBusqueda">Nombre</label>
+            <input type="search" id="filtroBusqueda" class="form-control"
+                   placeholder="Nombre de categoría…" aria-label="Buscar categoría" />
+          </div>
+          <div class="filter-group" style="align-self:end">
+            <button class="btn btn-secondary w-full" id="btnLimpiarFiltros">Limpiar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TABLA -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title"><span aria-hidden="true">🏷️</span> Categorías registradas</span>
+          <span id="totalCategorias" class="text-secondary" style="font-size:0.85rem;"></span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="tablaCategorias" aria-label="Tabla de categorías de métricas">
+            <thead>
+              <tr>
+                <th class="sortable" data-col="id"     tabindex="0" aria-sort="none">ID <span class="sort-icon">↕</span></th>
+                <th class="sortable" data-col="nombre" tabindex="0" aria-sort="none">Nombre <span class="sort-icon">↕</span></th>
+                <th>Color</th>
+                <th>Descripción</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyCategorias">
+              <tr>
+                <td colspan="5" style="text-align:center;padding:48px;color:var(--text-secondary);">
+                  <span class="spinner" aria-label="Cargando…"></span> Cargando…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== MODAL CREAR / EDITAR CATEGORÍA ===== -->
+  <div class="modal-overlay" id="modalCategoria" role="dialog" aria-modal="true"
+       aria-labelledby="modalCategoriaTitle" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalCategoriaTitle">Nueva categoría</h2>
+        <button class="modal-close" data-modal-close aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="catId" />
+        <div class="form-group">
+          <label class="form-label" for="catNombre">
+            Nombre <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input class="form-control" type="text" id="catNombre" name="catNombre"
+                 placeholder="Ej: Ventas" maxlength="100" autocomplete="off"
+                 aria-required="true" />
+          <div class="form-error" id="errCatNombre" role="alert"></div>
+        </div>
+        <div class="form-group mt-16">
+          <label class="form-label" for="catDescripcion">Descripción</label>
+          <textarea class="form-control" id="catDescripcion" name="catDescripcion"
+                    placeholder="Descripción opcional de la categoría…" rows="3"
+                    maxlength="500"></textarea>
+        </div>
+        <div class="form-group mt-16">
+          <label class="form-label" for="catColor">
+            Color <span class="required" aria-hidden="true">*</span>
+          </label>
+          <div class="color-picker-group">
+            <input class="form-control color-input" type="color" id="catColor" name="catColor"
+                   value="#091FFD" aria-required="true" style="width:60px;height:40px;padding:2px;" />
+            <input class="form-control" type="text" id="catColorHex" name="catColorHex"
+                   placeholder="#091FFD" maxlength="7" style="flex:1;"
+                   aria-label="Valor hexadecimal del color" />
+          </div>
+          <div class="form-error" id="errCatColor" role="alert"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cancelar</button>
+        <button class="btn btn-primary" id="btnGuardarCategoria">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL CONFIRMAR ELIMINACIÓN ===== -->
+  <div class="modal-overlay" id="modalEliminarCat" role="dialog" aria-modal="true"
+       aria-labelledby="modalEliminarCatTitle" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalEliminarCatTitle">Confirmar eliminación</h2>
+        <button class="modal-close" data-modal-close aria-label="Cerrar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas eliminar esta categoría?</p>
+        <div class="alert alert-warning mt-16" role="alert">
+          ⚠️ Las métricas asociadas a esta categoría perderán su referencia.
+        </div>
+        <p id="eliminarNombreCat" style="font-weight:600;margin-top:12px;"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cancelar</button>
+        <button class="btn btn-danger" id="btnConfirmarEliminarCat">🗑️ Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/categorias.js"></script>
+</body>
+</html>

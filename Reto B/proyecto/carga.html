@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Carga masiva de métricas mediante archivo CSV — reto_b" />
+  <title>Cargar CSV | Web App de Métricas</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon" aria-hidden="true">📊</div>
+      <div>
+        <div class="sidebar-brand-name">Métricas</div>
+        <div class="sidebar-brand-sub">reto_b</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a class="nav-item" href="index.html" data-page="index.html">
+        <span class="nav-icon" aria-hidden="true">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" href="metricas.html" data-page="metricas.html">
+        <span class="nav-icon" aria-hidden="true">📋</span> Métricas
+      </a>
+      <div class="sidebar-section-label">Carga de datos</div>
+      <a class="nav-item active" href="carga.html" data-page="carga.html">
+        <span class="nav-icon" aria-hidden="true">📤</span> Cargar CSV
+      </a>
+      <a class="nav-item" href="formulario.html" data-page="formulario.html">
+        <span class="nav-icon" aria-hidden="true">✏️</span> Ingreso Manual
+      </a>
+      <div class="sidebar-section-label">Catálogos</div>
+      <a class="nav-item" href="categorias.html" data-page="categorias.html">
+        <span class="nav-icon" aria-hidden="true">🏷️</span> Categorías
+      </a>
+      <a class="nav-item" href="periodos.html" data-page="periodos.html">
+        <span class="nav-icon" aria-hidden="true">📅</span> Períodos
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="theme-selector" role="group" aria-label="Seleccionar tema">
+        <span class="theme-label">Tema:</span>
+        <button class="theme-btn" data-theme-target="light"         title="Tema claro"     aria-label="Tema claro"></button>
+        <button class="theme-btn" data-theme-target="dark"          title="Tema oscuro"    aria-label="Tema oscuro"></button>
+        <button class="theme-btn" data-theme-target="high-contrast" title="Alto contraste" aria-label="Alto contraste"></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-menu-toggle" id="btnMenuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <div>
+          <div class="topbar-title">Carga Masiva CSV</div>
+          <div class="topbar-subtitle">Importa métricas desde un archivo CSV</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-secondary btn-sm" id="btnDescargarPlantilla" aria-label="Descargar plantilla CSV">
+          ⬇️ Descargar plantilla
+        </button>
+      </div>
+    </header>
+
+    <main class="page-content" id="main-content">
+
+      <!-- INSTRUCCIONES -->
+      <div class="alert alert-info mb-24" role="note">
+        <strong>📋 Instrucciones:</strong> El archivo CSV debe contener las columnas:
+        <code>periodo_id</code>, <code>categoria_id</code>, <code>nombre_metrica</code>,
+        <code>valor_actual</code>, <code>valor_objetivo</code>, <code>unidad</code>,
+        <code>notas</code>, <code>fecha_registro</code>.
+        La primera fila debe ser el encabezado.
+      </div>
+
+      <!-- ZONA DE CARGA -->
+      <div class="card mb-24">
+        <div class="card-header">
+          <span class="card-title"><span aria-hidden="true">📤</span> Seleccionar archivo</span>
+        </div>
+        <div class="card-body">
+
+          <!-- Drop zone -->
+          <div class="upload-zone" id="uploadZone" role="button" tabindex="0"
+               aria-label="Zona de carga de archivo CSV. Haz clic o arrastra un archivo aquí."
+               aria-describedby="uploadHint">
+            <div class="upload-zone-icon" aria-hidden="true">📁</div>
+            <div class="upload-zone-title">Arrastra tu archivo CSV aquí</div>
+            <div class="upload-zone-sub" id="uploadHint">o haz clic para seleccionar</div>
+            <input type="file" id="csvInput" accept=".csv,text/csv"
+                   aria-label="Seleccionar archivo CSV" style="display:none;" />
+          </div>
+
+          <!-- Archivo seleccionado -->
+          <div class="file-info" id="fileInfo" style="display:none;" aria-live="polite">
+            <div class="file-info-inner">
+              <span class="file-icon" aria-hidden="true">📄</span>
+              <div class="file-details">
+                <span class="file-name" id="fileName"></span>
+                <span class="file-size" id="fileSize"></span>
+              </div>
+              <button class="btn btn-sm btn-secondary" id="btnRemoveFile" aria-label="Quitar archivo seleccionado">✕</button>
+            </div>
+          </div>
+
+          <!-- Opciones de importación -->
+          <div class="import-options mt-16" id="importOptions" style="display:none;">
+            <div class="form-group">
+              <label class="form-label" for="csvSeparador">Separador de columnas</label>
+              <select class="form-control" id="csvSeparador" style="max-width:200px;">
+                <option value=",">Coma (,)</option>
+                <option value=";">Punto y coma (;)</option>
+                <option value="&#9;">Tabulación</option>
+              </select>
+            </div>
+            <div class="form-group mt-12">
+              <label class="checkbox-label">
+                <input type="checkbox" id="csvTieneEncabezado" checked />
+                <span>La primera fila es el encabezado</span>
+              </label>
+            </div>
+            <div class="form-group mt-12">
+              <label class="checkbox-label">
+                <input type="checkbox" id="csvSobreescribir" />
+                <span>Sobreescribir registros existentes con el mismo período y categoría</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="upload-actions mt-16" id="uploadActions" style="display:none;">
+            <button class="btn btn-secondary" id="btnPrevisualizar">
+              🔍 Previsualizar
+            </button>
+            <button class="btn btn-primary" id="btnImportar" disabled>
+              📤 Importar datos
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PREVISUALIZACIÓN -->
+      <div class="card mb-24" id="cardPreview" style="display:none;">
+        <div class="card-header">
+          <span class="card-title"><span aria-hidden="true">🔍</span> Previsualización</span>
+          <div id="previewStats" class="text-secondary" style="font-size:0.85rem;" aria-live="polite"></div>
+        </div>
+
+        <!-- Errores de validación -->
+        <div id="validationErrors" style="display:none;">
+          <div class="alert alert-warning" role="alert">
+            <strong>⚠️ Se encontraron errores en el archivo:</strong>
+            <ul id="errorList" style="margin-top:8px;padding-left:20px;"></ul>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="tablaPreview" aria-label="Previsualización de datos CSV">
+            <thead id="theadPreview"></thead>
+            <tbody id="tbodyPreview"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RESULTADO DE IMPORTACIÓN -->
+      <div class="card" id="cardResultado" style="display:none;">
+        <div class="card-header">
+          <span class="card-title"><span aria-hidden="true">✅</span> Resultado de importación</span>
+        </div>
+        <div class="card-body" id="resultadoBody">
+          <!-- Populated by JS -->
+        </div>
+        <div class="card-footer">
+          <a href="metricas.html" class="btn btn-primary">Ver métricas importadas →</a>
+          <button class="btn btn-secondary" id="btnNuevaCarga">Nueva carga</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/carga.js"></script>
+</body>
+</html>
