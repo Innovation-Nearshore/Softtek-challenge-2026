@@ -1,0 +1,1385 @@
+﻿Epic;User Story Count;User Story;Description;Acceptance Criteria;Out of Scope;Test Cases
+Registro y Creación de Nuevas Iniciativas;1_registro_formulario_mostrar;Como Usuario Operativo, necesito que se muestre un formulario para crear una nueva iniciativa con campos obligatorios claramente identificados, para poder ingresar toda la información necesaria desde el inicio.;Se mostrará un formulario estructurado para la creación de nuevas iniciativas que incluya campos obligatorios como nombre del proyecto, responsable asignado, estado inicial, fecha límite, prioridad y descripción. Los campos obligatorios deben estar claramente marcados para guiar al usuario.;"- El sistema muestra el formulario para crear una nueva iniciativa.
+- Todos los campos obligatorios están presentes y marcados con un asterisco o similar.
+- Campos obligatorios incluyen: nombre del proyecto, responsable asignado, estado inicial, fecha límite, prioridad, descripción.
+- El formulario es accesible desde la interfaz principal del Usuario Operativo.";"- Edición o visualización de iniciativas ya registradas.
+- Gestión de múltiples responsables.
+- Validación de datos ingresados.";"- Dado que soy un Usuario Operativo, cuando accedo a la función de crear una iniciativa, entonces el formulario se muestra con todos los campos obligatorios visibles y marcados.
+- Verificar que los campos obligatorios están claramente indicados visualmente."
+Registro y Creación de Nuevas Iniciativas;2_registro_validacion_campos;Como Usuario Operativo, necesito que el formulario valide que todos los campos requeridos estén completos y correctos antes de guardar, para evitar errores y asegurar la integridad de la información registrada.;El sistema debe validar que los campos obligatorios estén completos y que los datos ingresados cumplan con los formatos esperados (por ejemplo, fechas válidas, nombres no vacíos, responsable existente). La validación debe ocurrir antes de permitir guardar la iniciativa.;"- El sistema impide guardar si algún campo obligatorio está vacío.
+- El sistema muestra mensajes de error claros junto a cada campo incorrecto o incompleto.
+- Se valida formato correcto en campos específicos como fecha límite.
+- No se permite el envío hasta que todas las validaciones pasen.
+- La validación funciona tanto en desktop como en dispositivos móviles.";"- Validación de permisos del usuario.
+- Edición posterior a la creación.
+- Guardado de datos en el sistema.";"- Dado que el Usuario Operativo deja un campo obligatorio vacío y presiona guardar, entonces se muestra un mensaje de error y no se guarda.
+- Dado que el Usuario Operativo ingresa un formato inválido en fecha límite, entonces se muestra un mensaje de error específico.
+- Dado que todos los campos están correctos, entonces el botón guardar se habilita y permite continuar."
+Registro y Creación de Nuevas Iniciativas;3_registro_asignar_responsable;Como Usuario Operativo, necesito poder asignar un responsable a la iniciativa durante el registro mediante un selector o lista desplegable, para facilitar el seguimiento y gestión futura.;Durante el registro de la iniciativa, el formulario debe incluir un campo para seleccionar un responsable entre una lista de usuarios autorizados. La selección del responsable es obligatoria antes de guardar la iniciativa.;"- El formulario presenta un campo selector desplegable de responsables disponibles.
+- El campo responsable es obligatorio para poder guardar.
+- El usuario no puede guardar la iniciativa sin asignar responsable.
+- La lista de responsables muestra nombres y roles para facilitar la selección.
+- El selector es usable en dispositivos móviles y desktop.";"- Modificación del responsable después del registro.
+- Gestión o creación de responsables nuevos.
+- Asignación múltiple de responsables.";"- Dado que el Usuario Operativo intenta guardar sin seleccionar responsable, entonces se muestra un mensaje de error y no se guarda.
+- Dado que el Usuario Operativo selecciona un responsable válido, entonces el campo queda registrado correctamente.
+- Verificar que la lista de responsables incluye solo usuarios autorizados."
+Registro y Creación de Nuevas Iniciativas;4_registro_guardar_iniciativa;Como Usuario Operativo, necesito que el sistema guarde la iniciativa con los datos ingresados solo si la validación es exitosa, para asegurar que la información quede correctamente registrada y disponible.;Una vez que el usuario complete el formulario correctamente y asigne un responsable, el sistema debe guardar la iniciativa en la base de datos, confirmando el éxito de la operación al usuario.;"- Al presionar guardar, si la validación es exitosa, la iniciativa se guarda con todos los datos ingresados.
+- El sistema muestra un mensaje de confirmación clara indicando que la iniciativa fue registrada correctamente.
+- La iniciativa queda disponible para futuras consultas y modificaciones.
+- El sistema maneja la operación tanto en desktop como en móvil.";"- Edición o actualización posterior de la iniciativa.
+- Gestión de errores de red o servidor en detalle (excepto confirmaciones básicas).
+- Visualización de iniciativas guardadas.";"- Dado que el Usuario Operativo completa correctamente el formulario y presiona guardar, entonces el sistema confirma el registro y persiste los datos.
+- Verificar que los datos guardados coinciden con los ingresados.
+- Verificar que el mensaje de confirmación es visible y claro."
+Registro y Creación de Nuevas Iniciativas;5_registro_error_guardado;Como Usuario Operativo, necesito recibir mensajes de error claros si hay problemas al guardar la iniciativa, para poder corregirlos o tomar acciones adecuadas.;Si ocurre un error en el guardado de la iniciativa (por ejemplo, fallo de conexión o error en el servidor), el sistema debe informar al usuario con mensajes claros y sugerencias para intentar nuevamente o contactar soporte.;"- Si falla el guardado, se muestra un mensaje de error visible y comprensible.
+- El mensaje indica si el error es temporal o sugiere pasos a seguir.
+- El usuario puede intentar guardar nuevamente sin perder los datos ingresados.
+- El sistema no guarda datos incompletos o corruptos.
+- El mensaje de error se muestra en todas las plataformas soportadas.";"- Diagnóstico detallado de errores técnicos.
+- Notificaciones automáticas a soporte.
+- Recuperación automática de datos tras fallo.";"- Simular fallo de guardado y verificar que se muestra mensaje de error.
+- Verificar que los datos del formulario permanecen visibles para reintento.
+- Verificar que al corregir y reintentar se guarda correctamente."
+Registro y Creación de Nuevas Iniciativas;6_modificar_estado_kanban;Como Usuario Operativo, necesito poder modificar el estado de una iniciativa arrastrándola entre columnas en la vista Kanban, para actualizar rápidamente el progreso de la iniciativa y mantener el dashboard sincronizado en tiempo real.;Esta historia permite a los Usuarios Operativos arrastrar y soltar tarjetas representando iniciativas entre diferentes columnas que representan estados (por ejemplo: Pendiente, En Proceso, Finalizada) en el tablero Kanban. El sistema debe actualizar el estado de la iniciativa automáticamente y reflejar los cambios en tiempo real para todos los usuarios.;"- El tablero Kanban muestra columnas correspondientes a los diferentes estados definidos.
+- El usuario puede arrastrar una tarjeta de iniciativa de una columna a otra.
+- Al soltar la tarjeta, el estado de la iniciativa se actualiza en la base de datos.
+- El cambio se refleja en tiempo real en el dashboard sin recargar la página.
+- El usuario recibe una confirmación visual inmediata de que el estado fue actualizado.
+- Si ocurre un error en la actualización, se muestra un mensaje claro y la tarjeta vuelve a su posición original.";"- Gestión de creación o eliminación de iniciativas.
+- Cambios en atributos diferentes al estado mediante arrastrar y soltar.
+- Personalización de columnas o estados por el usuario.";"- Dado que estoy en la vista Kanban, cuando arrastro una tarjeta a otra columna y la suelto, entonces el estado de la iniciativa cambia y se visualiza en la nueva columna.
+- Dado que la actualización falla por error del servidor, cuando suelto la tarjeta, entonces aparece un mensaje de error y la tarjeta regresa a su columna original.
+- Dado que otro usuario actualiza el estado, cuando la vista se refresca en tiempo real, entonces veo el cambio reflejado sin necesidad de recargar."
+Registro y Creación de Nuevas Iniciativas;7_editar_detalles_iniciativa;Como Usuario Operativo, necesito poder editar los detalles de una iniciativa asignada desde el dashboard, para actualizar información relevante y mantener los datos de la iniciativa siempre vigentes y precisos.;Esta historia permite a los Usuarios Operativos abrir un formulario o modal desde la visualización de la iniciativa en el dashboard para modificar atributos como descripción, responsable, prioridad o fecha límite, siempre que tengan permiso para editar esa iniciativa.;"- El usuario puede seleccionar una iniciativa desde el dashboard y abrir un formulario editable.
+- El formulario pre-carga los datos actuales de la iniciativa.
+- El usuario puede modificar campos permitidos (descripción, responsable, prioridad, fecha límite).
+- El sistema valida los datos antes de permitir guardar.
+- Al guardar, los cambios se reflejan inmediatamente en el dashboard.
+- Si hay errores de validación, se muestran mensajes claros para corregir.
+- Usuarios sin permisos no pueden acceder a la edición.";"- Creación o eliminación de iniciativas.
+- Cambios de estado mediante este formulario (se hacen por Kanban).
+- Edición masiva o en lote de iniciativas.";"- Dado que tengo permisos y selecciono una iniciativa, cuando abro el formulario, entonces veo los datos actuales correctamente cargados.
+- Dado que modifico la descripción y guardo, entonces el dashboard muestra la descripción actualizada.
+- Dado que ingreso una fecha límite inválida, cuando intento guardar, entonces recibo un mensaje de error y no se guarda el cambio.
+- Dado que no tengo permisos de edición, cuando intento abrir el formulario, entonces no puedo acceder y recibo una notificación de falta de permisos."
+Registro y Creación de Nuevas Iniciativas;8_guardar_cambios_iniciativa;Como Usuario Operativo, necesito poder guardar los cambios realizados en el estado o detalles de una iniciativa, para asegurar que la información actualizada quede registrada y disponible para todo el equipo.;Esta historia cubre el proceso de confirmación y persistencia de los cambios realizados por el Usuario Operativo, ya sea al arrastrar la iniciativa en Kanban o al editar sus detalles, garantizando que los datos queden guardados correctamente en el sistema.;"- El sistema guarda los cambios realizados en estado o detalles inmediatamente después de la acción de actualización.
+- Se muestra una confirmación visual clara (por ejemplo, mensaje emergente o cambio de color) indicando que la actualización fue exitosa.
+- Si la operación de guardado falla, se muestra un mensaje de error explicativo.
+- El dashboard refleja los datos actualizados para todos los usuarios en tiempo real.
+- No se permite guardar datos incompletos o inválidos.";"- Creación de nuevas iniciativas.
+- Cambios simultáneos concurrentes de múltiples usuarios para la misma iniciativa (no se maneja bloqueo).
+- Modificaciones fuera del dashboard o Kanban.";"- Dado que modifico el estado de la iniciativa arrastrándola, cuando la suelto, entonces aparece una confirmación y el cambio queda guardado.
+- Dado que edito detalles y guardo, cuando la operación finaliza, entonces veo un mensaje de éxito y los datos actualizados.
+- Dado que hay un fallo en la conexión al guardar, cuando intento guardar, entonces recibo un mensaje de error y los cambios no se aplican.
+- Dado que intento guardar un campo obligatorio vacío, cuando guardo, entonces recibo una alerta de validación y no se guarda."
+Registro y Creación de Nuevas Iniciativas;9_notificacion_visual_cambios;Como Usuario Operativo, necesito recibir notificaciones visuales que indiquen los cambios recientes en las iniciativas del dashboard, para mantenerme informado de actualizaciones importantes sin necesidad de recargar la página o buscar manualmente.;Esta historia implementa un sistema de alertas visuales (por ejemplo, resaltados temporales, íconos, mensajes emergentes) que notifiquen al Usuario Operativo sobre modificaciones recientes en el estado o detalles de cualquier iniciativa visible en el dashboard.;"- Cuando una iniciativa cambia de estado o se actualizan sus detalles, el dashboard muestra una notificación visual clara asociada a esa iniciativa.
+- La notificación debe ser visible sin obstruir la interacción y debe desaparecer automáticamente después de un tiempo razonable.
+- El usuario puede identificar fácilmente qué iniciativa fue modificada.
+- Las notificaciones se actualizan en tiempo real sin necesidad de refrescar la página.
+- Notificaciones previas se eliminan o actualizan para evitar acumulación excesiva.";"- Notificaciones por correo o canales externos.
+- Configuración personalizada del tipo o frecuencia de notificaciones.
+- Registro histórico de notificaciones.";"- Dado que otra persona cambia el estado de una iniciativa, cuando la actualización se refleja en mi dashboard, entonces veo una notificación visual sobre esa iniciativa.
+- Dado que actualizo detalles de una iniciativa, cuando guardo los cambios, entonces aparece una notificación confirmando la actualización.
+- Dado que pasan 10 segundos desde la notificación, entonces ésta desaparece automáticamente.
+- Dado que múltiples cambios ocurren en diferentes iniciativas, cuando se notifican, entonces cada notificación es visible brevemente y luego desaparece sin superponerse."
+Registro y Creación de Nuevas Iniciativas;10_error_permiso_modificar_estado;Como Usuario Operativo, necesito que el sistema me impida modificar el estado de una iniciativa arrastrándola en Kanban si no tengo permisos suficientes, para evitar cambios no autorizados que puedan afectar la gestión del proyecto.;Esta historia contempla la validación de permisos al intentar arrastrar y soltar iniciativas en el tablero Kanban, bloqueando la acción y mostrando un mensaje cuando el usuario no está autorizado a modificar el estado de dicha iniciativa.;"- El sistema verifica permisos antes de permitir el arrastre de la tarjeta.
+- Si el usuario no tiene permiso para modificar el estado, la tarjeta no se puede mover a otra columna.
+- Se muestra un mensaje claro indicando que no tiene permisos para modificar esa iniciativa.
+- El dashboard mantiene la tarjeta en su posición original.
+- No se realizan cambios en la base de datos cuando la acción es bloqueada.";"- Gestión de permisos o roles (solo se valida).
+- Edición de detalles vía formulario en este caso.
+- Notificaciones automáticas para intentos bloqueados.";"- Dado que no tengo permisos para modificar una iniciativa, cuando intento arrastrarla a otra columna, entonces la acción es bloqueada y aparece un mensaje de error.
+- Dado que intento mover una iniciativa sin permisos, cuando suelto la tarjeta, entonces permanece en la columna original y no se guarda ningún cambio.
+- Dado que tengo permisos, cuando arrastro y suelto, entonces la iniciativa cambia de estado y se guarda."
+Registro y Creación de Nuevas Iniciativas;11_validacion_edicion_iniciativa;Como Usuario Operativo, necesito que el sistema valide los datos ingresados al editar los detalles de una iniciativa para evitar guardar información incompleta o incorrecta que pueda afectar el seguimiento y gestión de la iniciativa.;Esta historia asegura que al modificar los detalles de una iniciativa mediante el formulario de edición, el sistema valide campos obligatorios, formatos y rangos para impedir guardados erróneos o inconsistentes.;"- El formulario de edición valida en tiempo real o al intentar guardar los campos obligatorios.
+- Campos como responsable, fecha límite y prioridad deben respetar formatos y valores permitidos.
+- Si hay errores, se muestran mensajes claros indicando qué corregir.
+- No se permite guardar hasta que todos los errores sean corregidos.
+- La validación se aplica tanto en cliente como en servidor para seguridad.";"- Validación de datos durante creación de iniciativas.
+- Validación de estado mediante Kanban.
+- Edición masiva de iniciativas.";"- Dado que dejo el campo responsable vacío, cuando intento guardar, entonces recibo un mensaje de error y no se guarda.
+- Dado que ingreso una fecha límite en formato inválido, cuando guardo, entonces aparece un mensaje de error.
+- Dado que completo todos los campos correctamente, cuando guardo, entonces los cambios se aplican sin mensajes de error."
+Visualización y Seguimiento Centralizado de Iniciativas;12_miembro_operaciones_ver_tabla_iniciativas;Como miembro del equipo de operaciones, necesito ver todas las iniciativas registradas en una tabla centralizada, para poder monitorear el estado y detalles de cada iniciativa rápidamente.;Permitir que el miembro del equipo de operaciones acceda a un dashboard donde todas las iniciativas estén visibles en una tabla con columnas relevantes como nombre, estado, prioridad, fecha límite, y responsable.;"- La tabla muestra todas las iniciativas registradas sin paginar más de 50 iniciativas por página.
+- Las columnas incluyen: nombre de iniciativa, estado, prioridad, fecha límite, y responsable.
+- Cada fila es seleccionable para ver detalles (sin salir de esta funcionalidad).
+- La tabla se carga en menos de 3 segundos con hasta 1000 iniciativas.
+- La vista es responsiva para pantallas de escritorio y tablets.";"- Actualización o modificación de iniciativas.
+- Visualización de alertas o resumen de progreso.
+- Funcionalidades de Kanban o edición de estados.";"- Dado que soy miembro del equipo de operaciones, cuando accedo al dashboard, entonces veo una tabla con todas las iniciativas actuales.
+- Dado que la tabla tiene más de 50 iniciativas, cuando navego, entonces puedo cambiar de página.
+- Dado que uso una tablet, cuando visualizo la tabla, entonces la información se adapta correctamente y es legible."
+Visualización y Seguimiento Centralizado de Iniciativas;13_miembro_operaciones_filtrar_estado;Como miembro del equipo de operaciones, necesito filtrar las iniciativas por estado usando un filtro desplegable, para enfocar mi atención solo en las iniciativas con un estado específico.;Agregar un filtro en forma de menú desplegable que permita seleccionar uno o varios estados (Ej: En progreso, Completado, Pendiente) para mostrar solo las iniciativas que coinciden en la tabla.;"- El filtro muestra todos los estados posibles basados en los datos.
+- Al seleccionar uno o varios estados, la tabla se actualiza inmediatamente para mostrar solo iniciativas con esos estados.
+- Se puede limpiar el filtro para volver a mostrar todas las iniciativas.
+- El filtro soporta selección múltiple.
+- No se permite seleccionar estados inexistentes.";"- Modificación de estados de iniciativas.
+- Filtros por otros campos diferentes al estado.";"- Dado que estoy en el dashboard, cuando selecciono el estado ""En progreso"", entonces la tabla muestra solo iniciativas con ese estado.
+- Dado que selecciono múltiples estados, cuando aplico el filtro, entonces la tabla muestra iniciativas que tienen cualquiera de esos estados.
+- Dado que limpio el filtro, cuando no hay estados seleccionados, entonces la tabla muestra todas las iniciativas."
+Visualización y Seguimiento Centralizado de Iniciativas;14_miembro_operaciones_filtrar_prioridad;Como miembro del equipo de operaciones, necesito filtrar las iniciativas por prioridad usando un filtro desplegable, para poder priorizar mi trabajo según la urgencia o importancia de las iniciativas.;Incluir en el dashboard un filtro de prioridad que permita seleccionar una o varias prioridades (Ej: Alta, Media, Baja) para segmentar la tabla según las prioridades definidas.;"- El filtro muestra las prioridades disponibles en los datos.
+- Permite seleccionar una o varias prioridades para filtrar la tabla.
+- La tabla se actualiza en tiempo real al aplicar el filtro.
+- Se puede limpiar el filtro para volver a mostrar todas las prioridades.
+- No permite seleccionar prioridades inválidas o vacías.";"- Modificación de prioridades.
+- Filtros combinados con otros campos (solo prioridad aquí).";"- Dado que selecciono prioridad ""Alta"", cuando aplico el filtro, entonces solo se muestran iniciativas con prioridad alta.
+- Dado que selecciono varias prioridades, cuando aplico el filtro, entonces la tabla muestra iniciativas con cualquiera de esas prioridades.
+- Dado que limpio el filtro, cuando no hay prioridades seleccionadas, entonces la tabla muestra todas las iniciativas."
+Visualización y Seguimiento Centralizado de Iniciativas;15_miembro_operaciones_ordenar_columnas;Como miembro del equipo de operaciones, necesito ordenar las iniciativas en la tabla por columnas como fecha límite o prioridad, para identificar rápidamente las iniciativas más urgentes o importantes.;Permitir al usuario ordenar las columnas relevantes de la tabla (como fecha límite, prioridad, nombre) en orden ascendente o descendente al hacer clic en el encabezado de la columna.;"- Cada columna ordenable tiene un indicador visual de orden (flecha arriba/abajo).
+- Al hacer clic en un encabezado, la tabla se ordena ascendente; al hacer clic nuevamente, descendente.
+- La ordenación es estable y se aplica solo a la tabla visible.
+- La ordenación funciona para fecha límite, prioridad, y nombre.
+- La tabla mantiene la ordenación aplicada al navegar entre páginas.";"- Ordenación combinada con filtros avanzados.
+- Ordenación fuera de las columnas especificadas.";"- Dado que hago clic en la columna ""Fecha límite"", cuando hago clic por primera vez, entonces la tabla se ordena de la fecha más próxima a la más lejana.
+- Dado que hago clic nuevamente en la misma columna, cuando hago clic, entonces la tabla se ordena de la fecha más lejana a la más próxima.
+- Dado que ordeno por prioridad, cuando hago clic en el encabezado, entonces la tabla se ordena por prioridad de mayor a menor o viceversa."
+Visualización y Seguimiento Centralizado de Iniciativas;16_lider_operaciones_ver_tabla_iniciativas;Como líder del equipo de operaciones, necesito ver todas las iniciativas registradas en una tabla centralizada, para supervisar y analizar el portafolio completo de iniciativas bajo mi responsabilidad.;Facilitar al líder del equipo de operaciones acceso a una tabla que muestre todas las iniciativas con columnas relevantes, similar a la vista del miembro del equipo, pero con capacidad para validar integridad visual y accesibilidad.;"- La tabla muestra todas las iniciativas actuales con las columnas: nombre, estado, prioridad, fecha límite, responsable.
+- La tabla soporta paginación y carga rápida.
+- La vista es responsiva y accesible.
+- El líder puede seleccionar filas para ver detalles, sin posibilidad de editar en esta funcionalidad.
+- La tabla mantiene el estado de ordenación y filtros aplicados.";"- Edición o configuración avanzada del dashboard.
+- Visualización de alertas o contadores.";"- Dado que soy líder, cuando accedo a la tabla, entonces veo todas las iniciativas con las columnas especificadas.
+- Dado que la tabla tiene más de 50 iniciativas, cuando cambio de página, entonces la tabla se actualiza correctamente.
+- Dado que uso diferentes dispositivos, cuando visualizo la tabla, entonces la interfaz es legible y usable."
+Visualización y Seguimiento Centralizado de Iniciativas;17_lider_operaciones_filtrar_estado;Como líder del equipo de operaciones, necesito filtrar iniciativas por estado para enfocar la supervisión en estados específicos y detectar posibles retrasos o bloqueos.;Permitir que el líder use un filtro de selección múltiple de estados que actualice la tabla para mostrar solo las iniciativas con los estados seleccionados.;"- El filtro incluye todos los estados presentes en las iniciativas.
+- Permite seleccionar uno o varios estados para filtrar la tabla.
+- La tabla se actualiza dinámicamente al cambiar el filtro.
+- Se puede limpiar el filtro para mostrar todas las iniciativas.
+- El filtro impide seleccionar estados inválidos o no existentes.";"- Modificación de estados o configuración avanzada.
+- Filtros combinados con otros campos en esta historia.";"- Dado que selecciono estado ""Pendiente"", cuando aplico el filtro, entonces la tabla muestra solo iniciativas pendientes.
+- Dado que selecciono múltiples estados, cuando aplico el filtro, entonces la tabla muestra iniciativas que coinciden con cualquiera de los estados.
+- Dado que limpio el filtro, cuando no hay estados seleccionados, entonces la tabla muestra todas las iniciativas."
+Visualización y Seguimiento Centralizado de Iniciativas;18_lider_operaciones_filtrar_prioridad;Como líder del equipo de operaciones, necesito filtrar iniciativas por prioridad para identificar cuáles requieren atención inmediata según su importancia.;Incluir un filtro de prioridad en el dashboard que permita la selección múltiple, actualizando la tabla para mostrar solo iniciativas con las prioridades seleccionadas.;"- El filtro muestra todas las prioridades disponibles.
+- Permite seleccionar una o varias prioridades.
+- La tabla se actualiza en tiempo real con la selección.
+- Se puede limpiar el filtro para mostrar todas las prioridades.
+- No permite seleccionar prioridades inválidas.";"- Edición de prioridades.
+- Filtros combinados con otros criterios fuera de prioridad.";"- Dado que filtro por prioridad ""Alta"", cuando aplico el filtro, entonces sólo se muestran iniciativas con prioridad alta.
+- Dado que selecciono varias prioridades, cuando aplico el filtro, entonces la tabla muestra iniciativas con cualquiera de ellas.
+- Dado que limpio el filtro, cuando no hay selección, entonces la tabla muestra todas las iniciativas."
+Visualización y Seguimiento Centralizado de Iniciativas;19_lider_operaciones_ordenar_columnas;Como líder del equipo de operaciones, necesito ordenar las iniciativas por columnas relevantes como fecha límite o prioridad, para facilitar la gestión y toma de decisiones estratégicas.;Habilitar la funcionalidad de ordenar la tabla por columnas haciendo clic en los encabezados, alternando entre orden ascendente y descendente.;"- Cada columna ordenable muestra indicador visual de estado de orden.
+- Al hacer clic en encabezados, la tabla se ordena ascendente o descendente.
+- La ordenación es persistente en la sesión.
+- La ordenación funciona para las columnas fecha límite, prioridad y nombre.
+- La ordenación no afecta a otros filtros aplicados.";"- Ordenación combinada con filtros complejos.
+- Ordenación fuera de las columnas indicadas.";"- Dado que hago clic en fecha límite, cuando hago clic, entonces la tabla se ordena correctamente por fecha.
+- Dado que hago clic de nuevo, cuando hago clic, entonces la tabla invierte el orden.
+- Dado que ordeno por prioridad, cuando confirmo, entonces la tabla se actualiza según prioridad."
+Visualización y Seguimiento Centralizado de Iniciativas;20_visor_lectura_ver_tabla_iniciativas;Como visor en modo solo lectura, necesito ver todas las iniciativas en una tabla centralizada, para consultar el estado y detalles sin riesgo de modificar información.;Proveer una vista de tabla que muestre todas las iniciativas con columnas relevantes, sin opciones para editar o cambiar datos, asegurando integridad en modo lectura.;"- La tabla muestra todas las iniciativas con columnas: nombre, estado, prioridad, fecha límite y responsable.
+- No hay botones o controles para modificar datos.
+- La tabla soporta paginación y carga rápida.
+- La vista es responsiva y accesible.
+- Los datos son consistentes y actualizados al momento de la carga.";"- Edición o actualización de datos.
+- Visualización de alertas o contadores.";"- Dado que soy un visor, cuando accedo a la tabla, entonces veo todas las iniciativas sin controles de edición.
+- Dado que la tabla tiene más de 50 iniciativas, cuando navego, entonces puedo cambiar páginas.
+- Dado que uso un móvil o tablet, cuando visualizo la tabla, entonces la interfaz se adapta correctamente."
+Visualización y Seguimiento Centralizado de Iniciativas;21_visor_lectura_filtrar_estado;Como visor en modo solo lectura, necesito filtrar iniciativas por estado para encontrar rápidamente las iniciativas que me interesan sin sobresaturar la vista.;Permitir al visor usar un filtro desplegable de estados para segmentar la tabla y visualizar solo las iniciativas con los estados seleccionados, sin modificar datos.;"- El filtro muestra todos los estados disponibles.
+- Permite selección múltiple de estados.
+- La tabla se actualiza al aplicar el filtro.
+- No hay controles para modificar datos.
+- Se puede limpiar el filtro para mostrar todas las iniciativas.";"- Actualización de estados.
+- Filtros por otros campos en esta historia.";"- Dado que selecciono estado ""Completado"", cuando aplico el filtro, entonces la tabla muestra solo iniciativas completadas.
+- Dado que selecciono varios estados, cuando aplico el filtro, entonces la tabla muestra iniciativas con cualquiera de esos estados.
+- Dado que limpio el filtro, cuando no hay estados seleccionados, entonces la tabla muestra todas las iniciativas."
+Visualización y Seguimiento Centralizado de Iniciativas;22_visor_lectura_filtrar_prioridad;Como visor en modo solo lectura, necesito filtrar iniciativas por prioridad para enfocar la consulta en iniciativas relevantes según su importancia.;Incluir un filtro de prioridad que permita seleccionar una o varias prioridades, actualizando la tabla para mostrar solo iniciativas con esas prioridades, sin posibilidad de cambio en los datos.;"- El filtro muestra todas las prioridades existentes.
+- Permite selección múltiple.
+- La tabla se actualiza dinámicamente al aplicar el filtro.
+- No permite edición de datos.
+- Se puede limpiar el filtro para mostrar todas las prioridades.";"- Modificación de prioridades.
+- Filtros combinados con otros en esta historia.";"- Dado que filtro por prioridad ""Media"", cuando aplico el filtro, entonces la tabla muestra solo iniciativas con esa prioridad.
+- Dado que selecciono varias prioridades, cuando aplico el filtro, entonces la tabla muestra iniciativas con cualquiera de las seleccionadas.
+- Dado que limpio el filtro, cuando no hay selección, entonces la tabla muestra todas las iniciativas."
+Visualización y Seguimiento Centralizado de Iniciativas;23_visor_lectura_ordenar_columnas;Como visor en modo solo lectura, necesito ordenar la tabla por columnas como fecha límite o prioridad, para organizar la información de manera que facilite la consulta sin riesgo de modificaciones.;Permitir ordenar la tabla haciendo clic en encabezados de columna, alternando entre orden ascendente y descendente, sin opción de modificar o guardar cambios.;"- Las columnas ordenables tienen indicador visual.
+- Al hacer clic, la tabla se ordena ascendente o descendente.
+- La ordenación no permite edición de datos.
+- La ordenación funciona para fecha límite, prioridad y nombre.
+- El estado de ordenación se mantiene durante la sesión.";"- Edición o configuración avanzada.
+- Ordenación fuera de las columnas mencionadas.";"- Dado que hago clic en la columna ""Prioridad"", cuando hago clic, entonces la tabla se ordena correctamente.
+- Dado que hago clic nuevamente, cuando hago clic, entonces la tabla invierte el orden.
+- Dado que visualizo la tabla, cuando aplico ordenación, entonces no hay opciones para modificar datos."
+Visualización y Seguimiento Centralizado de Iniciativas;24_error_carga_tabla_iniciativas;Como cualquier usuario con acceso a la visualización de iniciativas, necesito recibir un mensaje de error claro si la tabla no puede cargar las iniciativas, para entender que hay un problema y saber que la información no está disponible temporalmente.;Implementar manejo de errores para la carga de datos en la tabla de iniciativas, mostrando mensajes claros y opciones para reintentar la carga o contactar soporte.;"- Si la tabla no puede cargar datos, se muestra un mensaje de error visible y comprensible.
+- El mensaje ofrece opción de reintentar la carga.
+- El mensaje incluye contacto o link a soporte técnico.
+- La interfaz no se bloquea ni queda en blanco.
+- El error es manejado tanto en desktop como en dispositivos móviles.";"- Solución automática del error.
+- Manejo de errores en otras funcionalidades fuera de la tabla.";"- Dado que falla la conexión al cargar iniciativas, cuando ingreso al dashboard, entonces veo un mensaje de error con opción para reintentar.
+- Dado que hago clic en reintentar, cuando la conexión se restablece, entonces la tabla carga correctamente.
+- Dado que el error persiste, cuando veo el mensaje, entonces hay un link o contacto para soporte."
+Visualización y Seguimiento Centralizado de Iniciativas;25_miembro_equipo_counter_estado;Como miembro del equipo de operaciones, necesito ver contadores que resumen la cantidad de iniciativas por estado, para entender rápidamente el progreso general y detectar posibles cuellos de botella.;El sistema debe mostrar en el dashboard un componente visual con contadores que indiquen el número de iniciativas agrupadas por cada estado definido, actualizado en tiempo real y accesible desde la vista principal.;"- El dashboard muestra contadores separados para cada estado de iniciativa.
+- Los contadores se actualizan automáticamente al cambiar estados de iniciativas.
+- Los contadores son visibles sin necesidad de filtros adicionales.
+- Los contadores reflejan correctamente el número actual de iniciativas en cada estado.";"- Modificación manual de contadores.
+- Configuración avanzada de estados o contadores.
+- Visualización de datos históricos de contadores.";"Dado que el miembro del equipo accede al dashboard,
+Cuando visualiza la sección de progreso,
+Entonces ve contadores numéricos para cada estado de iniciativa correctamente reflejados.
+
+Dado que una iniciativa cambia de estado,
+Cuando el cambio se confirma,
+Entonces los contadores se actualizan para reflejar el nuevo estado."
+Visualización y Seguimiento Centralizado de Iniciativas;26_miembro_equipo_alertas_vencimiento;Como miembro del equipo de operaciones, necesito recibir alertas visuales para iniciativas con fechas de vencimiento próximas, para priorizar acciones y evitar retrasos.;El sistema debe mostrar en una sección de alertas en el dashboard avisos visuales destacados para las iniciativas que tengan fechas de vencimiento próximas según un umbral definido, permitiendo identificar rápidamente prioridades urgentes.;"- Las alertas muestran iniciativas con fechas próximas a vencerse.
+- Las alertas contienen nombre, estado y fecha límite claramente visibles.
+- Las alertas se actualizan dinámicamente según fechas actuales.
+- Las alertas son destacadas visualmente para diferenciarse del resto del contenido.";"- Configuración personalizada de umbrales de alerta.
+- Alertas por otros criterios distintos a fechas próximas.
+- Notificaciones externas (email, push, etc.).";"Dado que una iniciativa tiene fecha de vencimiento dentro del umbral definido,
+Cuando el miembro del equipo accede al dashboard,
+Entonces la iniciativa aparece en la sección de alertas con información clara y destacada.
+
+Dado que la fecha de la iniciativa pasa el umbral,
+Cuando el usuario actualiza la vista,
+Entonces la alerta desaparece o cambia según el estado de la iniciativa."
+Visualización y Seguimiento Centralizado de Iniciativas;27_miembro_equipo_ack_dismiss_alertas;Como miembro del equipo de operaciones, necesito poder reconocer o descartar alertas relacionadas con fechas de vencimiento para mantener la sección de alertas limpia y enfocada en lo relevante.;El sistema debe permitir que el miembro del equipo pueda marcar alertas como reconocidas o descartadas a través de botones o controles asociados a cada alerta, actualizando la visualización y evitando alertas repetidas para las mismas iniciativas.;"- Cada alerta incluye botones para reconocer o descartar.
+- Al seleccionar reconocer o descartar, la alerta desaparece o se marca claramente.
+- Reconocimiento o descarte persiste en la sesión y en futuras visitas.
+- El usuario puede revertir la acción dentro de la misma sesión.
+- No se permiten acciones sobre alertas no relacionadas con fechas próximas.";"- Configuración avanzada de alertas.
+- Eliminación definitiva de iniciativas desde alertas.
+- Notificaciones automáticas tras reconocimiento.";"Dado que una alerta está visible,
+Cuando el miembro del equipo hace clic en 'Reconocer',
+Entonces la alerta se marca como reconocida y desaparece de la vista.
+
+Dado que una alerta fue descartada,
+Cuando el usuario vuelve a ingresar al dashboard,
+Entonces la alerta no aparece nuevamente salvo que cambie la fecha de vencimiento."
+Visualización y Seguimiento Centralizado de Iniciativas;28_miembro_equipo_monitor_trends;Como miembro del equipo de operaciones, necesito monitorear tendencias de estados de iniciativas a lo largo del tiempo para identificar patrones y anticipar problemas de gestión.;El sistema debe ofrecer una vista o gráfico que muestre la evolución de la cantidad de iniciativas en cada estado durante un periodo definido, accesible desde el dashboard, permitiendo al miembro del equipo analizar cambios y tendencias.;"- El dashboard incluye un gráfico de tendencias con estados en eje Y y tiempo en eje X.
+- El gráfico se actualiza con datos históricos almacenados.
+- El usuario puede seleccionar rangos temporales predefinidos (últimos 7, 30, 90 días).
+- El gráfico es claro, con leyendas y colores diferenciados por estado.
+- No permite modificar datos históricos desde esta vista.";"- Análisis predictivo automático.
+- Exportación avanzada de datos.
+- Personalización del gráfico más allá de rangos temporales.";"Dado que el miembro del equipo accede a la sección de tendencias,
+Cuando selecciona un rango temporal,
+Entonces el sistema muestra un gráfico actualizado con la evolución de los estados.
+
+Dado que no hay datos suficientes para el rango seleccionado,
+Cuando el usuario intenta visualizar,
+Entonces se muestra un mensaje informativo indicando falta de datos."
+Visualización y Seguimiento Centralizado de Iniciativas;29_lider_equipo_counter_estado;Como líder del equipo de operaciones, necesito ver contadores resumidos de iniciativas por estado para analizar la carga de trabajo y distribuir recursos de forma eficiente.;El dashboard debe mostrar contadores agregados de iniciativas por estado para todos los proyectos bajo supervisión del líder, permitiendo una vista consolidada para toma de decisiones estratégicas.;"- Contadores reflejan todas las iniciativas del equipo y áreas bajo supervisión.
+- Contadores actualizados en tiempo real.
+- Visualización clara y destacada para facilitar análisis rápido.
+- Permite identificar estados saturados o con baja carga.";"- Modificación de estados desde esta vista.
+- Configuración personalizada de contadores.
+- Visualización de iniciativas fuera del equipo.";"Dado que el líder accede al dashboard,
+Cuando visualiza la sección de progreso,
+Entonces ve contadores correctos y actualizados con iniciativas bajo su supervisión.
+
+Dado un cambio en estado de una iniciativa,
+Cuando el cambio se confirma,
+Entonces el contador se actualiza para reflejar el nuevo estado."
+Visualización y Seguimiento Centralizado de Iniciativas;30_lider_equipo_alertas_vencimiento;Como líder del equipo de operaciones, necesito recibir alertas visuales claras de iniciativas con fechas próximas para anticipar riesgos y evitar incumplimientos de plazos.;El sistema debe mostrar en el dashboard del líder alertas visuales que destaquen iniciativas con vencimientos cercanos, facilitando la priorización y asignación de tareas críticas.;"- Alertas visibles y destacadas en el dashboard del líder.
+- Información completa: nombre de iniciativa, estado, fecha límite, responsable.
+- Actualización dinámica acorde a fechas actuales.
+- Alertas facilitan seguimiento y priorización.";"- Configuración avanzada de umbrales de alerta por parte del líder.
+- Notificaciones externas automáticas.
+- Modificación directa de iniciativas desde alertas.";"Dado que una iniciativa tiene fecha de vencimiento próxima,
+Cuando el líder accede al dashboard,
+Entonces la alerta se muestra con la información correspondiente.
+
+Dado que la iniciativa cambia de fecha o estado,
+Cuando el líder refresca la vista,
+Entonces la alerta se actualiza o desaparece según corresponda."
+Visualización y Seguimiento Centralizado de Iniciativas;31_lider_equipo_ack_dismiss_alertas;Como líder del equipo de operaciones, necesito poder reconocer o descartar alertas relacionadas con fechas de vencimiento para mantener un foco claro en las prioridades reales del equipo.;El sistema debe permitir que el líder pueda marcar alertas como reconocidas o descartadas con controles específicos, actualizando la sección de alertas para facilitar la gestión y evitar distracciones por alertas ya gestionadas.;"- Cada alerta posee botones para reconocer o descartar.
+- La acción actualiza la visualización y persiste en futuras sesiones.
+- El líder puede revertir la acción dentro de la sesión activa.
+- El sistema no permite reconocer alertas no relacionadas con fechas próximas.";"- Configuración de alertas personalizadas.
+- Notificaciones automáticas post reconocimiento.
+- Eliminación definitiva de iniciativas desde alertas.";"Dado que una alerta está visible para el líder,
+Cuando hace clic en 'Reconocer',
+Entonces la alerta desaparece y queda marcada como reconocida.
+
+Dado que la alerta fue descartada,
+Cuando el líder vuelve a ingresar al dashboard,
+Entonces la alerta no vuelve a mostrarse salvo cambio en la iniciativa."
+Visualización y Seguimiento Centralizado de Iniciativas;32_lider_equipo_monitor_trends;Como líder del equipo de operaciones, necesito monitorear tendencias históricas de estados de iniciativas para identificar patrones de rendimiento y posibles áreas de mejora en la gestión.;El sistema debe presentar gráficos o informes visuales que muestren la evolución de iniciativas en diferentes estados a lo largo de períodos específicos, accesibles desde el dashboard del líder para análisis estratégico.;"- Gráficos con evolución temporal de estados de iniciativas.
+- Posibilidad de seleccionar rangos temporales predefinidos.
+- Visualización clara con leyendas y colores diferenciados.
+- Datos históricos actualizados y confiables.
+- No permite modificar datos, solo visualización.";"- Predicciones automáticas.
+- Exportación avanzada.
+- Personalización de gráficos más allá de rangos temporales.";"Dado que el líder accede a la sección de tendencias,
+Cuando selecciona un rango temporal,
+Entonces observa el gráfico actualizado con la evolución de estados.
+
+Dado que no hay datos para el rango seleccionado,
+Cuando intenta visualizar,
+Entonces se muestra un mensaje indicando la falta de datos."
+Visualización y Seguimiento Centralizado de Iniciativas;33_visualizador_counter_estado;Como visualizador de solo lectura, necesito ver los contadores que resumen la cantidad de iniciativas por estado para entender rápidamente el progreso sin riesgo de modificar datos.;El dashboard debe mostrar contadores visibles y actualizados que indiquen la cantidad de iniciativas agrupadas por estado, permitiendo al visualizador comprender el estado general sin interacción de modificación.;"- Contadores visibles y actualizados automáticamente.
+- No existen controles para modificar los contadores o estados.
+- Visualización clara y accesible.
+- Los contadores reflejan datos reales y actuales.";"- Modificación de iniciativas o estados.
+- Configuración o personalización de contadores.
+- Visualización de datos históricos.";"Dado que el visualizador accede al dashboard,
+Cuando observa la sección de progreso,
+Entonces ve contadores exactos y actualizados sin posibilidad de editar.
+
+Dado un cambio interno en una iniciativa,
+Cuando el visualizador refresca la página,
+Entonces los contadores reflejan el nuevo estado."
+Visualización y Seguimiento Centralizado de Iniciativas;34_visualizador_alertas_vencimiento;Como visualizador de solo lectura, necesito recibir alertas visuales claras que indiquen iniciativas con fechas próximas para estar informado sobre prioridades y riesgos sin poder modificarlas.;El sistema debe mostrar una sección de alertas con avisos visuales claros para aquellas iniciativas con vencimientos próximos, accesible pero sin controles para reconocer o descartar, para mantener la integridad de la información.;"- Alertas visibles, destacadas y legibles.
+- Contienen información básica: iniciativa, estado, fecha límite.
+- No permiten interacción para modificar o descartar alertas.
+- Actualización dinámica acorde a fechas actuales.";"- Reconocimiento o descarte de alertas.
+- Notificaciones automáticas.
+- Modificación de iniciativas desde alertas.";"Dado que el visualizador accede al dashboard,
+Cuando hay iniciativas con fechas próximas,
+Entonces las alertas aparecen claramente visibles.
+
+Dado que una iniciativa cambia de estado o fecha,
+Cuando el visualizador actualiza la vista,
+Entonces las alertas se actualizan o desaparecen correctamente."
+Visualización y Seguimiento Centralizado de Iniciativas;35_visualizador_monitor_trends;Como visualizador de solo lectura, necesito monitorear tendencias de estados de iniciativas a lo largo del tiempo para entender la evolución y riesgos del portafolio sin poder modificar datos.;El sistema debe presentar gráficos o representaciones visuales de la evolución de estados de iniciativas durante periodos seleccionables, mostrando tendencias para facilitar la interpretación sin permitir edición.;"- Visualización de gráficos claros con evolución temporal.
+- Selección de rangos temporales predefinidos.
+- Leyendas y colores diferenciados por estado.
+- No hay controles para editar ni modificar datos.
+- Actualización con datos históricos confiables.";"- Modificación de datos.
+- Exportación o análisis predictivo.
+- Configuración personalizada de gráficos.";"Dado que el visualizador accede a la sección de tendencias,
+Cuando selecciona un rango temporal,
+Entonces observa el gráfico actualizado con evolución de estados.
+
+Dado falta de datos para un rango,
+Cuando intenta visualizar,
+Entonces se muestra mensaje informativo sobre ausencia de datos."
+Visualización y Seguimiento Centralizado de Iniciativas;36_miembro_equipo_error_carga;Como miembro del equipo de operaciones, necesito un manejo adecuado de errores cuando el sistema no pueda cargar contadores o alertas, para recibir mensajes claros y evitar confusión.;El sistema debe detectar fallos al cargar datos de contadores o alertas y mostrar mensajes de error amigables que informen al usuario del problema sin comprometer la usabilidad ni bloquear el resto del dashboard.;"- Mensajes de error claros y visibles cuando falla la carga de contadores o alertas.
+- El resto del dashboard sigue funcionando normalmente.
+- El usuario puede intentar recargar manualmente.
+- No se muestran datos erróneos o incompletos.
+- Mensajes no contienen lenguaje técnico confuso.";"- Solución automática de errores.
+- Notificaciones externas.
+- Registro detallado de errores para desarrolladores.";"Dado que ocurre un fallo en la carga de contadores,
+Cuando el miembro accede al dashboard,
+Entonces se muestra mensaje de error amigable y no se muestran datos incorrectos.
+
+Dado que se falla la carga de alertas,
+Cuando el usuario intenta recargar,
+Entonces el sistema intenta cargar nuevamente y muestra mensaje acorde al resultado."
+Visualización y Seguimiento Centralizado de Iniciativas;37_lider_equipo_error_carga;Como líder del equipo de operaciones, necesito un manejo adecuado de errores cuando el sistema no pueda mostrar alertas o tendencias, para mantener la confianza en la herramienta y actuar en consecuencia.;El sistema debe detectar fallos en la carga o visualización de alertas y tendencias, mostrando mensajes de error claros que permitan al líder entender el problema sin afectar la navegación o el resto del dashboard.;"- Mensajes de error claros y visibles en caso de fallos en alertas o tendencias.
+- El resto del dashboard funciona sin impacto.
+- El líder puede intentar recargar la sección.
+- No se muestran datos corruptos o incompletos.
+- Mensajes accesibles y sin jerga técnica.";"- Corrección automática de errores.
+- Notificaciones externas.
+- Registro avanzado para técnicos.";"Dado que hay un fallo en la carga de alertas,
+Cuando el líder accede al dashboard,
+Entonces se muestra un mensaje claro y el resto de la vista permanece funcional.
+
+Dado fallo en gráficos de tendencias,
+Cuando se intenta recargar,
+Entonces se intenta nueva carga y se informa del resultado."
+Gestión y Actualización Dinámica de Estados mediante Kanban;38_drag_drop_iniciativa_otm;Como Operations Team Member, necesito poder arrastrar y soltar iniciativas entre columnas Kanban que representan estados (Pendiente, En curso, Completado), para actualizar rápidamente el estado de una iniciativa sin abrir formularios adicionales.;Permite a los miembros del equipo de operaciones modificar el estado de las iniciativas mediante una interacción drag-and-drop en el tablero Kanban, para agilizar la actualización de estados.;"- El usuario puede arrastrar una tarjeta de iniciativa de una columna a otra (Pendiente, En curso, Completado).
+- Al soltar la tarjeta, el estado de la iniciativa se actualiza inmediatamente.
+- La interfaz muestra una confirmación visual inmediata del cambio.
+- Solo usuarios con permiso pueden realizar esta acción.
+- La actualización no requiere recarga de página ni apertura de formularios.";"- Creación o eliminación de iniciativas.
+- Cambios de estado mediante formularios externos o modales.
+- Actualización de métricas en tiempo real (pertenece a otro epic).";"- Dado que soy un Operations Team Member con permiso, cuando arrastro una iniciativa de 'Pendiente' a 'En curso' y la suelto, entonces el estado se actualiza a 'En curso' y la tarjeta se mueve a la columna correcta.
+- Dado que no tengo permiso para modificar estados, cuando intento arrastrar una iniciativa, entonces la acción está deshabilitada.
+- Dado que suelto la tarjeta en un lugar inválido, entonces la iniciativa permanece en su columna original."
+Gestión y Actualización Dinámica de Estados mediante Kanban;39_inline_edit_estado_otm;Como Operations Team Member, necesito editar el estado de una iniciativa directamente dentro del tablero Kanban mediante un elemento inline (por ejemplo, un menú desplegable en la tarjeta), para modificar el estado sin abrir formularios adicionales y de forma rápida.;Facilita la edición rápida del estado de una iniciativa directamente en la tarjeta del tablero Kanban sin necesidad de navegación adicional.;"- Cada tarjeta de iniciativa permite cambiar el estado mediante un control inline (dropdown o similar).
+- Al seleccionar un nuevo estado, la tarjeta se mueve automáticamente a la columna correspondiente.
+- El cambio se guarda inmediatamente y se refleja en la base de datos.
+- La acción está disponible sólo para usuarios con permiso.
+- No se abre ningún formulario externo o modal para esta edición.";"- Edición de otros campos que no sean el estado.
+- Creación o eliminación de iniciativas.
+- Cambios por fuera del tablero Kanban.";"- Dado que soy un Operations Team Member, cuando selecciono un nuevo estado en el control inline de una tarjeta, entonces la tarjeta cambia de columna y el estado se guarda.
+- Dado que no tengo permiso, el control inline para cambiar estado no está disponible.
+- Dado que selecciono un estado inválido, se muestra un mensaje de error y el estado no cambia."
+Gestión y Actualización Dinámica de Estados mediante Kanban;40_restriccion_drag_drop_otl;Como Operations Team Lead, necesito que el sistema restrinja las acciones de arrastrar y soltar iniciativas solo a usuarios autorizados, para asegurar que sólo personal con permiso pueda modificar el estado de las iniciativas y evitar cambios no autorizados.;Previene modificaciones de estado por parte de usuarios sin permiso mediante control de acceso en la funcionalidad drag-and-drop del tablero Kanban.;"- Solo los usuarios con permiso explícito pueden arrastrar y soltar tarjetas para cambiar estados.
+- Usuarios sin permiso pueden ver el tablero pero no pueden arrastrar iniciativas.
+- Cuando un usuario sin permiso intenta arrastrar, la interfaz muestra visualmente que la acción está deshabilitada.
+- El sistema registra intentos no autorizados (opcional para auditoría).
+- No se permite la actualización de estado por usuarios no autorizados a nivel backend.";"- Gestión de permisos (asignación/revocación) fuera de esta funcionalidad.
+- Cambios de estado mediante otros métodos que no sean drag-and-drop.";"- Dado que soy un Operations Team Lead con permiso, puedo arrastrar iniciativas y cambiar estados.
+- Dado que soy un usuario sin permiso, intento arrastrar una tarjeta y la acción está bloqueada y muestra mensaje o indicador visual.
+- Dado que un usuario sin permiso envía una petición para cambiar estado por backend, la acción es rechazada."
+Gestión y Actualización Dinámica de Estados mediante Kanban;41_supervision_cambios_estado_otl;Como Operations Team Lead, necesito supervisar en tiempo real los cambios de estado realizados mediante drag-and-drop, para garantizar que las actualizaciones sean correctas y oportunas.;Permite al líder de equipo monitorizar y validar en tiempo real las modificaciones del estado de iniciativas realizadas en el tablero Kanban por miembros autorizados.;"- El Operations Team Lead ve reflejados instantáneamente los cambios de estado en el tablero Kanban.
+- Se muestran alertas o indicadores para cambios recientes realizados por otros usuarios.
+- El tablero se actualiza sin necesidad de recarga manual.
+- El líder puede confirmar visualmente que el estado de cada iniciativa es coherente con el workflow.
+- La función está disponible en interfaces desktop y móviles.";"- Funcionalidades de edición directa sobre iniciativas.
+- Gestión de permisos para cambios de estado.";"- Dado que soy Operations Team Lead, cuando un miembro autorizado cambia el estado de una iniciativa, veo el cambio reflejado inmediatamente.
+- Cuando varios usuarios realizan cambios simultáneamente, el tablero se actualiza correctamente para mostrar el estado actual.
+- Cuando no hay cambios, el tablero permanece estable sin actualizaciones innecesarias."
+Gestión y Actualización Dinámica de Estados mediante Kanban;42_alerta_error_permiso_otm;Como Operations Team Member, necesito recibir una alerta visual inmediata si intento arrastrar una iniciativa sin tener permiso para modificar su estado, para entender rápidamente que la acción no está permitida y evitar confusiones.;Proporciona feedback visual claro cuando un miembro del equipo intenta cambiar estado sin permisos, mejorando la experiencia de usuario y seguridad.;"- Cuando un usuario sin permiso intenta arrastrar una iniciativa, aparece una alerta o tooltip indicando que la acción no está permitida.
+- La tarjeta no se mueve y el estado no cambia.
+- El sistema no realiza ninguna actualización en la base de datos.
+- La alerta es visible y clara, pero no intrusiva.
+- La acción se bloquea tanto a nivel frontend como backend.";"- Gestión o asignación de permisos.
+- Cambios de estado por otros métodos.";"- Dado que soy un usuario sin permiso, intento arrastrar una tarjeta y veo una alerta explicativa.
+- Intento arrastrar y soltar la tarjeta, pero permanece en la columna original.
+- Verifico en backend que no se registran cambios de estado no autorizados."
+Gestión y Actualización Dinámica de Estados mediante Kanban;43_validacion_estados_drag_drop_otm;Como Operations Team Member, necesito que al arrastrar y soltar una iniciativa para cambiar su estado, el sistema valide que el movimiento es entre columnas válidas (Pendiente, En curso, Completado), para evitar estados inválidos o inconsistentes.;Garantiza que los cambios de estado mediante drag-and-drop se realicen solo entre estados definidos y válidos, manteniendo la integridad del flujo de trabajo.;"- El sistema permite mover tarjetas solo entre las columnas Pendiente, En curso y Completado.
+- Si el usuario intenta soltar la tarjeta fuera de estas columnas, la acción se cancela y la tarjeta vuelve a su posición original.
+- Se muestra un mensaje o indicación visual si se intenta un movimiento inválido.
+- La base de datos no se actualiza con estados inválidos.";"- Definición o creación de nuevos estados fuera de estas tres columnas.
+- Cambios de estado mediante otros mecanismos.";"- Dado que arrastro una iniciativa y la suelto fuera de una columna válida, la tarjeta regresa a la columna original y se muestra un mensaje.
+- Dado que muevo una iniciativa entre columnas válidas, el estado se actualiza correctamente.
+- Se verifica en base de datos que no se guardan estados inválidos."
+Gestión y Actualización Dinámica de Estados mediante Kanban;44_recalculo_contadores_otm;Como Operations Team Member, necesito que los contadores se recalculen y actualicen automáticamente al cambiar el estado de una iniciativa, para recibir feedback inmediato sobre el impacto de mis acciones en el tablero.;Esta historia asegura que cuando un miembro del equipo de operaciones cambia el estado de una iniciativa (por ejemplo, mediante drag-and-drop en Kanban), los contadores de iniciativas por estado se actualizan al instante sin necesidad de refrescar la página, mostrando números exactos y actuales.;"- Al arrastrar y soltar una iniciativa a una nueva columna de estado, el contador de la columna origen disminuye en 1.
+- El contador de la columna destino aumenta en 1 inmediatamente.
+- No se requiere recarga manual de la página para ver los cambios.
+- Los contadores reflejan el número real de iniciativas en cada estado tras la acción.
+- Se muestra un indicador visual de actualización exitosa (por ejemplo, animación o cambio de color breve).
+- El sistema maneja correctamente cambios simultáneos realizados por otros usuarios sin inconsistencias.";"- Validación o control de permisos para el cambio de estado.
+- Modificación manual o edición de contadores.
+- Actualización de otras métricas no relacionadas con estados.
+- Visualización o cambios en otras partes del dashboard fuera de los contadores.";"- Dado que un Operations Team Member arrastra una iniciativa de ""Pendiente"" a ""En curso""
+  Cuando suelta la iniciativa en la columna destino
+  Entonces el contador de ""Pendiente"" disminuye en 1
+  Y el contador de ""En curso"" aumenta en 1
+  Y la actualización se refleja sin recargar la página.
+
+- Dado que varios usuarios cambian estados simultáneamente
+  Cuando se actualizan los contadores
+  Entonces todos muestran números consistentes y sincronizados sin errores."
+Gestión y Actualización Dinámica de Estados mediante Kanban;45_visualizacion_sincronizada_otl;Como Operations Team Lead, necesito que las métricas y contadores se muestren en tiempo real y se sincronicen para todos los usuarios simultáneamente, para asegurar la visibilidad y control inmediato del progreso del equipo.;Esta historia garantiza que el líder del equipo de operaciones pueda ver que cualquier cambio en el estado de las iniciativas se refleja instantáneamente en las métricas y contadores en todos los dispositivos y sesiones de usuario, manteniendo la transparencia y coordinación sin retrasos.;"- Cuando cualquier usuario modifica el estado de una iniciativa, el Operations Team Lead ve la actualización reflejada al instante.
+- Las métricas y contadores están sincronizados en todas las sesiones abiertas del sistema.
+- No es necesario que el líder recargue la página para ver los cambios.
+- La actualización simultánea funciona en distintos navegadores y dispositivos.
+- Se mantiene la integridad y consistencia de los datos en caso de múltiples cambios concurrentes.";"- Control de permisos para modificar estados.
+- Edición manual o personalizada de métricas.
+- Visualización de detalles específicos de iniciativas o reportes fuera de contadores.
+- Gestión de alertas o notificaciones.
+";"- Dado que un Operations Team Member cambia el estado de una iniciativa
+  Cuando el Operations Team Lead observa el dashboard
+  Entonces los contadores se actualizan instantáneamente sin recargar la página.
+
+- Dado que múltiples usuarios están conectados simultáneamente
+  Cuando se cambia el estado de una iniciativa
+  Entonces todos los usuarios ven la actualización reflejada en tiempo real."
+Gestión y Actualización Dinámica de Estados mediante Kanban;46_refresco_automatico_av;Como Authorized Viewer, necesito que las métricas y contadores de iniciativas por estado se refresquen automáticamente sin necesidad de recargar la página, para poder monitorear el progreso actualizado en tiempo real sin riesgo de modificar datos.;Esta historia permite que los usuarios con acceso solo de visualización observen cambios en los contadores y métricas en tiempo real, garantizando que siempre vean datos actuales y sincronizados sin interacción adicional ni posibilidad de editar.;"- Los contadores de iniciativas por estado se actualizan automáticamente ante cualquier cambio realizado por usuarios con permisos.
+- El Authorized Viewer no puede modificar estados ni interaccionar con las métricas.
+- No se requiere recarga manual de la página para ver datos actuales.
+- La interfaz muestra claramente que los datos están sincronizados y actualizados.
+- El refresco ocurre sin interrupciones ni errores visuales.";"- Modificación o edición directa por parte del Authorized Viewer.
+- Visualización de informes detallados o accesos a funciones administrativas.
+- Cambios en otras áreas del dashboard no relacionados con métricas y contadores.
+";"- Dado que un Operations Team Member cambia el estado de una iniciativa
+  Cuando un Authorized Viewer tiene abierto el dashboard
+  Entonces los contadores se actualizan automáticamente en el tiempo real sin recargar.
+
+- Dado que no hay cambios en los estados
+  Cuando el Authorized Viewer observa el dashboard
+  Entonces los contadores permanecen estables y sin refrescos innecesarios."
+Gestión y Actualización Dinámica de Estados mediante Kanban;47_actualizacion_instantanea_indicadores_otm;Como Operations Team Member, necesito que los indicadores visuales de métricas y contadores se actualicen instantáneamente sin recargar la página, para mantener fluidez en mi flujo de trabajo y aseguramiento inmediato de los datos reflejados.;Esta historia se centra en la experiencia de usuario que requiere que, tras cambiar el estado de una iniciativa, los indicadores visuales (colores, números, gráficos simples) se refresquen al instante, sin interrupciones ni necesidad de acciones extras.;"- Tras cambiar el estado de una iniciativa, los contadores y métricas cambian visualmente de forma inmediata.
+- No se requiere recarga o navegación para ver la actualización.
+- Cambios visuales incluyen animaciones sutiles o feedback visual claro.
+- El sistema maneja actualizaciones rápidas y sucesivas sin errores o bloqueos.
+- El usuario puede continuar trabajando sin perder contexto ni datos.";"- Personalización de estilos o temas de indicadores.
+- Modificación manual de indicadores o métricas.
+- Visualización de historiales o reportes avanzados.";"- Dado que un Operations Team Member cambia el estado de una iniciativa
+  Cuando la actualización del contador ocurre
+  Entonces el indicador visual cambia inmediatamente mostrando el nuevo valor.
+
+- Dado que se hacen cambios rápidos y repetidos
+  Cuando el sistema actualiza los indicadores
+  Entonces no hay retrasos ni errores visuales."
+Gestión y Actualización Dinámica de Estados mediante Kanban;48_gestion_errores_actualizacion_otl;Como Operations Team Lead, necesito que el sistema maneje errores o inconsistencias en la actualización de métricas y contadores en tiempo real, para recibir alertas claras y evitar decisiones basadas en datos imprecisos.;Esta historia asegura que, ante un fallo en la actualización automática de contadores (por ejemplo, pérdida de conexión o conflicto de datos), el sistema notifique adecuadamente al líder y mantenga la integridad de la interfaz sin mostrar datos erróneos o desincronizados.;"- Si ocurre un error al actualizar los contadores en tiempo real, se muestra una notificación visible y clara al Operations Team Lead.
+- La interfaz mantiene los últimos datos válidos sin mostrar valores incorrectos.
+- Se ofrece opción para reintentar la actualización manualmente.
+- El sistema registra el error para auditoría y análisis posterior.
+- Otros usuarios no afectados continúan viendo datos consistentes o reciben notificaciones similares si corresponde.";"- Solución automática de conflictos sin intervención.
+- Gestión de errores en otras funcionalidades fuera de métricas y contadores.
+- Modificación manual de datos para corregir errores.";"- Dado que hay una caída en la conexión durante la actualización de métricas
+  Cuando el Operations Team Lead utiliza el dashboard
+  Entonces aparece una notificación de error clara y los contadores muestran datos previos.
+
+- Dado que se produce un conflicto de datos en la actualización
+  Cuando el usuario intenta refrescar manualmente
+  Entonces el sistema reintenta y confirma la sincronización o muestra un mensaje de fallo."
+Gestión y Actualización Dinámica de Estados mediante Kanban;49_gestion_errores_refresco_av;Como Authorized Viewer, necesito que el sistema maneje errores en la actualización automática de métricas y contadores sin interrumpir mi visualización, para mantener confianza en la información mostrada aunque haya problemas técnicos.;Esta historia garantiza que en caso de un fallo en el refresco en tiempo real, el Authorized Viewer no pierda acceso visual ni reciba datos erróneos, y sea informado de forma no intrusiva sobre la situación para evitar confusiones.;"- Si la actualización automática falla, el Authorized Viewer ve un mensaje discreto indicando que los datos podrían estar desactualizados.
+- Los contadores muestran la última información válida sin valores erróneos.
+- No se bloquea la navegación ni la visualización del dashboard.
+- El mensaje desaparece automáticamente cuando la conexión se restablece y los datos se actualizan.
+- No se permite ninguna acción de modificación por parte del viewer, manteniendo su rol de solo lectura.";"- Soluciones automáticas complejas para restaurar datos.
+- Notificaciones intrusivas o modales que bloqueen la interfaz.
+- Acciones administrativas para resolver fallos.";"- Dado que la conexión para actualizar métricas se pierde
+  Cuando un Authorized Viewer está viendo el dashboard
+  Entonces aparece un mensaje discreto indicando posible desactualización.
+
+- Dado que la conexión se restablece
+  Cuando el sistema actualiza los datos
+  Entonces el mensaje de alerta desaparece y los datos se muestran actualizados."
+Gestión y Actualización Dinámica de Estados mediante Kanban;50_alertas_vencimiento_otm;Como miembro del equipo de operaciones, necesito ver alertas visuales para iniciativas que se acercan a su fecha límite dentro de la interfaz Kanban, para poder priorizar mi atención y responder a proyectos críticos a tiempo.;Permitir que el miembro del equipo vea alertas claras y visuales (por ejemplo, iconos o resaltados) en la interfaz Kanban para iniciativas que estén próximas a vencer, facilitando la identificación rápida de prioridades.;"- Se muestran alertas visuales en tarjetas de iniciativas con fecha límite próxima (configurable, ej. 3 días antes).
+- Las alertas deben ser visibles sin necesidad de abrir detalles adicionales.
+- Las alertas desaparecen o cambian cuando la fecha límite ya no es próxima.
+- Las alertas se actualizan en tiempo real sin recargar la página.";"- Configuración avanzada de alertas por usuario.
+- Notificaciones vía email o móvil.
+- Cambios de estado automáticos basados en alertas.";"- Dado un proyecto con fecha límite a 2 días, cuando el miembro de operaciones abre el Kanban, entonces debe verse una alerta visual en la tarjeta.
+- Dado un proyecto con fecha límite a 5 días, cuando se visualiza el Kanban, no debe mostrarse alerta.
+- Cuando pasa la fecha límite, la alerta debe desaparecer o cambiar de estado.
+- Al modificar la fecha límite de una iniciativa, la alerta debe actualizarse en tiempo real."
+Gestión y Actualización Dinámica de Estados mediante Kanban;51_filtro_estado_prioridad_otm;Como miembro del equipo de operaciones, necesito poder filtrar iniciativas en el tablero Kanban por estado y prioridad mediante controles visibles en el dashboard, para enfocar mi trabajo en las iniciativas más relevantes.;Incluir filtros desplegables o botones en el dashboard Kanban que permitan seleccionar uno o varios estados y niveles de prioridad para mostrar solo las iniciativas que cumplan con esos criterios.;"- Se debe mostrar un filtro para seleccionar estados (ej. Pendiente, En curso, Completado).
+- Se debe mostrar un filtro para seleccionar prioridad (ej. Alta, Media, Baja).
+- El tablero actualiza la vista para mostrar solo iniciativas que cumplen los filtros.
+- La selección de filtros se puede combinar y limpiar fácilmente.
+- Los filtros se aplican y actualizan en tiempo real sin recargar la página.";"- Guardar configuraciones de filtro por usuario.
+- Filtros avanzados por otros atributos.
+- Exportar listas filtradas.";"- Dado que el miembro selecciona estado 'En curso', cuando aplica el filtro, entonces solo se muestran iniciativas en estado 'En curso'.
+- Dado que el miembro selecciona prioridad 'Alta', cuando aplica el filtro, entonces solo se muestran iniciativas con prioridad alta.
+- Dado que el miembro combina filtros de estado 'Pendiente' y prioridad 'Media', entonces solo se muestran iniciativas que cumplen ambas condiciones.
+- Al limpiar filtros, el tablero muestra todas las iniciativas."
+Gestión y Actualización Dinámica de Estados mediante Kanban;52_broadcast_cambios_alertas_otm;Como miembro del equipo de operaciones, necesito que los cambios de estado y las alertas se transmitan en tiempo real a todos los usuarios conectados para mantener la colaboración y evitar información desactualizada.;Implementar un mecanismo de actualización en tiempo real que notifique a todos los usuarios conectados en el Kanban sobre cambios de estado de iniciativas y alertas, reflejando la información sincronizada al instante.;"- Cuando un miembro cambia el estado de una iniciativa, el cambio se muestra instantáneamente en el Kanban de otros usuarios.
+- Las alertas generadas o modificadas se actualizan en tiempo real en todos los usuarios.
+- No se requiere recargar la página para visualizar estas actualizaciones.
+- Se maneja la desconexión y reconexión sin pérdida de sincronización.";"- Notificaciones push externas.
+- Historial de cambios en tiempo real.
+- Edición simultánea en conflicto.";"- Dado que un miembro cambia el estado de una iniciativa, cuando otro miembro está conectado, entonces ve el cambio reflejado inmediatamente.
+- Dado que se genera una nueva alerta de fecha límite, cuando un miembro está conectado, entonces la alerta aparece sin recargar.
+- Cuando un usuario se desconecta y vuelve a conectar, el estado y alertas están sincronizados correctamente."
+Gestión y Actualización Dinámica de Estados mediante Kanban;53_alertas_vencimiento_otl;Como líder del equipo de operaciones, necesito ver alertas visuales y resúmenes para iniciativas que se aproximan a su fecha límite dentro del dashboard Kanban, para supervisar riesgos y tomar decisiones oportunas.;Mostrar alertas destacadas y un resumen consolidado de iniciativas con fechas límite próximas en el Kanban, permitiendo al líder tener una visión rápida de proyectos críticos.;"- Las alertas visuales deben ser claramente visibles en tarjetas y en un panel resumen.
+- El resumen muestra número total de iniciativas próximas a vencer.
+- Las alertas se actualizan en tiempo real y reflejan cambios inmediatos.
+- Se puede acceder al detalle desde la alerta para ver iniciativas específicas.";"- Alertas personalizadas a nivel de usuario.
+- Envío de reportes automáticos.
+- Gestión de alertas fuera del Kanban.";"- Dado que hay 3 iniciativas con fecha límite próxima, cuando el líder abre el Kanban, entonces ve una alerta con indicador numérico '3' en el resumen.
+- Cuando pasa la fecha límite, el resumen se actualiza automáticamente.
+- Al hacer clic en la alerta, el líder ve la lista detallada de iniciativas próximas a vencer."
+Gestión y Actualización Dinámica de Estados mediante Kanban;54_filtro_estado_prioridad_otl;Como líder del equipo de operaciones, necesito filtrar las iniciativas en el tablero Kanban por estado y prioridad para supervisar específicamente los trabajos que requieren atención inmediata.;Proveer controles de filtrado en el dashboard Kanban accesibles para el líder que permitan seleccionar estados y prioridades, facilitando la gestión y supervisión focalizada.;"- El líder puede seleccionar uno o varios estados y niveles de prioridad para filtrar la vista.
+- El tablero se actualiza inmediatamente mostrando solo las iniciativas que cumplen los filtros.
+- Los filtros se pueden combinar y limpiar con facilidad.
+- El filtro respeta permisos y muestra todas las iniciativas disponibles para el líder.";"- Guardado permanente de filtros.
+- Filtrado por otros campos no mencionados.
+- Exportación o impresión de la vista filtrada.";"- Dado que el líder selecciona estado 'Pendiente', cuando aplica filtro, entonces solo ve iniciativas pendientes.
+- Dado que el líder selecciona prioridad 'Alta', cuando aplica filtro, entonces solo ve prioridades altas.
+- Al combinar filtro por estado 'En curso' y prioridad 'Media', solo se muestran iniciativas que cumplen ambos.
+- Al limpiar filtros, se muestran todas las iniciativas."
+Gestión y Actualización Dinámica de Estados mediante Kanban;55_broadcast_cambios_alertas_otl;Como líder del equipo de operaciones, necesito que cualquier cambio en el estado de una iniciativa o actualización de alertas se transmita en tiempo real a todos los usuarios para garantizar la transparencia y coordinación del equipo.;Implementar un sistema de notificación en tiempo real que permita al líder y a todo el equipo ver inmediatamente cualquier cambio de estado o alerta, sin necesidad de refrescar el tablero.;"- Los cambios realizados por cualquier usuario se reflejan instantáneamente en el tablero de todos los usuarios.
+- Las alertas de próximas fechas límite se actualizan automáticamente para todos.
+- El sistema maneja reconexiones y mantiene la sincronización.
+- El líder puede verificar que los datos mostrados son actuales sin intervención manual.";"- Notificaciones fuera de la plataforma.
+- Gestión manual de conflictos de edición.
+- Registro detallado de cambios en esta funcionalidad.";"- Cuando un operador cambia el estado de una iniciativa, el líder ve el cambio reflejado en tiempo real.
+- Se genera una alerta de fecha límite próxima, todos los usuarios conectados la reciben al instante.
+- Ante reconexión tras desconexión, el tablero se actualiza automáticamente con la información más reciente."
+Gestión y Actualización Dinámica de Estados mediante Kanban;56_alertas_vencimiento_av;Como visualizador autorizado, necesito ver alertas claras para iniciativas que se acercan a su fecha límite dentro del tablero Kanban, para mantenerme informado sin riesgo de modificar datos.;Mostrar alertas visibles en las tarjetas y el tablero Kanban para todas las iniciativas con fechas próximas a vencer, facilitando el seguimiento visual para usuarios con acceso sólo de lectura.;"- Las alertas aparecen en tarjetas con fechas próximas a vencer.
+- Las alertas no permiten interacción que modifique la iniciativa.
+- Las alertas se actualizan en tiempo real.
+- No hay opciones de edición disponibles para el visualizador autorizado.";"- Modificación o gestión de alertas.
+- Configuración personalizada de alertas.
+- Notificaciones externas.";"- Dado que hay una iniciativa con fecha límite próxima, cuando el visualizador autorizado abre el tablero, ve la alerta en la tarjeta.
+- No puede modificar la tarjeta ni sus datos.
+- La alerta desaparece o cambia cuando pasa la fecha límite sin necesidad de recargar."
+Gestión y Actualización Dinámica de Estados mediante Kanban;57_filtro_estado_prioridad_av;Como visualizador autorizado, necesito poder aplicar filtros por estado y prioridad en el tablero Kanban para enfocarme en las iniciativas que deseo monitorear, sin riesgo de alterar la información.;Proveer controles de filtrado en la vista Kanban para usuarios con rol de visualizador autorizado, permitiendo seleccionar estados y prioridades para ver solo las iniciativas deseadas.;"- El visualizador puede seleccionar filtros por estado y prioridad.
+- El tablero se actualiza mostrando sólo las iniciativas que cumplen los filtros.
+- No existen opciones para modificar iniciativas.
+- Los filtros se aplican y limpian fácilmente.
+- La vista es actualizada en tiempo real.";"- Guardar preferencias de filtro.
+- Modificación de iniciativas o estados.
+- Exportación o reporte de los datos filtrados.";"- Cuando el visualizador selecciona estado 'Completado', el tablero muestra solo esas iniciativas.
+- Cuando selecciona prioridad 'Alta', solo se muestran iniciativas con esa prioridad.
+- Al combinar filtros, se muestran iniciativas que cumplen ambos criterios.
+- Al limpiar filtros, se muestran todas las iniciativas."
+Gestión y Actualización Dinámica de Estados mediante Kanban;58_broadcast_cambios_alertas_av;Como visualizador autorizado, necesito que los cambios de estado y alertas se transmitan en tiempo real para mantener una vista actualizada y confiable, sin posibilidad de editar información.;Garantizar que el visualizador autorizado reciba actualizaciones en vivo sobre cambios en estados y alertas, asegurando información sincronizada sin intervención ni edición posible.;"- El tablero se actualiza automáticamente ante cualquier cambio de estado o alerta.
+- El visualizador no puede modificar ninguna información.
+- Las actualizaciones ocurren sin recarga manual.
+- El sistema maneja desconexiones y reconexiones manteniendo la información actualizada.";"- Acciones de edición o aprobación.
+- Notificaciones externas.
+- Visualización de historial de cambios.";"- Cuando otro usuario cambia el estado, el visualizador ve la actualización instantáneamente.
+- Al generarse una alerta nueva, el visualizador la recibe sin refrescar.
+- Al reconectar tras desconexión, el tablero muestra la información más reciente."
+Gestión y Actualización Dinámica de Estados mediante Kanban;59_error_broadcast_otm;Como miembro del equipo de operaciones, necesito recibir un mensaje de error claro si la transmisión en tiempo real falla, para entender que no estoy viendo la información actualizada y tomar acciones adecuadas.;Mostrar una notificación o mensaje visible y comprensible cuando el sistema de actualización en tiempo real falle o se desconecte, alertando al usuario sobre la posible desactualización de datos.;"- Si la conexión en tiempo real se pierde, aparece un mensaje visible en el dashboard.
+- El mensaje explica que puede haber datos desactualizados.
+- El mensaje desaparece automáticamente o con acción del usuario cuando la conexión se restablece.
+- No se bloquean otras funcionalidades mientras existe el error.";"- Reconexión automática compleja.
+- Acciones manuales para recuperar datos.
+- Alertas fuera del sistema web.";"- Dado que la conexión de broadcast se pierde, cuando el usuario está en el tablero, aparece un mensaje de error.
+- Al restablecer la conexión, el mensaje desaparece automáticamente.
+- Durante el error, el usuario puede seguir navegando y filtrando."
+Gestión y Actualización Dinámica de Estados mediante Kanban;60_error_broadcast_otl;Como líder del equipo de operaciones, necesito recibir una alerta visible cuando las iniciativas no se actualizan en el tiempo esperado debido a un fallo en la sincronización en tiempo real, para poder tomar medidas correctivas.;El sistema debe mostrar una alerta destacada para el líder si la actualización en tiempo real de estados o alertas falla, indicando que la información puede estar desactualizada.;"- Detecta fallos en la transmisión en tiempo real.
+- Muestra una alerta visible y persistente sólo para el líder.
+- La alerta explica el problema y posibles implicaciones.
+- La alerta desaparece cuando la sincronización se restablece.
+- No bloquea otras funcionalidades del tablero.";"- Soporte para resolución automática.
+- Notificaciones fuera del sistema.
+- Registros detallados de error.";"- Cuando el broadcast falla, el líder ve una alerta visible.
+- Al restablecerse el servicio, la alerta desaparece.
+- Otras funcionalidades siguen operativas durante la alerta."
+Gestión y Actualización Dinámica de Estados mediante Kanban;61_error_broadcast_av;Como visualizador autorizado, necesito que si la actualización en tiempo real falla, el sistema me notifique con un mensaje no intrusivo para saber que la información podría no estar actualizada sin afectar mi navegación.;Mostrar una notificación sutil pero visible cuando la sincronización en tiempo real no funciona para usuarios con solo acceso de lectura, para mantener transparencia sobre la frescura de la información.;"- Aparece un mensaje no intrusivo en la interfaz cuando hay fallo en la transmisión en tiempo real.
+- El mensaje indica que la información puede estar desactualizada.
+- El mensaje desaparece cuando se restablece la conexión.
+- No bloquea la navegación ni el uso del tablero.";"- Funcionalidades de reparación o reconexión.
+- Notificaciones externas.
+- Intervención manual del usuario para ocultar el mensaje.";"- Cuando se pierde la conexión broadcast, el visualizador ve un mensaje sutil.
+- Al reconectar, el mensaje desaparece automáticamente.
+- El usuario puede seguir navegando normalmente."
+Garantía de Persistencia y Accesibilidad de Datos;62_miembro_ops_guardar_iniciativa;Como miembro del equipo de operaciones, necesito que los nuevos registros de iniciativas se guarden de forma persistente en la base de datos al completar el formulario, para asegurar que mi trabajo no se pierda aunque cierre el navegador o recargue la página.;Permitir que el usuario cree una nueva iniciativa mediante un formulario web y que dicha iniciativa se almacene automáticamente en la base de datos del backend para garantizar persistencia.;"- Al enviar el formulario de nueva iniciativa, los datos se guardan en la base de datos.
+- El sistema confirma visualmente el guardado exitoso.
+- La iniciativa permanece disponible tras cerrar o recargar el navegador.
+- No se requiere acción adicional por parte del usuario para guardar.";"- Funcionalidades de validación avanzada de datos.
+- Diseño y acceso a los formularios.
+- Eliminación de iniciativas.";"- Dado un formulario completo, cuando el miembro del equipo envía la iniciativa, entonces la iniciativa se guarda en la base de datos y aparece en la lista tras recargar.
+- Dado que el navegador se cierra y vuelve a abrir, cuando el usuario accede nuevamente, entonces la iniciativa creada previamente sigue visible.
+- Dado que el formulario se envía, cuando hay un error en la conexión, entonces muestra un mensaje de error de guardado."
+Garantía de Persistencia y Accesibilidad de Datos;63_miembro_ops_actualizar_iniciativa;Como miembro del equipo de operaciones, necesito que los cambios realizados al editar una iniciativa existente se actualicen inmediatamente en la base de datos, para evitar pérdida de datos y asegurar que la información esté siempre actualizada para mí y mis compañeros.;Permitir que el usuario modifique datos de una iniciativa existente y que esos cambios se sincronicen y guarden automáticamente en la base de datos sin necesidad de acción manual adicional.;"- Al modificar cualquier campo de la iniciativa, los cambios se guardan automáticamente en la base de datos.
+- El usuario recibe retroalimentación visual indicando que los cambios se guardaron.
+- Los datos actualizados se reflejan inmediatamente tras recargar o en otras sesiones.
+- El sistema maneja conflictos de edición concurrente mostrando alertas si es necesario.";"- Resolución avanzada de conflictos de edición simultánea.
+- Diseño de interfaz para edición (solo funcionalidad de guardado).
+- Eliminación o creación de iniciativas.";"- Dado que un miembro edita una iniciativa, cuando modifica un campo, entonces el cambio se guarda y se muestra confirmación.
+- Dado que otro usuario tiene abierta la misma iniciativa, cuando se actualiza, entonces la sesión refleja los cambios tras sincronización.
+- Dado que hay un error de red, cuando se intenta guardar, entonces se muestra un mensaje de error y no se pierde la información."
+Garantía de Persistencia y Accesibilidad de Datos;64_miembro_ops_recuperar_iniciativas;Como miembro del equipo de operaciones, necesito que al cargar la página o recargar el navegador se recuperen automáticamente los datos de las iniciativas guardadas, para poder continuar trabajando sin perder información ni tener que cargar manualmente los datos.;Garantizar que al acceder o recargar la página, el sistema recupere todas las iniciativas guardadas desde la base de datos y las muestre correctamente en la interfaz de usuario.;"- Al abrir la página o recargarla, se realiza una consulta al backend para obtener todas las iniciativas guardadas.
+- Todas las iniciativas guardadas previamente se muestran correctamente en la interfaz.
+- Si no hay iniciativas, se muestra un mensaje adecuado indicando que no existen registros.
+- El proceso de carga es rápido y sin errores visibles.";"- Paginación o filtrado avanzado durante la carga inicial.
+- Diseño visual de la interfaz.
+- Creación o edición de iniciativas.";"- Dado que el usuario abre la página, cuando la interfaz carga, entonces se muestran todas las iniciativas guardadas.
+- Dado que no existen iniciativas, cuando el usuario accede, entonces se muestra mensaje 'No hay iniciativas registradas'.
+- Dado un error en el servidor, cuando se carga la página, entonces se muestra un mensaje de error y opción para reintentar."
+Garantía de Persistencia y Accesibilidad de Datos;65_miembro_ops_sincronizacion_automatica;Como miembro del equipo de operaciones, necesito que los cambios realizados en una sesión se sincronicen automáticamente y en tiempo real con otras sesiones abiertas del mismo usuario o del equipo, para garantizar que todos trabajemos con la información más actualizada sin conflictos ni pérdida de datos.;Implementar sincronización en tiempo real de cambios entre sesiones abiertas para el mismo usuario y otros miembros del equipo, reflejando actualizaciones de datos automáticamente sin necesidad de recargar la página.;"- Cuando se actualiza una iniciativa en una sesión, las otras sesiones abiertas reciben y muestran inmediatamente los cambios.
+- La sincronización cubre creación, actualización y eliminación de iniciativas.
+- Se muestra un indicador visual que informa al usuario que los datos fueron actualizados remotamente.
+- El sistema maneja correctamente posibles conflictos y evita sobrescribir datos sin confirmación.";"- Funcionalidades de chat o colaboración directa.
+- Control avanzado de versiones o historial de cambios.
+- Gestión de sesiones múltiples fuera del contexto del mismo usuario o equipo.";"- Dado que un miembro actualiza una iniciativa en una sesión, cuando otra sesión está abierta, entonces los cambios se reflejan automáticamente sin recargar.
+- Dado que dos usuarios editan simultáneamente, cuando se detecta conflicto, entonces se muestra alerta para resolver.
+- Dado que la conexión se pierde, cuando vuelve, entonces la sincronización se reestablece y actualiza los datos correctamente."
+Garantía de Persistencia y Accesibilidad de Datos;66_lider_ops_guardar_iniciativa;Como líder del equipo de operaciones, necesito que los nuevos registros de iniciativas que yo o mi equipo creen se guarden de forma persistente en la base de datos, para asegurar que toda la información del equipo quede almacenada sin riesgo de pérdida.;Permitir que el líder y su equipo creen nuevas iniciativas a través del formulario web y que estas se guarden automáticamente en la base de datos para garantizar persistencia y acceso centralizado.;"- El formulario de nueva iniciativa permite guardar datos en la base de datos.
+- La interfaz confirma el guardado exitoso para el líder.
+- Los registros creados persisten tras recargar o cerrar el navegador.
+- No se requiere guardado manual adicional.";"- Funciones administrativas fuera de gestión de iniciativas.
+- Reportes o análisis de datos.
+- Eliminación de iniciativas.";"- Dado que el líder completa un formulario, cuando envía, entonces la iniciativa se guarda y aparece en la lista.
+- Dado que el navegador se cierra, cuando se vuelve a ingresar, entonces la iniciativa sigue disponible.
+- Dado un fallo en la conexión, cuando se intenta guardar, entonces se muestra mensaje de error."
+Garantía de Persistencia y Accesibilidad de Datos;67_lider_ops_actualizar_iniciativa;Como líder del equipo de operaciones, necesito que las modificaciones que realice sobre cualquier iniciativa se actualicen inmediatamente en la base de datos para mantener la coherencia y accesibilidad de los datos para todo el equipo.;Permitir que el líder actualice datos de iniciativas y que dichos cambios se reflejen y guarden inmediatamente en el sistema para asegurar información actualizada y fiable.;"- Los cambios realizados por el líder se guardan automáticamente en la base de datos.
+- Se muestra confirmación visual del guardado.
+- Las actualizaciones son visibles para los demás usuarios en tiempo real o tras recarga.
+- Se manejan errores de guardado adecuadamente.";"- Funciones de auditoría o control de cambios.
+- Creación o eliminación de iniciativas.
+- Gestión de permisos o roles.";"- Dado que el líder edita un campo de iniciativa, cuando guarda, entonces el cambio se persiste y se confirma.
+- Dado que otros usuarios tienen abierta la iniciativa, cuando el líder actualiza, entonces ven los cambios reflejados.
+- Dado un error de conexión, cuando se guarda, entonces se informa al líder y no se pierde la edición."
+Garantía de Persistencia y Accesibilidad de Datos;68_lider_ops_recuperar_iniciativas;Como líder del equipo de operaciones, necesito que al ingresar o recargar la página del sistema se recuperen automáticamente todas las iniciativas almacenadas, para poder supervisar el estado actualizado de cada proyecto sin necesidad de acciones adicionales.;Garantizar que el líder al acceder a la vista principal reciba todos los datos de iniciativas guardadas y que estos se muestren correctamente para facilitar la supervisión y toma de decisiones.;"- Al cargar la página, se recuperan todas las iniciativas de la base de datos.
+- Se muestran correctamente en la interfaz sin requerir acción manual.
+- Se maneja el caso sin registros mostrando un mensaje claro.
+- La carga es eficiente y sin errores visibles.";"- Funcionalidades de filtrado o búsqueda avanzada.
+- Edición o creación de iniciativas.
+- Reportes o estadísticas.";"- Dado que el líder abre la página, cuando la carga completa, entonces se muestran todas las iniciativas.
+- Dado que no existen iniciativas, cuando se accede, entonces se muestra mensaje 'No hay iniciativas registradas'.
+- Dado un fallo en el backend, cuando se intenta cargar, entonces se muestra mensaje de error y opción para reintentar."
+Garantía de Persistencia y Accesibilidad de Datos;69_lider_ops_sincronizacion_automatica;Como líder del equipo de operaciones, necesito que cualquier cambio realizado sobre las iniciativas se sincronice automáticamente en tiempo real entre todas las sesiones abiertas del equipo, para asegurar que todos trabajemos con la información más actualizada y coordinada sin necesidad de recargar páginas manualmente.;Implementar sincronización en tiempo real para el líder y los miembros del equipo, donde las modificaciones se reflejen instantáneamente en todas las sesiones abiertas para mejorar la colaboración y evitar conflictos.;"- Las actualizaciones de iniciativas se reflejan en tiempo real en todas las sesiones abiertas.
+- Se notifica visualmente a los usuarios cuando ocurren cambios remotos.
+- Se manejan conflictos de edición concurrente con alertas adecuadas.
+- La sincronización cubre creación, edición y eliminación de iniciativas.";"- Funcionalidades de comunicación directa o chat.
+- Control avanzado de versiones.
+- Gestión de usuarios o permisos.";"- Dado que el líder actualiza una iniciativa, cuando otros usuarios tienen la sesión abierta, entonces ven los cambios inmediatamente.
+- Dado que dos usuarios editan simultáneamente, cuando hay conflicto, entonces aparece alerta para resolver.
+- Dado que la conexión se interrumpe y vuelve, cuando se restablece, entonces la sincronización se reanuda y actualiza datos."
+Garantía de Persistencia y Accesibilidad de Datos;70_miembro_ops_manejo_errores_persistencia;Como miembro del equipo de operaciones, necesito que el sistema maneje correctamente los errores de guardado y sincronización de iniciativas, mostrando mensajes claros y permitiendo reintentos, para evitar pérdida de datos y frustración ante fallos técnicos.;Implementar mecanismos para detectar fallos en el guardado o sincronización de datos, informar al usuario con mensajes comprensibles y ofrecer opciones para reintentar o guardar localmente temporalmente.;"- Si ocurre un error al guardar o sincronizar, se muestra mensaje claro e informativo.
+- El usuario puede reintentar guardar sin perder cambios.
+- El sistema no pierde datos ingresados durante errores temporales.
+- Se registra el error para análisis técnico posterior.";"- Resolución automática avanzada de conflictos.
+- Funcionalidades de soporte o tickets.
+- Recuperación de datos eliminados.";"- Dado que hay un fallo de conexión, cuando se intenta guardar, entonces se muestra mensaje de error y opción para reintentar.
+- Dado que el usuario reintenta, cuando la conexión se restablece, entonces el guardado se realiza correctamente.
+- Dado que se produce un error en sincronización, cuando se detecta, entonces se notifica al usuario y se conserva la edición local."
+Garantía de Persistencia y Accesibilidad de Datos;71_lider_ops_manejo_errores_persistencia;Como líder del equipo de operaciones, necesito que el sistema me notifique si ocurre algún problema en la persistencia o sincronización de datos de las iniciativas, para que pueda actuar rápidamente y asegurar la integridad de la información del equipo.;Implementar alertas visibles para el líder que indiquen fallos en la persistencia o sincronización de datos, permitiendo tomar acciones correctivas o informar al equipo técnico.;"- El líder recibe notificaciones visibles en la interfaz sobre errores críticos de persistencia o sincronización.
+- Las notificaciones incluyen detalles del problema y posibles pasos a seguir.
+- Se ofrece opción para reintentar o contactar soporte.
+- Los datos no se pierden durante el proceso.";"- Soporte técnico o sistema de tickets.
+- Automatización de solución de errores.
+- Gestión de roles y permisos.";"- Dado que hay un fallo crítico en sincronización, cuando ocurre, entonces el líder recibe una notificación visible.
+- Dado que la notificación aparece, cuando el líder la revisa, entonces puede reintentar o reportar el problema.
+- Dado que la conexión se restablece, cuando se reintenta, entonces la persistencia se normaliza."
+Garantía de Persistencia y Accesibilidad de Datos;72_acceso_formulario_registro_miembro;Como un Miembro del Equipo de Operaciones, necesito acceder al formulario de registro de iniciativas desde la interfaz web, para poder crear nuevas iniciativas fácilmente sin instalar software adicional.;El Miembro del Equipo de Operaciones podrá abrir el formulario para registrar nuevas iniciativas directamente desde la interfaz web accesible en cualquier navegador, asegurando facilidad y rapidez en el ingreso de datos.;"- El formulario de registro de iniciativas debe ser accesible desde un enlace o botón visible en la interfaz web.
+- El formulario debe cargarse correctamente en navegadores comunes (Chrome, Firefox, Edge, Safari).
+- El formulario debe permitir ingresar todos los campos necesarios para registrar una iniciativa.
+- No se requiere instalación de software adicional.
+- La interfaz debe ser responsiva y usable en dispositivos móviles y desktop.";"- Validación detallada de campos del formulario.
+- Persistencia y almacenamiento de los datos ingresados.
+- Edición posterior de iniciativas (solo creación).
+- Funcionalidades administrativas.";"- Dado que soy un Miembro del Equipo de Operaciones, cuando ingreso a la interfaz web, entonces puedo ver y acceder al formulario de registro de iniciativas.
+- Dado que abro el formulario, cuando completo los campos, entonces el formulario se muestra correctamente sin errores.
+- Dado que accedo desde un dispositivo móvil, cuando abro el formulario, entonces la visualización y usabilidad son adecuadas.
+- Dado que no tengo software instalado, cuando uso el navegador, entonces puedo acceder y usar el formulario sin problemas."
+Garantía de Persistencia y Accesibilidad de Datos;73_filtrar_iniciativas_miembro;Como un Miembro del Equipo de Operaciones, necesito filtrar las listas de iniciativas por estado y prioridad en el tablero, para poder consultar rápidamente iniciativas relevantes sin instalar software adicional.;El Miembro del Equipo de Operaciones podrá aplicar filtros en la vista de listado o tablero para mostrar solo las iniciativas según su estado y prioridad, facilitando el enfoque en tareas específicas desde cualquier navegador.;"- La interfaz debe incluir filtros visibles para estado y prioridad.
+- El usuario puede seleccionar uno o varios estados y prioridades para filtrar.
+- Al aplicar filtros, la lista de iniciativas se actualiza dinámicamente sin recargar la página.
+- La funcionalidad debe funcionar en dispositivos móviles y desktop.
+- No se requiere instalación de software para usar los filtros.";"- Guardado permanente de filtros.
+- Edición o creación de iniciativas.
+- Filtros basados en otros campos.
+- Administración de usuarios o permisos.";"- Dado que soy un Miembro del Equipo de Operaciones, cuando accedo al tablero, entonces puedo ver opciones para filtrar por estado y prioridad.
+- Dado que aplico un filtro por estado, cuando selecciono un estado, entonces solo se muestran iniciativas con ese estado.
+- Dado que aplico múltiples filtros, cuando selecciono estado y prioridad, entonces la lista muestra solo iniciativas que cumplen ambos criterios.
+- Dado que uso un dispositivo móvil, cuando filtro iniciativas, entonces el filtrado funciona correctamente y la interfaz es usable."
+Garantía de Persistencia y Accesibilidad de Datos;74_ver_contadores_estados_miembro;Como un Miembro del Equipo de Operaciones, necesito visualizar contadores que resuman las iniciativas por estado actual, para tener una visión rápida del volumen de trabajo sin instalar software.;El Miembro del Equipo de Operaciones podrá consultar en el panel principal contadores o indicadores que muestren la cantidad de iniciativas agrupadas por su estado actual, facilitando la comprensión rápida del estado general del trabajo.;"- Se muestran contadores visibles y actualizados automáticamente para cada estado de iniciativa.
+- Los contadores reflejan datos actuales sin necesidad de recargar la página.
+- La visualización es clara y accesible desde cualquier dispositivo con navegador.
+- No se requiere instalación de software para acceder a estos contadores.";"- Detalles específicos de cada iniciativa.
+- Edición o creación de iniciativas.
+- Generación de reportes históricos.";"- Dado que soy un Miembro del Equipo de Operaciones, cuando ingreso al dashboard, entonces puedo ver contadores con números precisos para cada estado.
+- Dado que cambia el estado de una iniciativa (fuera de esta funcionalidad), cuando regreso al dashboard, entonces los contadores reflejan el cambio.
+- Dado que uso un dispositivo móvil, cuando visualizo los contadores, entonces la información es legible y accesible."
+Garantía de Persistencia y Accesibilidad de Datos;75_consultar_alertas_fechas_miembro;Como un Miembro del Equipo de Operaciones, necesito consultar alertas y notificaciones de fechas límite desde la interfaz web, para priorizar mis tareas sin instalar software adicional.;El Miembro del Equipo de Operaciones podrá acceder a una sección visible en la web donde se muestran las alertas y notificaciones relacionadas con fechas límite próximas o vencidas de las iniciativas, ayudando a priorizar actividades.;"- Las alertas de fechas límite aparecen en un área visible y accesible desde el dashboard.
+- Las notificaciones incluyen información clara sobre la iniciativa y fecha límite.
+- El usuario puede distinguir alertas próximas y vencidas.
+- La funcionalidad es accesible sin instalación adicional y responsiva para dispositivos móviles y desktop.";"- Configuración personalizada de alertas.
+- Envío de alertas por correo o mensajería externa.
+- Gestión de alertas administrativas.";"- Dado que soy un Miembro del Equipo de Operaciones, cuando ingreso al dashboard, entonces puedo ver alertas de fechas límite próximas.
+- Dado que una iniciativa tiene una fecha límite vencida, cuando consulto las alertas, entonces esta aparece destacada.
+- Dado que uso un dispositivo móvil, cuando consulto las alertas, entonces la interfaz es usable y clara."
+Garantía de Persistencia y Accesibilidad de Datos;76_acceso_formulario_registro_lider;Como un Líder del Equipo de Operaciones, necesito acceder al formulario de registro de iniciativas a través de la interfaz web, para poder crear nuevas iniciativas y supervisar su correcto registro sin instalar software.;El Líder del Equipo podrá ingresar al formulario para registrar nuevas iniciativas mediante la interfaz web, facilitando la gestión y creación sin necesidad de instalar software adicional.;"- Acceso claro y directo al formulario desde la interfaz web.
+- El formulario carga correctamente en navegadores comunes.
+- Permite ingreso de todos los campos requeridos para una iniciativa.
+- Funciona en dispositivos móviles y desktop sin instalación de software.";"- Validación de campos avanzada.
+- Edición o actualización de iniciativas.
+- Funciones administrativas más allá de creación y supervisión.";"- Dado que soy Líder del Equipo de Operaciones, cuando ingreso a la interfaz web, entonces puedo abrir el formulario de registro.
+- Dado que abro el formulario, cuando ingreso datos, entonces el formulario se muestra sin errores.
+- Dado que uso un dispositivo móvil, cuando accedo al formulario, entonces la usabilidad es correcta."
+Garantía de Persistencia y Accesibilidad de Datos;77_filtrar_iniciativas_lider;Como un Líder del Equipo de Operaciones, necesito filtrar las iniciativas por estado y prioridad en el tablero, para poder priorizar y supervisar proyectos críticos sin instalar software adicional.;El Líder podrá aplicar filtros avanzados en la interfaz web para visualizar únicamente las iniciativas que cumplan con criterios de estado y prioridad, ayudando a tomar decisiones informadas y rápidas.;"- Filtros visibles para estado y prioridad disponibles en el dashboard.
+- Selección múltiple de filtros posible.
+- La lista se actualiza dinámicamente según filtros aplicados.
+- Funciona correctamente en dispositivos móviles y desktop sin necesidad de instalar software.";"- Guardado de filtros personalizados.
+- Edición de iniciativas desde esta funcionalidad.
+- Reportes históricos o exportación de datos.";"- Dado que soy Líder del Equipo, cuando aplico un filtro por prioridad alta, entonces solo veo iniciativas con esa prioridad.
+- Dado que aplico filtros combinados, cuando selecciono estado y prioridad, entonces la lista se ajusta dinámicamente.
+- Dado que uso un dispositivo móvil, cuando filtro, entonces la interfaz es funcional y accesible."
+Garantía de Persistencia y Accesibilidad de Datos;78_ver_contadores_estados_lider;Como un Líder del Equipo de Operaciones, necesito visualizar contadores que muestren la cantidad de iniciativas por estado, para tener una visión centralizada y rápida del progreso del equipo sin necesidad de software adicional.;El Líder podrá consultar en la interfaz web contadores que resumen las iniciativas agrupadas por estado, facilitando la supervisión y toma de decisiones desde cualquier dispositivo con navegador.;"- Contadores visibles y actualizados automáticamente para cada estado.
+- Información clara y precisa.
+- Se actualizan sin recargar la página.
+- Accesible en dispositivos móviles y desktop sin instalación de software.";"- Análisis detallado o gráficos avanzados.
+- Edición de iniciativas desde esta sección.
+- Exportación o reportes.";"- Dado que soy Líder del Equipo, cuando ingreso al dashboard, entonces veo contadores actualizados por estado.
+- Dado que cambia el estado de una iniciativa, cuando regreso al dashboard, entonces los contadores reflejan el cambio.
+- Dado que uso móvil, cuando visualizo los contadores, entonces la información es legible y accesible."
+Garantía de Persistencia y Accesibilidad de Datos;79_consultar_alertas_fechas_lider;Como un Líder del Equipo de Operaciones, necesito consultar alertas y notificaciones sobre fechas límite de iniciativas desde la interfaz web, para priorizar y gestionar plazos críticos sin instalar software adicional.;El Líder podrá acceder a una sección de alertas en la interfaz web que muestra notificaciones de fechas límite próximas o vencidas para todas las iniciativas, ayudando a mantener el control del cumplimiento de plazos.;"- Se muestran alertas visibles y actualizadas automáticamente.
+- Las alertas incluyen detalles de la iniciativa y fecha límite.
+- Diferenciación clara entre alertas próximas y vencidas.
+- Funciona en dispositivos móviles y desktop sin instalación adicional.";"- Configuración personalizada de alertas por usuario.
+- Envío de alertas por correo o medios externos.
+- Modificación o eliminación de alertas.";"- Dado que soy Líder del Equipo, cuando ingreso al dashboard, entonces puedo ver alertas de fechas límite próximas y vencidas.
+- Dado que una iniciativa tiene fecha límite vencida, cuando consulto alertas, entonces aparece destacada.
+- Dado que uso un móvil, cuando reviso alertas, entonces la interfaz es clara y usable."
+Garantía de Persistencia y Accesibilidad de Datos;80_error_acceso_formulario_miembro;Como un Miembro del Equipo de Operaciones, necesito recibir mensajes de error claros y específicos si no puedo acceder al formulario de registro de iniciativas desde la web, para entender el problema y actuar en consecuencia sin instalar software adicional.;Si por alguna razón el formulario de registro no está disponible o hay un problema de acceso, el Miembro del Equipo debe recibir un mensaje de error descriptivo que explique la causa y posibles pasos a seguir.;"- Mensajes de error claros y amigables mostrados en la interfaz.
+- Los mensajes indican si el problema es de conexión, permisos o carga del formulario.
+- La interfaz no se bloquea ni queda en blanco.
+- El mensaje incluye una opción para intentar recargar o contactar soporte.
+- Funciona en todos los navegadores compatibles.";"- Solución automática de errores.
+- Gestión avanzada de soporte dentro de la misma interfaz.
+- Diagnóstico técnico detallado al usuario final.";"- Dado que hay un problema de conexión, cuando intento acceder al formulario, entonces veo un mensaje que indica problema de red.
+- Dado que el formulario no está disponible, cuando accedo, entonces recibo un mensaje que indique la indisponibilidad.
+- Dado que veo un mensaje de error, puedo intentar recargar la página sin bloquear la interfaz."
+Garantía de Persistencia y Accesibilidad de Datos;81_error_filtros_tablero_lider;Como un Líder del Equipo de Operaciones, necesito recibir notificaciones claras si la funcionalidad de filtros en el tablero no está disponible, para poder actuar o informar al equipo sin instalar software adicional.;En caso de que la funcionalidad para filtrar iniciativas no funcione (por fallos técnicos o de red), el Líder debe recibir una notificación clara que explique el problema y posibles acciones para continuar trabajando.;"- Mensajes de error visibles al intentar usar filtros cuando no están disponibles.
+- Mensajes explican la causa (ej. fallo de conexión, mantenimiento).
+- No bloquean la navegación general del tablero.
+- Permiten al usuario seguir consultando datos sin filtros.
+- Funciona en todos los dispositivos soportados.";"- Solución automática de errores.
+- Restauración inmediata de funcionalidad.
+- Soporte técnico dentro de la aplicación.";"- Dado que la función de filtro falla, cuando intento aplicar un filtro, entonces aparece un mensaje de error explicativo.
+- Dado que hay error, puedo seguir consultando la lista completa sin filtros.
+- Dado que uso un dispositivo móvil, cuando ocurre el error, la notificación es visible y clara."
+Garantía de Persistencia y Accesibilidad de Datos;82_kanban_drag_drop_otm;Como Operations Team Member, necesito arrastrar y soltar iniciativas entre columnas de un tablero Kanban para cambiar su estado, de modo que pueda actualizar rápidamente el progreso de las iniciativas sin usar herramientas manuales.;Permitir que el miembro del equipo de operaciones actualice el estado de una iniciativa arrastrándola de una columna a otra en el tablero Kanban visible en el dashboard.;"- El tablero Kanban muestra columnas que representan estados específicos de iniciativas.
+- El usuario puede arrastrar una iniciativa y soltarla en otra columna para cambiar su estado.
+- El cambio de estado se refleja inmediatamente en la UI.
+- El sistema guarda el nuevo estado de la iniciativa en la base de datos.
+- No se permite arrastrar iniciativas a columnas no válidas.
+- La operación es accesible desde dispositivos móviles y escritorio.";"- Crear o eliminar columnas del Kanban.
+- Cambios de estado automáticos por reglas externas.
+- Gestión administrativa de permisos para mover iniciativas.";"- Dado que un miembro del equipo ve el tablero Kanban, cuando arrastra una iniciativa a otra columna, entonces el estado de la iniciativa cambia y se guarda.
+- Dado que un miembro del equipo arrastra una iniciativa a una columna inválida, entonces se bloquea la acción y se muestra un mensaje de error.
+- Dado que varios usuarios están conectados, cuando uno mueve una iniciativa, los demás ven la actualización en tiempo real."
+Garantía de Persistencia y Accesibilidad de Datos;83_kanban_drag_drop_otl;Como Operations Team Lead, necesito arrastrar y soltar iniciativas entre columnas en el tablero Kanban para cambiar su estado, para poder gestionar y supervisar el flujo de trabajo del equipo de manera eficiente y colaborativa.;Permitir al líder del equipo de operaciones cambiar el estado de cualquier iniciativa arrastrándola y soltándola entre columnas en el tablero Kanban del dashboard.;"- El líder puede visualizar todas las iniciativas en un tablero Kanban.
+- Puede mover iniciativas entre estados mediante drag and drop.
+- El estado se actualiza en la base de datos inmediatamente.
+- Otros miembros reciben actualizaciones en tiempo real.
+- La funcionalidad está disponible en desktop y móvil.";"- Administración de permisos para mover iniciativas.
+- Modificación de columnas o estados.
+- Funcionalidades fuera del tablero Kanban.";"- Dado que el líder ve el tablero Kanban, cuando arrastra una iniciativa a otra columna, entonces el estado se actualiza y se sincroniza en tiempo real.
+- Dado que otro usuario está conectado, cuando el líder mueve una iniciativa, el usuario ve la actualización instantáneamente."
+Garantía de Persistencia y Accesibilidad de Datos;84_edit_initiative_details_otm;Como Operations Team Member, necesito editar detalles de una iniciativa como prioridad, responsable y fechas límite directamente desde el dashboard, para mantener la información actualizada y facilitar la colaboración sin salir de la vista principal.;Permitir que el miembro del equipo edite campos clave de la iniciativa desde un formulario o editor en línea accesible desde el dashboard Kanban o listado de iniciativas.;"- Al seleccionar una iniciativa, se despliega un formulario editable con campos: prioridad, responsable y fechas límite.
+- Los cambios se validan antes de guardar.
+- Al guardar, los cambios se reflejan inmediatamente y se persisten en el backend.
+- Otros usuarios reciben notificaciones o actualizaciones en tiempo real.
+- El formulario es usable en dispositivos móviles y desktop.";"- Cambios masivos o batch editing.
+- Creación o eliminación de iniciativas.
+- Roles administrativos para reasignar responsables fuera del equipo.";"- Dado que un miembro del equipo abre el editor de una iniciativa, cuando modifica la prioridad y guarda, entonces la prioridad cambia y se refleja para todos.
+- Dado que el usuario introduce una fecha en formato incorrecto, cuando intenta guardar, entonces recibe un mensaje de error y no se guarda.
+- Dado que otro usuario conecta, cuando se guarda un cambio, entonces recibe actualización en tiempo real."
+Garantía de Persistencia y Accesibilidad de Datos;85_edit_initiative_details_otl;Como Operations Team Lead, necesito editar detalles de iniciativas (prioridad, responsable, fechas límite) desde el dashboard para asegurar que la información sea precisa y que el equipo tenga claridad sobre las responsabilidades y tiempos.;Habilitar al líder para modificar información clave de iniciativas directamente desde la vista principal del dashboard, con validación y persistencia inmediata.;"- El líder puede abrir un formulario o modal de edición para cualquier iniciativa.
+- Los campos editables incluyen prioridad, responsable y fechas límite.
+- Se validan los datos antes de guardar.
+- Los cambios se guardan en la base de datos y se reflejan al instante.
+- Otros usuarios reciben notificaciones en tiempo real.
+- La interfaz es usable en mobile y desktop.";"- Gestión de permisos avanzados.
+- Edición simultánea con bloqueo de registros.
+- Funciones de auditoría de cambios.";"- Dado que el líder edita una iniciativa, cuando guarda cambios válidos, entonces se actualizan y notifican a otros usuarios.
+- Dado que el líder introduce datos inválidos, cuando intenta guardar, entonces se muestra error y no se guardan.
+- Dado que varios usuarios están conectados, cuando el líder guarda, todos ven la actualización en tiempo real."
+Garantía de Persistencia y Accesibilidad de Datos;86_real_time_updates_otm;Como Operations Team Member, necesito recibir actualizaciones en tiempo real sobre cambios de estado en las iniciativas, para mantenerme informado y coordinar mi trabajo con el equipo sin tener que refrescar la página constantemente.;Implementar notificaciones o actualización automática de la vista Kanban y detalles de iniciativas cuando otro usuario realiza cambios en el estado o detalles.;"- Cuando otro usuario cambia el estado o detalles de una iniciativa, la vista del miembro se actualiza automáticamente sin recargar.
+- Las actualizaciones incluyen cambios de estado, prioridad, responsable y fechas.
+- El sistema muestra un indicador visible de actualización recibida.
+- La actualización es consistente en desktop y móvil.
+- No genera pérdida de datos o conflictos.";"- Notificaciones push fuera de la aplicación web.
+- Historial de cambios o auditoría.
+- Mensajería interna entre usuarios.";"- Dado que otro usuario cambia el estado de una iniciativa, cuando el miembro está conectado, entonces ve la actualización reflejada en el tablero inmediatamente.
+- Dado que otro usuario modifica detalles, cuando el miembro está en la vista, entonces ve el cambio sin refrescar.
+- Dado que la conexión se pierde, cuando se restablece, entonces la vista se sincroniza con los últimos cambios."
+Garantía de Persistencia y Accesibilidad de Datos;87_real_time_updates_otl;Como Operations Team Lead, necesito recibir actualizaciones en tiempo real sobre cualquier cambio en el estado o detalles de iniciativas, para supervisar y tomar decisiones rápidas basadas en el estado más actualizado de los proyectos.;Proveer al líder actualizaciones instantáneas en el dashboard cuando cualquier miembro modifica el estado o detalles de una iniciativa, asegurando visibilidad y control total.;"- El líder recibe actualizaciones automáticas en el tablero sin intervención manual.
+- Cambios en estado, prioridad, responsable y fechas se reflejan en tiempo real.
+- La interfaz muestra un indicador de actualización recibida.
+- Actualizaciones funcionan correctamente en desktop y móvil.
+- Se mantiene la integridad de datos sin conflictos.";"- Integración con sistemas externos de notificaciones.
+- Estadísticas o reportes basados en actualizaciones.
+- Control de versiones o rollback.";"- Dado que un miembro cambia el estado de una iniciativa, cuando el líder está conectado, entonces el dashboard muestra el cambio instantáneamente.
+- Dado que la conexión se pierde y se recupera, cuando el líder vuelve a conectar, entonces el dashboard se sincroniza con los datos actuales."
+Garantía de Persistencia y Accesibilidad de Datos;88_mark_completed_archived_otm;Como Operations Team Member, necesito marcar una iniciativa como completada o archivada desde el dashboard, para indicar claramente que la iniciativa ha finalizado y evitar confusiones en el seguimiento.;Permitir al miembro del equipo seleccionar una iniciativa y cambiar su estado a 'completada' o 'archivada' mediante un botón o acción rápida en el dashboard.;"- El usuario puede seleccionar una iniciativa.
+- Aparece opción para marcar como completada o archivada.
+- Al confirmar, el estado cambia y se refleja en el tablero Kanban.
+- El cambio se guarda en la base de datos.
+- Otros usuarios reciben la actualización en tiempo real.
+- Se muestra confirmación visual del cambio.
+- La función es accesible en móvil y desktop.";"- Eliminación física de iniciativas.
+- Restauración automática de iniciativas archivadas.
+- Notificaciones externas.";"- Dado que un miembro selecciona una iniciativa, cuando marca como completada y confirma, entonces el estado cambia y se guarda.
+- Dado que otro usuario está conectado, cuando una iniciativa es archivada, entonces recibe actualización inmediata.
+- Dado que el usuario cancela la acción, entonces no se realiza ningún cambio."
+Garantía de Persistencia y Accesibilidad de Datos;89_mark_completed_archived_otl;Como Operations Team Lead, necesito marcar iniciativas como completadas o archivadas desde el dashboard para gestionar el ciclo de vida completo de los proyectos y mantener el tablero organizado.;Facilitar que el líder cambie el estado de una iniciativa a completada o archivada con acciones rápidas desde el dashboard para controlar el flujo y archivo de trabajos finalizados.;"- El líder puede seleccionar cualquier iniciativa.
+- Disponibilidad de botones o menú para marcar como completada o archivada.
+- Confirmación requerida antes de cambiar el estado.
+- El cambio se refleja inmediatamente y se guarda.
+- Otros usuarios reciben la actualización en tiempo real.
+- Funcionalidad disponible en desktop y móvil.";"- Eliminación definitiva de iniciativas.
+- Gestión avanzada de estados fuera de completado/archivado.
+- Reportes automáticos basados en estados.";"- Dado que el líder selecciona una iniciativa, cuando marca como archivada y confirma, entonces el estado cambia y se guarda.
+- Dado que otro usuario está conectado, cuando el líder cambia el estado, entonces recibe actualización en tiempo real.
+- Dado que el líder cancela la acción, entonces no se cambia el estado."
+Garantía de Persistencia y Accesibilidad de Datos;90_error_handling_otm;Como Operations Team Member, necesito recibir mensajes de error claros y específicos al intentar mover iniciativas a estados inválidos o al ingresar datos erróneos en la edición, para evitar confusiones y asegurar la integridad de los datos.;Implementar validaciones y mensajes de error visibles en la interfaz cuando el usuario realice acciones no permitidas o ingrese datos inválidos durante la gestión de estados o edición de iniciativas.;"- Si el usuario intenta mover una iniciativa a una columna inválida, se bloquea la acción y se muestra un mensaje de error claro.
+- Si se ingresan datos en formato incorrecto (e.g., fecha), se muestra un mensaje de validación antes de guardar.
+- Mensajes de error son accesibles y visibles en móvil y desktop.
+- El sistema no guarda datos inválidos.
+- Los errores no bloquean la navegación general ni afectan otras funcionalidades.";"- Log de errores para administradores.
+- Reportes automáticos de errores.
+- Corrección automática de datos.";"- Dado que un miembro intenta mover una iniciativa a una columna inválida, cuando suelta la tarjeta, entonces se muestra error y no se mueve.
+- Dado que el usuario ingresa una fecha inválida, cuando intenta guardar, entonces aparece mensaje y no se guarda.
+- Dado que ocurre un error, cuando el usuario lee el mensaje, entonces entiende la causa claramente."
+Garantía de Persistencia y Accesibilidad de Datos;91_error_handling_otl;Como Operations Team Lead, necesito recibir mensajes de error claros y específicos cuando realice acciones inválidas en el tablero Kanban o durante la edición de iniciativas, para asegurar que las operaciones se realicen correctamente y mantener la calidad de los datos.;Mostrar notificaciones y validaciones en tiempo real durante la manipulación de iniciativas para prevenir errores y permitir corrección inmediata.;"- Validaciones bloquean movimientos a estados no permitidos con mensajes visibles.
+- Edición de campos valida formatos y muestra errores si son incorrectos.
+- Mensajes de error son comprensibles y visibles en desktop y móvil.
+- No se guardan datos inválidos.
+- La UI mantiene estabilidad ante errores.";"- Auditoría o seguimiento de errores.
+- Notificaciones externas o alertas fuera del dashboard.
+- Funcionalidades de recuperación automática.";"- Dado que el líder intenta mover una iniciativa a una columna inválida, cuando suelta la iniciativa, entonces ve el mensaje de error y la acción se cancela.
+- Dado que el líder introduce datos inválidos en edición, cuando intenta guardar, entonces recibe un mensaje y no se guarda.
+- Dado que hay error, cuando el líder visualiza el mensaje, entonces comprende la causa."
+Monitoreo y Alertas para Control de Fechas y Prioridades;92_generacion_alertas_miembro;Como miembro del equipo de operaciones, necesito que se generen alertas automáticas para iniciativas con fechas límite próximas, para poder anticipar tareas que requieren atención urgente.;Esta historia cubre la funcionalidad de generación automática de alertas basadas en las fechas límite próximas de las iniciativas que están pendientes, facilitando la identificación temprana de tareas críticas.;"- Se generan alertas automáticamente para todas las iniciativas con fecha límite dentro de los próximos 3 días.
+- Solo se generan alertas para iniciativas en estado pendiente.
+- Las alertas incluyen el nombre de la iniciativa, fecha límite y prioridad.
+- Las alertas aparecen en la sección de alertas accesible desde el panel principal.
+- No se generan alertas para iniciativas completadas o canceladas.";"- No incluye visualización o filtrado de alertas.
+- No incluye actualización en tiempo real ante cambios de estado o fecha.";"Dado que hay una iniciativa con fecha límite en 2 días y estado pendiente,
+Cuando el usuario accede a la sección de alertas,
+Entonces debe aparecer una alerta correspondiente a esa iniciativa.
+
+Dado que una iniciativa está completada con fecha límite próxima,
+Cuando el usuario revisa alertas,
+Entonces no debe aparecer alerta para esa iniciativa."
+Monitoreo y Alertas para Control de Fechas y Prioridades;93_generacion_alertas_lider;Como líder del equipo de operaciones, necesito que se generen alertas para todas las iniciativas con fechas límite próximas en todo el equipo, para poder supervisar riesgos y planificar reasignaciones.;Esta historia se enfoca en la generación de alertas para el líder del equipo, cubriendo todas las iniciativas asignadas al equipo que tengan fechas límite próximas y estado pendiente.;"- Se generan alertas para todas las iniciativas pendientes con fecha límite próxima, sin importar asignación individual.
+- Las alertas muestran nombre, responsable, fecha límite y prioridad.
+- Las alertas son visibles en la sección de alertas del líder.
+- El sistema actualiza las alertas cada vez que se modifica la fecha límite o el estado de la iniciativa.";"- No incluye la visualización detallada ni filtros avanzados en esta historia.
+- No incluye acciones de reasignación o comentarios.";"Dado que hay una iniciativa con fecha límite en 1 día y estado pendiente en el equipo,
+Cuando el líder accede a la sección de alertas,
+Entonces debe visualizar la alerta correspondiente.
+
+Dado que una iniciativa se marca como completada,
+Cuando el líder revisa alertas,
+Entonces no debe aparecer alerta para esa iniciativa."
+Monitoreo y Alertas para Control de Fechas y Prioridades;94_visualizacion_alertas_vencidas_miembro;Como miembro del equipo de operaciones, necesito que se muestren alertas claras para iniciativas que han pasado su fecha límite y siguen pendientes, para poder actuar rápidamente y evitar retrasos mayores.;Esta historia cubre la visualización de alertas destacadas para iniciativas vencidas y pendientes, facilitando la rápida identificación de riesgos y priorización de tareas.;"- Las alertas para iniciativas con fecha límite pasada y estado pendiente se muestran con un diseño visual destacado (color rojo o icono de alarma).
+- La alerta muestra nombre de la iniciativa, días de retraso, y prioridad.
+- Las alertas vencidas se muestran en la parte superior de la lista de alertas.
+- La sección de alertas es accesible desde el menú principal y visible en dispositivos móviles.
+- Se permite expandir la alerta para ver detalles adicionales.";"- No incluye generación ni actualización automática de alertas.
+- No incluye filtros para ordenar o buscar las alertas.";"Dado que una iniciativa está pendiente y vencida hace 2 días,
+Cuando el miembro accede a la sección de alertas,
+Entonces la alerta aparece destacada en rojo y en la parte superior.
+
+Dado que una iniciativa está pendiente y aún no vencida,
+Cuando el miembro revisa alertas,
+Entonces la alerta no aparece destacada ni en la parte superior."
+Monitoreo y Alertas para Control de Fechas y Prioridades;95_visualizacion_alertas_vencidas_lider;Como líder del equipo de operaciones, necesito que las alertas para iniciativas vencidas y pendientes se muestren en tiempo real y con indicadores visuales claros, para poder evaluar rápidamente la gravedad de los retrasos.;Esta historia se enfoca en mostrar alertas para iniciativas vencidas que aún estén pendientes, con actualización en tiempo real y diferenciación visual para el líder del equipo.;"- Las alertas para iniciativas vencidas y pendientes se actualizan automáticamente sin necesidad de recargar la página.
+- Las alertas incluyen nombre, prioridad, responsable, y días de retraso.
+- Las alertas vencidas se resaltan con color rojo y símbolo de advertencia.
+- El líder puede acceder a una vista consolidada con todas las alertas vencidas y próximas.
+- La interfaz es responsiva para uso en dispositivos móviles y escritorio.";"- No incluye filtros ni ajustes en la generación de alertas.
+- No incluye acciones de reasignación o comentarios desde esta vista.";"Dado que una iniciativa pasa de estar próxima a vencida mientras el líder está visualizando alertas,
+Cuando el sistema detecta el cambio,
+Entonces la alerta se actualiza en tiempo real y se resalta en rojo.
+
+Dado que la conexión de red se pierde,
+Cuando el líder intenta acceder a alertas en tiempo real,
+Entonces se muestra un mensaje de error indicando problemas de sincronización."
+Monitoreo y Alertas para Control de Fechas y Prioridades;96_filtro_alertas_miembro;Como miembro del equipo de operaciones, necesito poder filtrar las alertas por prioridad y proximidad de la fecha límite mediante controles visibles en la sección de alertas, para enfocarme en las tareas más críticas primero.;Esta historia permite a un miembro del equipo usar filtros en la interfaz de alertas para mostrar solo aquellas con prioridad alta y/o fechas límite muy próximas.;"- La sección de alertas incluye filtros desplegables o botones para seleccionar prioridad (Alta, Media, Baja).
+- Incluye filtros para proximidad de fecha: hoy, próximos 3 días, próximos 7 días.
+- Al aplicar filtros, la lista de alertas se actualiza instantáneamente sin recargar la página.
+- Los filtros pueden combinarse (por ejemplo, prioridad alta y fechas próximas).
+- El estado de los filtros se mantiene al cambiar de vista dentro de la sección.";"- No incluye creación ni actualización automática de alertas.
+- No incluye filtrado por estado de iniciativa diferente a pendiente.";"Dado que hay alertas de varias prioridades y fechas,
+Cuando el miembro aplica filtro por prioridad alta y fecha límite hoy,
+Entonces solo se muestran alertas que cumplen ambos criterios.
+
+Dado que no hay alertas para prioridad baja,
+Cuando el miembro aplica filtro por prioridad baja,
+Entonces la lista de alertas queda vacía con mensaje 'No se encontraron alertas'."
+Monitoreo y Alertas para Control de Fechas y Prioridades;97_filtro_alertas_lider;Como líder del equipo de operaciones, necesito filtrar alertas por prioridad y proximidad de fecha límite usando una barra de búsqueda con filtros avanzados, para analizar rápidamente los riesgos más críticos del equipo.;Esta historia habilita filtros avanzados en la interfaz de alertas para el líder, permitiéndole seleccionar combinaciones de prioridad, rango de fechas y estado de la iniciativa para una visión detallada.;"- La barra de búsqueda contiene filtros para prioridad, fecha límite (intervalo personalizado) y estado (pendiente, en progreso).
+- El sistema actualiza la lista de alertas instantáneamente al modificar filtros.
+- Los resultados se pueden ordenar por fecha límite o prioridad.
+- La interfaz muestra un resumen de filtros aplicados en la parte superior.
+- El filtro permite guardar configuraciones personalizadas para uso futuro.";"- No incluye generación ni actualización de alertas.
+- No incluye acciones directas sobre iniciativas desde la vista de alertas.";"Dado que varias alertas existen con diferentes prioridades y fechas,
+Cuando el líder aplica filtro por prioridad alta y rango de fechas personalizadas,
+Entonces la lista muestra solo alertas que cumplen esos criterios.
+
+Dado que el filtro aplicado no coincide con ninguna alerta,
+Cuando el líder revisa resultados,
+Entonces se muestra mensaje 'No hay alertas que coincidan con los filtros'."
+Monitoreo y Alertas para Control de Fechas y Prioridades;98_actualizacion_tiempo_real_miembro;Como miembro del equipo de operaciones, necesito que el sistema actualice en tiempo real el estado de las alertas cuando cambian las fechas límite o estados de las iniciativas, para mantenerme siempre informado con datos actuales sin necesidad de refrescar la página.;Esta historia garantiza que las alertas se actualicen automáticamente en la interfaz del miembro cuando ocurren cambios relevantes en las iniciativas, mejorando la capacidad de respuesta.;"- El sistema detecta cambios en fecha límite o estado de iniciativas y actualiza las alertas en menos de 5 segundos.
+- Las alertas que dejan de ser relevantes se eliminan inmediatamente.
+- Nuevas alertas aparecen sin necesidad de recargar la página.
+- El usuario recibe notificaciones visuales (ej. parpadeo o resaltado temporal) cuando una alerta cambia.
+- La función es compatible con dispositivos móviles y escritorio.";"- No incluye creación manual de alertas.
+- No incluye edición o eliminación manual por el usuario.";"Dado que el estado de una iniciativa cambia de pendiente a completada,
+Cuando el miembro visualiza alertas,
+Entonces la alerta correspondiente desaparece automáticamente.
+
+Dado que la fecha límite de una iniciativa se acerca,
+Cuando el sistema detecta el cambio,
+Entonces se genera una nueva alerta visible en tiempo real."
+Monitoreo y Alertas para Control de Fechas y Prioridades;99_actualizacion_tiempo_real_lider;Como líder del equipo de operaciones, necesito que las alertas se actualicen en tiempo real al cambiar fechas o estados para todas las iniciativas del equipo, para tener una visión precisa y actualizada que facilite la toma de decisiones y asignaciones rápidas.;Esta historia cubre la actualización automática y en tiempo real de alertas para el líder, asegurando que siempre pueda confiar en la información mostrada para supervisar el estado del equipo.;"- Las alertas reflejan en tiempo real cualquier cambio en fechas límite o estados de iniciativas del equipo.
+- Se notifica visualmente al líder sobre nuevas alertas o alertas eliminadas.
+- El sistema mantiene la integridad de datos y evita datos duplicados o inconsistentes.
+- La actualización funciona tanto en la interfaz web como móvil.
+- En caso de fallo de conexión, se muestra mensaje de error y se reintenta automáticamente.";"- No incluye edición manual de alertas.
+- No incluye generación de reportes ni exportación de alertas.";"Dado que una iniciativa cambia de estado en el sistema,
+Cuando el líder está visualizando alertas,
+Entonces la alerta se actualiza, desaparece o aparece en tiempo real.
+
+Dado que la conexión falla,
+Cuando el líder intenta acceder a alertas,
+Entonces se muestra un mensaje de error y se intenta reconectar."
+Monitoreo y Alertas para Control de Fechas y Prioridades;100_error_handling_alertas_miembro;Como miembro del equipo de operaciones, necesito que, en caso de error en la generación o actualización de alertas, se muestre un mensaje claro y recomendaciones para resolver el problema, para evitar confusiones y pérdida de información crítica.;Esta historia aborda la gestión de errores durante la generación o actualización de alertas, asegurando que el usuario reciba feedback adecuado y opciones para actuar.;"- Si falla la generación o actualización de alertas, se muestra un mensaje visible en la sección de alertas.
+- El mensaje indica la posible causa (ej. problema de conexión) y sugiere acciones (ej. recargar página, contactar soporte).
+- El mensaje desaparece automáticamente cuando se restablece la conexión.
+- El sistema registra internamente el error para auditoría.
+- No se bloquea la navegación ni otras funcionalidades mientras el error persiste.";"- No incluye solución automática del error.
+- No incluye funcionalidades administrativas para resolver errores.";"Dado que la conexión a la base de datos se pierde,
+Cuando el miembro intenta acceder a alertas,
+Entonces aparece un mensaje informativo de error con sugerencias.
+
+Dado que la conexión se recupera,
+Cuando el sistema detecta la restauración,
+Entonces el mensaje de error desaparece automáticamente."
+Monitoreo y Alertas para Control de Fechas y Prioridades;101_error_handling_alertas_lider;Como líder del equipo de operaciones, necesito que el sistema muestre mensajes claros de error y estado cuando la generación o actualización de alertas falle, para poder actuar con rapidez y comunicar el problema al equipo.;Esta historia cubre el manejo de errores en la generación y actualización de alertas para el líder, incluyendo feedback visual y registro de eventos para facilitar el monitoreo y resolución.;"- Cuando hay un error en alertas, se muestra un banner o modal con descripción clara del problema.
+- Se incluyen recomendaciones para el líder (ej. revisar conexión, contactar soporte).
+- El mensaje incluye opción para reintentar manualmente la actualización.
+- Se registra el evento de error para análisis posterior.
+- El sistema no bloquea otras funciones mientras el error persiste.";"- No incluye resolución automática del problema.
+- No incluye herramientas administrativas para depuración avanzada.";"Dado que la generación de alertas falla por error del servidor,
+Cuando el líder accede al panel de alertas,
+Entonces aparece un modal con mensaje de error y opción de reintento.
+
+Dado que el líder selecciona reintentar,
+Cuando el sistema recupera la conexión,
+Entonces las alertas se actualizan y el mensaje de error desaparece."
+Monitoreo y Alertas para Control de Fechas y Prioridades;102_miembro_ver_iniciativas_priorizadas;Como miembro del equipo de operaciones, necesito una vista de lista o tablero donde pueda ver iniciativas ordenadas y filtradas por prioridad y fecha límite, para identificar rápidamente qué tareas requieren atención inmediata.;Permite a los miembros del equipo visualizar iniciativas organizadas para facilitar la priorización basada en urgencia y relevancia.;"- La interfaz muestra una lista o tablero con iniciativas.
+- Se pueden aplicar filtros por prioridad (alta, media, baja).
+- Se pueden ordenar las iniciativas por fecha límite (más próxima a más lejana).
+- La vista se actualiza en tiempo real o tras refrescar.
+- La interfaz es accesible desde dispositivos móviles y escritorio.";"- Creación o eliminación de iniciativas.
+- Gestión de alertas automáticas.
+- Cambios de estado de iniciativas.";"Dado que soy un miembro del equipo, cuando ingreso a la sección de iniciativas, entonces puedo aplicar filtros de prioridad y ordenar por fecha límite y veo las iniciativas correctamente listadas.
+
+Dado que aplico un filtro, cuando selecciono prioridad alta, entonces solo se muestran iniciativas con prioridad alta.
+
+Dado que ordeno por fecha límite, cuando elijo orden ascendente, entonces la iniciativa con fecha más próxima aparece primero."
+Monitoreo y Alertas para Control de Fechas y Prioridades;103_lider_ver_iniciativas_priorizadas;Como líder del equipo de operaciones, necesito una vista consolidada donde pueda revisar todas las iniciativas ordenadas y filtradas por prioridad y fecha límite, para supervisar el estado general y tomar decisiones informadas.;Provee a líderes visibilidad completa de todas las iniciativas con opciones avanzadas de ordenamiento y filtrado para facilitar la supervisión y asignación de prioridades.;"- La vista muestra todas las iniciativas del equipo.
+- Permite filtros por prioridad, estado y fecha límite.
+- Permite ordenar por fecha límite y prioridad.
+- Actualización dinámica al cambiar filtros.
+- Compatible con dispositivos móviles y escritorio.";"- Modificación directa del estado de iniciativas en esta vista.
+- Gestión de alertas automáticas.";"Dado que soy líder, cuando ingreso a la vista de iniciativas, entonces veo todas las iniciativas agrupadas.
+
+Dado que aplico filtros, cuando selecciono prioridad alta y estado pendiente, entonces la lista muestra solo esas iniciativas.
+
+Dado que ordeno por fecha límite descendente, entonces las iniciativas con fechas más lejanas aparecen primero."
+Monitoreo y Alertas para Control de Fechas y Prioridades;104_miembro_ajustar_prioridad;Como miembro del equipo de operaciones, necesito poder ajustar la prioridad de una iniciativa desde la interfaz, para reflejar cambios en las necesidades del negocio y gestionar mi carga de trabajo adecuadamente.;Permite a miembros modificar la prioridad asignada a una iniciativa para reflejar cambios operativos o urgencias nuevas.;"- Existe un botón o selector para cambiar la prioridad en la ficha de la iniciativa.
+- La prioridad puede cambiar entre alta, media, baja.
+- El cambio se guarda y refleja inmediatamente en la vista.
+- Se muestra confirmación de cambio exitoso.
+- Manejo de errores si la actualización falla (mensaje claro).
+- Compatible con móviles y escritorio.";"- Cambio del estado de la iniciativa.
+- Creación o eliminación de iniciativas.";"Dado que soy miembro, cuando cambio la prioridad de alta a media y guardo, entonces veo la prioridad actualizada y un mensaje de éxito.
+
+Dado que hay un fallo de red, cuando intento cambiar la prioridad, entonces recibo un mensaje de error y la prioridad no cambia."
+Monitoreo y Alertas para Control de Fechas y Prioridades;105_lider_ajustar_prioridad;Como líder del equipo de operaciones, necesito ajustar la prioridad de iniciativas para reorganizar el trabajo del equipo según los objetivos cambiantes, de forma rápida e intuitiva.;Proporciona a los líderes la capacidad de modificar la prioridad de cualquier iniciativa para optimizar la asignación de recursos y tiempos.;"- La interfaz permite cambiar prioridad en ficha o listado.
+- Cambios se reflejan en tiempo real en la vista de todos.
+- Se recibe confirmación visual del cambio.
+- Hay validación para evitar valores inválidos.
+- Se muestra mensaje de error en caso de fallo.
+- Funciona en desktop y móvil.";"- Cambios automatizados por sistema.
+- Gestión detallada de estados de iniciativas.";"Dado que soy líder, cuando cambio prioridad de una iniciativa, entonces el cambio se guarda y veo confirmación.
+
+Dado que hay error en el servidor, cuando cambio prioridad, entonces recibo un mensaje de error y no se actualiza."
+Monitoreo y Alertas para Control de Fechas y Prioridades;106_miembro_actualizar_estado;Como miembro del equipo de operaciones, necesito poder marcar una iniciativa como pendiente, en progreso o completada mediante controles claros, para actualizar el estado y facilitar el seguimiento.;Permite a miembros cambiar el estado de iniciativas para reflejar el progreso real y mejorar la visibilidad del equipo.;"- Hay controles (botones o drag-and-drop) para cambiar estado: pendiente, en progreso, completado.
+- El cambio se guarda y actualiza en la interfaz.
+- Se muestra confirmación del cambio.
+- Cambios impactan en alertas y priorización en tiempo real.
+- Se maneja error en caso de fallo con mensaje amigable.
+- Compatible con dispositivos móviles y escritorio.";"- Creación o eliminación de iniciativas.
+- Cambios de prioridad.";"Dado que soy miembro, cuando cambio estado a completado, entonces el estado se actualiza y veo confirmación.
+
+Dado que el servidor falla, cuando intento cambiar estado, entonces recibo mensaje de error y el estado no cambia."
+Monitoreo y Alertas para Control de Fechas y Prioridades;107_lider_actualizar_estado;Como líder del equipo de operaciones, necesito actualizar el estado de iniciativas para reflejar el progreso y dar visibilidad al equipo, usando una interfaz intuitiva y rápida.;Facilita a líderes cambiar estados de iniciativas para mantener actualizada la información y mejorar el control del avance del equipo.;"- Estado puede cambiarse entre pendiente, en progreso, completado.
+- Cambios se reflejan en tiempo real para todos usuarios.
+- Confirmación visual de cambios exitosos.
+- Manejo de errores con mensajes claros.
+- Funciona en desktop y móvil.";"- Modificación de prioridad.
+- Creación/eliminación de iniciativas.";"Dado que soy líder, cuando cambio estado de una iniciativa, entonces el cambio se visualiza inmediatamente y recibo confirmación.
+
+Dado fallo de red, cuando cambio estado, entonces recibo mensaje de error y el estado no cambia."
+Monitoreo y Alertas para Control de Fechas y Prioridades;108_miembro_reordenar_carga;Como miembro del equipo de operaciones, necesito poder reordenar mi carga de trabajo arrastrando y soltando iniciativas según prioridad y alertas para gestionar mejor mi tiempo y tareas.;Permite a miembros reorganizar visualmente sus iniciativas para reflejar prioridades cambiantes y responder rápidamente a alertas.;"- Se puede arrastrar y soltar iniciativas en la lista o tablero.
+- El orden guardado se refleja en la carga de trabajo.
+- Cambios de orden impactan en la visualización personal.
+- Se muestra confirmación de nuevo orden.
+- Manejo de errores con mensajes claros si falla el guardado.
+- Compatible con dispositivos móviles y escritorio.";"- Reordenamiento global para el equipo.
+- Cambio de estado o prioridad durante reordenamiento.";"Dado que soy miembro, cuando arrastro una iniciativa para cambiar su posición, entonces el orden se actualiza y veo confirmación.
+
+Dado un error de conexión, cuando intento guardar nuevo orden, entonces veo mensaje de error y el orden no cambia."
+Monitoreo y Alertas para Control de Fechas y Prioridades;109_lider_reordenar_carga;Como líder del equipo de operaciones, necesito reordenar la carga de trabajo del equipo basada en prioridades y alertas para optimizar la asignación de tareas y asegurar cumplimiento de objetivos.;Permite a líderes reorganizar iniciativas de todo el equipo para reflejar prioridades urgentes y mejorar la gestión general.;"- Arrastrar y soltar para reordenar iniciativas en la vista de equipo.
+- Cambios se guardan y se reflejan para todos los miembros.
+- Confirmación visual del cambio.
+- Manejo de errores con mensajes amigables.
+- Compatible con desktop y móvil.";"- Reordenamiento individual sin impacto en equipo.
+- Cambios automáticos basados en alertas.";"Dado que soy líder, cuando cambio el orden de iniciativas, entonces el nuevo orden se guarda y se ve reflejado para el equipo.
+
+Dado fallo de servidor, cuando intento guardar orden, entonces recibo mensaje de error y el orden no cambia."
+Monitoreo y Alertas para Control de Fechas y Prioridades;110_miembro_error_actualizacion;Como miembro del equipo de operaciones, necesito recibir mensajes de error claros y acciones sugeridas cuando intento cambiar prioridad o estado de una iniciativa y la operación falla, para saber cómo proceder y evitar confusiones.;Provee manejo adecuado de errores para cambios en prioridad y estado, mejorando la experiencia y reduciendo errores operativos.;"- Se muestra mensaje claro y visible al fallar actualización.
+- Indica posible causa o sugerencia (ej. reintentar, revisar conexión).
+- No se pierde información del formulario o selección.
+- Permite reintentar la acción sin recargar la página.
+- Funciona en desktop y móvil.";"- Manejo de errores ajenos a prioridades o estados.
+- Automatización de corrección de errores.";"Dado que intento cambiar prioridad y falla, cuando aparece mensaje de error, entonces veo explicación y opción para reintentar.
+
+Dado que intento cambiar estado y falla, entonces el mensaje de error aparece sin perder los datos ingresados."
+Monitoreo y Alertas para Control de Fechas y Prioridades;111_lider_error_actualizacion;Como líder del equipo de operaciones, necesito recibir mensajes de error claros y acciones sugeridas cuando intento reordenar o cambiar prioridades y estados y la operación falla, para mantener control y actuar rápido en caso de problemas técnicos.;Garantiza que líderes reciban retroalimentación clara y puedan corregir o reintentar acciones fallidas en la gestión de iniciativas.;"- Mensajes de error claros y visibles.
+- Indica posibles causas y pasos a seguir.
+- Permite reintento sin perder cambios.
+- Compatible con desktop y móvil.
+- No afecta otras operaciones simultáneas.";"- Errores fuera del módulo de monitoreo y priorización.
+- Automatización para corregir errores.";"Dado que intento reordenar iniciativas y falla, cuando aparece mensaje de error, entonces recibo explicación clara y opción para reintentar.
+
+Dado que cambio prioridad y hay error, entonces no se pierden los cambios y el mensaje de error es visible."
+Monitoreo y Alertas para Control de Fechas y Prioridades;112_kanban_drag_drop_otm;Como Operations Team Member, necesito poder arrastrar y soltar iniciativas entre columnas de estado en un tablero Kanban interactivo, para actualizar rápidamente el estado de las iniciativas y facilitar la colaboración.;Permite a un miembro del equipo de operaciones modificar visualmente el estado de una iniciativa (pendiente, en progreso, completada) mediante arrastrar y soltar en un tablero Kanban, asegurando que los cambios se reflejen en tiempo real en el sistema.;"- El tablero muestra columnas con los estados: Pendiente, En Progreso, Completada.
+- El usuario puede arrastrar una iniciativa de una columna a otra.
+- Al soltar, el estado de la iniciativa se actualiza en la base de datos.
+- Se muestra una animación visual de arrastre y confirmación de cambio.
+- El cambio de estado se refleja inmediatamente en el tablero para todos los usuarios.
+- No se permite arrastrar iniciativas a columnas inválidas (ej. estado no definido).
+- Se muestra mensaje de error si la actualización falla.";"- Cambios en la prioridad de las iniciativas.
+- Visualización fuera del tablero Kanban.
+- Gestión de alertas directamente en esta historia.";"Dado que soy un Operations Team Member y estoy en el tablero Kanban,
+Cuando arrastro una iniciativa de 'Pendiente' a 'En Progreso' y la suelto,
+Entonces la iniciativa cambia de estado y se refleja en el tablero inmediatamente.
+
+Dado que la actualización falla por error de red,
+Cuando intento soltar la iniciativa en otra columna,
+Entonces se muestra un mensaje de error y la iniciativa permanece en su estado original."
+Monitoreo y Alertas para Control de Fechas y Prioridades;113_kanban_drag_drop_otl;Como Operations Team Leader, necesito poder arrastrar y soltar iniciativas entre columnas de estado en un tablero Kanban interactivo, para supervisar y actualizar estados de iniciativas fácilmente y mantener la visibilidad del progreso del equipo.;Facilita que el líder del equipo gestione los estados de las iniciativas visualmente mediante un tablero Kanban, permitiéndole mover iniciativas entre estados y asegurar que la información esté actualizada para la supervisión y toma de decisiones.;"- El tablero muestra columnas con los estados: Pendiente, En Progreso, Completada.
+- El líder puede arrastrar y soltar iniciativas entre columnas.
+- El cambio se guarda y se refleja en tiempo real para todos los usuarios.
+- El líder recibe confirmación visual de la actualización.
+- Si la actualización falla, se informa con un mensaje claro.
+- El tablero es responsivo y funciona en dispositivos móviles.";"- Gestión de alertas o prioridades fuera de la actualización de estado.
+- Modificación de detalles de la iniciativa en esta historia.";"Dado que soy un Operations Team Leader en el tablero Kanban,
+Cuando muevo una iniciativa de 'En Progreso' a 'Completada',
+Entonces el estado se actualiza y se refleja en todos los dispositivos conectados.
+
+Dado que la conexión se interrumpe al actualizar,
+Cuando suelto la iniciativa en otra columna,
+Entonces aparece un mensaje de error y el estado no cambia."
+Monitoreo y Alertas para Control de Fechas y Prioridades;114_kanban_real_time_updates_otm;Como Operations Team Member, necesito ver actualizaciones en tiempo real del estado de las iniciativas en el tablero Kanban, para estar siempre informado sobre el progreso y coordinar mi trabajo de forma eficiente.;El sistema debe mostrar los cambios de estado de las iniciativas realizados por cualquier miembro del equipo de manera instantánea en el tablero Kanban, garantizando que la información esté siempre sincronizada y actualizada.;"- El tablero refleja inmediatamente cualquier cambio de estado realizado por otros usuarios.
+- No es necesario refrescar la página para ver las actualizaciones.
+- Se notifica visualmente cuando una iniciativa cambia de estado (por ejemplo, resaltado temporario).
+- El sistema maneja correctamente múltiples actualizaciones simultáneas sin conflicto.
+- El tablero funciona igual de bien en dispositivos móviles y desktop.";"- Actualizaciones de alertas o prioridades.
+- Cambios de estado realizados fuera del tablero Kanban.";"Dado que otro miembro del equipo cambia el estado de una iniciativa,
+Cuando estoy visualizando el tablero Kanban,
+Entonces veo el cambio reflejado en tiempo real sin necesidad de refrescar.
+
+Dado que hay múltiples cambios simultáneos,
+Cuando los usuarios actualizan estados al mismo tiempo,
+Entonces el tablero muestra correctamente todos los cambios sin errores."
+Monitoreo y Alertas para Control de Fechas y Prioridades;115_kanban_real_time_updates_otl;Como Operations Team Leader, necesito ver actualizaciones en tiempo real del estado de todas las iniciativas en el tablero Kanban, para tener una visión actualizada del progreso del equipo y tomar decisiones oportunas.;El líder debe recibir actualizaciones inmediatas en el tablero Kanban sobre cambios en los estados de las iniciativas, facilitando la supervisión y gestión proactiva del equipo.;"- Las actualizaciones en el estado de iniciativas se reflejan en tiempo real en el tablero sin refresco manual.
+- Se visualizan notificaciones o indicadores temporales para los cambios recientes.
+- El tablero soporta múltiples usuarios viendo y actualizando simultáneamente.
+- Funciona correctamente en diferentes resoluciones y dispositivos.
+- No se presentan retrasos perceptibles en las actualizaciones.";"- Modificación o edición de detalles de iniciativas.
+- Gestión de alertas o prioridades en esta historia.";"Dado que un miembro del equipo cambia el estado de una iniciativa,
+Cuando el líder visualiza el tablero Kanban,
+Entonces la actualización se refleja instantáneamente y se muestra una notificación visual.
+
+Dado que la conexión a internet es intermitente,
+Cuando se recupera la conexión,
+Entonces el tablero sincroniza correctamente los estados sin pérdida de datos."
+Monitoreo y Alertas para Control de Fechas y Prioridades;116_kanban_edit_initiative_otm;Como Operations Team Member, necesito poder editar directamente los detalles básicos de una iniciativa desde la interfaz visual del tablero Kanban, para corregir o actualizar información sin salir del flujo de trabajo.;Permite a un miembro del equipo hacer ediciones rápidas (como nombre, descripción breve o fechas) de una iniciativa al hacer clic en ella dentro del tablero Kanban, sin necesidad de navegar a páginas separadas.;"- Al hacer clic en una iniciativa en el tablero, se abre un modal o panel lateral con los detalles editables.
+- El usuario puede modificar campos como nombre, descripción, fecha de entrega.
+- Se valida la entrada en tiempo real, mostrando errores si hay datos inválidos.
+- Al guardar, los cambios se actualizan y reflejan inmediatamente en el tablero.
+- El usuario puede cancelar la edición sin guardar cambios.
+- En caso de error al guardar, se muestra un mensaje claro.";"- Edición masiva o cambios complejos que requieran workflow adicional.
+- Gestión de permisos más allá de lo indicado.";"Dado que soy un Operations Team Member y hago clic en una iniciativa,
+Cuando modifico la descripción y guardo,
+Entonces los cambios se reflejan inmediatamente en el tablero.
+
+Dado que ingreso un valor inválido en un campo requerido,
+Cuando intento guardar,
+Entonces se muestra un mensaje de error y no se actualizan los datos.
+
+Dado que cierro el modal sin guardar,
+Entonces no se aplican cambios."
+Monitoreo y Alertas para Control de Fechas y Prioridades;117_kanban_edit_initiative_otl;Como Operations Team Leader, necesito editar directamente los detalles de una iniciativa desde la interfaz Kanban, para hacer ajustes rápidos y mantener la información actualizada sin perder tiempo navegando por múltiples pantallas.;El líder puede acceder a un panel de edición rápida al seleccionar una iniciativa en el tablero, permitiendo modificar información relevante y guardar los cambios con validaciones y confirmaciones adecuadas.;"- Al seleccionar una iniciativa, se abre un panel o modal con campos editables.
+- Se permite modificar nombre, descripción, fecha y otros campos relevantes.
+- Validaciones en tiempo real evitan datos inválidos.
+- Guardar actualiza la iniciativa y se refleja en tiempo real en el tablero.
+- Cancelar descarta cambios.
+- Mensajes claros informan de errores o confirmación exitosa.";"- Cambios estructurales o que requieran aprobación adicional.
+- Gestión de asignaciones o roles en esta historia.";"Dado que soy un Operations Team Leader y edito una iniciativa,
+Cuando guardo los cambios,
+Entonces la información se actualiza y se refleja en el tablero.
+
+Dado que ingreso datos inválidos,
+Cuando intento guardar,
+Entonces se muestra un mensaje de error y no se aplica el cambio.
+
+Dado que cancelo la edición,
+Entonces no se realizan modificaciones."
+Monitoreo y Alertas para Control de Fechas y Prioridades;118_kanban_sync_alerts_prioritization_otm;Como Operations Team Member, necesito que los cambios en el estado de las iniciativas se sincronicen automáticamente con los módulos de alertas y priorización, para asegurar que la información de riesgos y prioridades esté siempre actualizada y facilite la toma de decisiones.;Al actualizar el estado de una iniciativa mediante el tablero Kanban, el sistema debe actualizar en tiempo real el estado de alertas asociadas y la prioridad, reflejándolo en las secciones correspondientes sin intervención manual.;"- Al cambiar el estado de una iniciativa, el módulo de alertas actualiza su información en menos de 2 segundos.
+- La prioridad de la iniciativa se recalcula si aplica.
+- Las alertas mostradas al usuario reflejan el nuevo estado sin necesidad de refrescar.
+- No se presentan inconsistencias entre el tablero y las alertas/prioridades.
+- En caso de falla de sincronización, se notifica al usuario.";"- Modificación manual de alertas o prioridades en este flujo.
+- Visualización detallada de alertas fuera del tablero.";"Dado que cambio el estado de una iniciativa a 'Completada',
+Cuando reviso la sección de alertas,
+Entonces la alerta correspondiente desaparece o se actualiza.
+
+Dado que ocurre un error al sincronizar,
+Cuando cambio el estado de una iniciativa,
+Entonces se muestra un mensaje de error y se mantiene la información coherente."
+Monitoreo y Alertas para Control de Fechas y Prioridades;119_kanban_sync_alerts_prioritization_otl;Como Operations Team Leader, necesito que las actualizaciones de estado hechas en el tablero Kanban se sincronicen automáticamente con los sistemas de alertas y prioridades, para tener siempre una visión precisa y actualizada de los riesgos y prioridades del equipo.;El sistema debe garantizar que cualquier cambio de estado realizado por el líder se refleje en tiempo real en los módulos de alertas y priorización, permitiendo una mejor gestión y seguimiento de las iniciativas críticas.;"- Cambios en estado sincronizan automáticamente con alertas y prioridades.
+- La información en la sección de alertas se actualiza sin recarga manual.
+- Se recalculan prioridades según reglas definidas.
+- Se notifica en caso de error en sincronización.
+- El sistema evita duplicidad o pérdida de datos en la sincronización.";"- Configuración avanzada de alertas o reglas de prioridad.
+- Gestión manual de alertas.";"Dado que cambio el estado de una iniciativa en el tablero,
+Cuando verifico las alertas,
+Entonces la información refleja el cambio en menos de 2 segundos.
+
+Dado que la sincronización falla,
+Cuando cambio el estado,
+Entonces se muestra un mensaje de error y se mantiene la consistencia."
+Monitoreo y Alertas para Control de Fechas y Prioridades;120_kanban_drag_drop_error_handling_otm;Como Operations Team Member, necesito recibir un mensaje de error claro y la posibilidad de revertir un cambio si el arrastrar y soltar una iniciativa en el tablero Kanban falla, para evitar datos inconsistentes y poder corregir rápidamente cualquier problema.;Si ocurre un error al actualizar el estado de una iniciativa mediante arrastrar y soltar (por ejemplo, fallo de conexión o conflicto de datos), el sistema debe informar al usuario con un mensaje claro y ofrecer revertir el cambio para mantener la integridad de la información.;"- Se detecta cualquier error en la actualización del estado.
+- Se muestra un mensaje de error claro y amigable al usuario.
+- La iniciativa vuelve a su estado original si el cambio no fue exitoso.
+- El usuario puede intentar nuevamente la operación.
+- No se causan inconsistencias en el sistema tras el error.";"- Problemas no relacionados con la actualización de estado en el tablero.
+- Gestión de errores fuera del contexto visual del Kanban.";"Dado que hay un problema de red al actualizar el estado,
+Cuando intento soltar la iniciativa en una nueva columna,
+Entonces veo un mensaje de error y la iniciativa permanece en su estado anterior.
+
+Dado que el sistema detecta un conflicto de datos,
+Cuando actualizo el estado,
+Entonces se informa el error y se revierte el cambio."
+Monitoreo y Alertas para Control de Fechas y Prioridades;121_kanban_drag_drop_error_handling_otl;Como Operations Team Leader, necesito que el sistema gestione correctamente errores al actualizar estados en el tablero Kanban y me notifique para poder tomar acciones inmediatas y evitar impactos en la planificación.;En caso de error al modificar el estado de una iniciativa mediante el tablero Kanban, el sistema debe mostrar notificaciones claras al líder y mantener la integridad de los datos, permitiendo acciones correctivas rápidas.;"- Errores en actualización de estado se detectan y muestran inmediatamente.
+- El líder recibe notificación (visual y/o sonora) del error.
+- El estado de la iniciativa no cambia si la actualización falla.
+- Se ofrece opción para reintentar o reportar el problema.
+- No se generan datos inconsistentes tras el error.";"- Resolución automática de errores complejos.
+- Gestión de errores fuera del contexto de actualizaciones de estado.";"Dado que la actualización falla por problema del servidor,
+Cuando el líder intenta mover una iniciativa,
+Entonces recibe una notificación de error y la iniciativa conserva su estado original.
+
+Dado que el líder reintenta la acción tras el error,
+Cuando la conexión se restablece,
+Entonces la actualización se realiza correctamente."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;122_otm_crear_iniciativa_formulario_simplificado;Como Operations Team Member, necesito un formulario simplificado y claro para crear nuevos registros de iniciativas, para poder registrar iniciativas en menos de 2 minutos y reducir la fricción en la entrada de datos.;Se debe proporcionar un formulario con campos esenciales claramente etiquetados y un diseño intuitivo que permita a los miembros del equipo de operaciones crear nuevas iniciativas rápidamente.;"- El formulario debe incluir campos esenciales (nombre, descripción, fecha de inicio, responsable, prioridad).
+- El diseño debe ser claro, sin información superflua.
+- El formulario debe poder completarse y enviarse en menos de 2 minutos.
+- Debe existir un botón visible para enviar la iniciativa.
+- Al enviar, se crea un nuevo registro en el sistema.
+- El formulario debe ser usable en dispositivos móviles y escritorio.";"- Funcionalidades de edición avanzada post-creación.
+- Visualización o gestión de iniciativas ya creadas.
+- Integración con dashboards o Kanban.";"- Dado que soy un Operations Team Member, cuando abro el formulario de creación, entonces veo solo campos esenciales claramente etiquetados.
+- Dado que completo todos los campos obligatorios, cuando presiono 'Enviar', entonces la iniciativa se registra correctamente.
+- Dado que uso un dispositivo móvil, cuando accedo al formulario, entonces el diseño es responsivo y funcional.
+- Dado que completo el formulario, cuando reviso el tiempo, entonces no supera 2 minutos para completarlo."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;123_otl_crear_iniciativa_formulario_simplificado;Como Operations Team Lead, necesito un formulario simplificado y claro para crear nuevos registros de iniciativas, para asegurar que mi equipo pueda registrar iniciativas rápidamente y aumentar la adopción del proceso.;Se debe proveer a los líderes de equipo el mismo formulario claro y eficiente que permita crear iniciativas sin complejidad, facilitando la supervisión y asegurando cumplimiento con el estándar de entrada de datos.;"- El formulario debe contener los mismos campos esenciales y diseño simplificado que para los miembros de equipo.
+- Debe permitir completar y enviar iniciativas en menos de 2 minutos.
+- Debe funcionar correctamente en dispositivos móviles y escritorio.
+- Botón de envío claro y accesible.
+- Registro exitoso tras envío.";"- Funciones de edición avanzada o supervisión desde el formulario.
+- Visualización o edición de iniciativas existentes fuera del formulario.
+- Aspectos relacionados con dashboard o alertas.";"- Dado que soy un Operations Team Lead, cuando abro el formulario de creación, entonces veo un formulario claro y simplificado.
+- Dado que completo y envío el formulario, cuando verifico el sistema, entonces la nueva iniciativa aparece registrada.
+- Dado que uso un dispositivo móvil, cuando accedo al formulario, entonces el diseño se adapta y es funcional.
+- Dado que completo el formulario, cuando cronometró el proceso, entonces tarda menos de 2 minutos."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;124_otm_editar_iniciativa_antes_envio;Como Operations Team Member, necesito poder editar y actualizar los detalles de una iniciativa antes de su envío, para corregir o completar información y asegurar la calidad de los datos ingresados.;El formulario debe permitir modificar todos los campos antes de enviar la iniciativa, con cambios que se reflejen en el registro final una vez enviado.;"- Todos los campos del formulario deben ser editables hasta el momento del envío.
+- Cambios realizados deben quedar reflejados en el registro final.
+- No debe haber limitaciones que impidan corregir o completar información.
+- El formulario debe mantener la usabilidad y claridad durante la edición.";"- Edición posterior al envío o en vista de detalles.
+- Cambios automáticos o sugerencias inteligentes.
+- Validaciones avanzadas fuera de campos obligatorios.";"- Dado que inicio el formulario, cuando modifico cualquier campo, entonces el cambio se actualiza visualmente.
+- Dado que edito un campo, cuando envío la iniciativa, entonces el registro refleja el dato modificado.
+- Dado que intento corregir un error, cuando edito el campo, entonces no existen restricciones para hacerlo."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;125_otl_editar_iniciativa_antes_envio;Como Operations Team Lead, necesito poder editar y actualizar los detalles de una iniciativa en el formulario antes de enviarla, para garantizar que los datos sean precisos y completos antes de la creación definitiva.;El formulario para líderes debe permitir la edición completa y sencilla de los datos antes de enviar la iniciativa, asegurando que la información registrada es correcta y confiable.;"- Edición completa de todos los campos antes del envío.
+- Cambios reflejados en el registro final.
+- Interfaz clara y sin complicaciones para modificar datos.
+- Compatible con dispositivos móviles y escritorio.";"- Edición de iniciativas ya enviadas o en estado posterior.
+- Funcionalidades de revisión o aprobación dentro del formulario.
+- Integración con otras áreas del sistema.";"- Dado que abro el formulario, cuando cambio un campo, entonces veo la actualización reflejada.
+- Dado que envío la iniciativa, cuando verifico en el sistema, entonces veo los datos actualizados.
+- Dado que uso móvil, cuando edito el formulario, entonces la experiencia es fluida y sin errores."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;126_otm_validacion_campos_obligatorios;Como Operations Team Member, necesito que el formulario valide los campos obligatorios antes del envío, para asegurar que la información crítica esté completa y evitar errores o registros incompletos.;El formulario debe incluir validaciones que impidan el envío si los campos obligatorios no están completos o contienen datos inválidos, proporcionando mensajes claros y específicos para corregirlos.;"- Los campos obligatorios están claramente marcados.
+- El formulario impide el envío si faltan campos obligatorios.
+- Mensajes de error visibles y específicos aparecen junto a los campos inválidos.
+- Validación en tiempo real o al intentar enviar.
+- Permite corregir errores y enviar exitosamente tras validación positiva.";"- Validaciones de campos no obligatorios.
+- Validaciones complejas como formato avanzado o integraciones externas.
+- Feedback visual avanzado fuera de los mensajes de error.";"- Dado que dejo un campo obligatorio vacío, cuando intento enviar, entonces recibo un mensaje de error específico.
+- Dado que completo incorrectamente un campo obligatorio, cuando intento enviar, entonces el sistema no permite avanzar.
+- Dado que corrijo los errores, cuando vuelvo a enviar, entonces el formulario se envía correctamente."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;127_otl_validacion_campos_obligatorios;Como Operations Team Lead, necesito validación de campos obligatorios en el formulario de iniciativa, para asegurar que toda la información crítica sea capturada correctamente y evitar inconsistencias en los datos del equipo.;El formulario para líderes debe validar los campos obligatorios con mensajes claros y evitar envíos incompletos, garantizando la calidad y consistencia de los datos registrados por el equipo.;"- Campos obligatorios identificados y resaltados.
+- Envío bloqueado si faltan datos obligatorios.
+- Mensajes de error claros junto a cada campo inválido.
+- Validación efectiva en móvil y escritorio.
+- Permite enviar solo tras corrección de errores.";"- Validaciones no relacionadas con obligatoriedad.
+- Edición posterior a envío.
+- Funcionalidades de revisión o auditoría.";"- Dado que dejo un campo obligatorio vacío, cuando intento enviar, entonces aparece un mensaje de error.
+- Dado que corrijo errores, cuando envío, entonces la iniciativa se registra.
+- Dado que uso móvil, cuando recibo un error, entonces el mensaje es visible y claro."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;128_otm_cancelar_resetear_formulario;Como Operations Team Member, necesito un botón para cancelar o resetear el formulario de registro de iniciativa, para poder borrar rápidamente los datos ingresados y comenzar de nuevo si cometo errores o cambio de opinión.;El formulario debe incluir un botón claro y visible para cancelar o resetear todos los datos ingresados, permitiendo al usuario limpiar el formulario con una sola acción sin enviar información incompleta o errónea.;"- Botón visible y claramente etiquetado como 'Cancelar' o 'Resetear'.
+- Al pulsarlo, todos los campos vuelven a estado inicial vacío.
+- No se envía ninguna información al sistema.
+- Confirmación opcional para evitar cancelaciones accidentales.
+- Funciona en dispositivos móviles y escritorio.";"- Guardado parcial de datos.
+- Cancelación o edición de iniciativas ya guardadas.
+- Integración con otras secciones o sistemas.";"- Dado que completo algunos campos, cuando presiono 'Cancelar', entonces el formulario se limpia completamente.
+- Dado que presiono 'Cancelar' accidentalmente, cuando aparece confirmación, entonces puedo elegir cancelar o continuar.
+- Dado que uso móvil, cuando presiono 'Cancelar', entonces el formulario se resetea sin errores."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;129_otl_cancelar_resetear_formulario;Como Operations Team Lead, necesito un botón para cancelar o resetear el formulario de registro de iniciativa, para permitir a mi equipo reiniciar el proceso de registro fácilmente y mantener la calidad en la entrada de datos.;Se debe ofrecer a los líderes un botón para cancelar o resetear el formulario con confirmación opcional, facilitando la corrección y reinicio rápido sin enviar datos incompletos o erróneos.;"- Botón visible y claro para cancelar/resetear.
+- Limpia todos los campos al activarse.
+- Confirmación para evitar cancelaciones accidentales.
+- Funciona correctamente en móvil y escritorio.
+- No afecta a iniciativas ya creadas o enviadas.";"- Guardado automático de borradores.
+- Funcionalidades de recuperación post-cancelación.
+- Edición de iniciativas existentes.";"- Dado que presiono 'Cancelar', cuando se muestra confirmación, entonces puedo confirmar o cancelar la acción.
+- Dado que confirmo la cancelación, cuando reviso el formulario, entonces está vacío.
+- Dado que uso móvil, cuando cancelo, entonces el formulario se limpia sin problemas."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;130_otm_manejo_errores_validacion;Como Operations Team Member, necesito recibir mensajes de error claros y específicos si intento enviar el formulario con campos obligatorios incompletos o datos inválidos, para poder corregir rápidamente y completar el registro exitosamente.;El sistema debe mostrar mensajes de error visibles, específicos y accesibles, que indiquen qué campos tienen problemas y cómo solucionarlos antes de permitir el envío del formulario.;"- Mensajes de error visibles junto a cada campo inválido.
+- Texto claro que explique el error y cómo corregirlo.
+- No se permite envío mientras existan errores.
+- Mensajes accesibles en dispositivos móviles y escritorio.
+- Los errores desaparecen al corregir el campo.";"- Validación de campos no obligatorios.
+- Mensajes de error genéricos sin especificidad.
+- Funcionalidades de soporte automatizado.";"- Dado que dejo un campo obligatorio vacío, cuando intento enviar, entonces aparece mensaje de error específico.
+- Dado que corrijo el campo, cuando vuelvo a enviar, entonces el mensaje de error desaparece y se envía.
+- Dado que uso móvil, cuando recibo un error, entonces el mensaje es legible y claro."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;131_otl_manejo_errores_validacion;Como Operations Team Lead, necesito que el formulario gestione errores de validación mostrando mensajes específicos y claros, para asegurar que los datos ingresados por mi equipo sean completos y correctos antes del envío.;El formulario debe proveer feedback inmediato y comprensible sobre errores en campos obligatorios, bloqueando el envío hasta la corrección y ayudando a mantener la calidad de los datos del equipo.;"- Mensajes de error visibles y específicos junto a campos inválidos.
+- Bloqueo del envío mientras persistan errores.
+- Mensajes accesibles y adaptados a dispositivos móviles y escritorio.
+- Los mensajes desaparecen tras corrección del error.
+- Feedback consistente con estándares de accesibilidad.";"- Validación avanzada fuera de campos obligatorios.
+- Funcionalidades de soporte o ayuda automatizada.
+- Edición posterior a envío.";"- Dado que intento enviar con errores, cuando veo mensajes, entonces son claros y específicos.
+- Dado que corrigen los campos, cuando vuelven a enviar, entonces el formulario se envía correctamente.
+- Dado que usan móvil, cuando reciben errores, entonces los mensajes son legibles y accesibles."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;132_kanban_drag_drop_OTM;Como miembro del equipo de operaciones, necesito poder mover iniciativas entre columnas del tablero Kanban mediante arrastrar y soltar, para actualizar rápidamente el estado actual de cada iniciativa y reflejar el progreso en tiempo real.;Permitir que el miembro del equipo de operaciones arrastre una tarjeta de iniciativa de una columna (estado) a otra y que el sistema actualice el estado de la iniciativa inmediatamente, mostrando feedback visual durante la operación.;"- La tarjeta de iniciativa se puede arrastrar y soltar entre columnas de estado en el tablero Kanban.
+- El estado de la iniciativa se actualiza instantáneamente al soltar la tarjeta en una nueva columna.
+- Se muestra feedback visual (por ejemplo, resaltado o animación) durante el arrastre y al soltar.
+- La actualización del estado se persiste sin necesidad de recargar la página.
+- Solo se permiten estados válidos para cada iniciativa.";"- Cambios de estado fuera del tablero Kanban.
+- Modificación de datos de iniciativa desde otras interfaces.
+- Gestión de permisos fuera de la lógica de mover iniciativas.";"- Dado que soy un miembro del equipo de operaciones, cuando arrastro una tarjeta y la suelto en otra columna, entonces el estado de la iniciativa cambia y se refleja inmediatamente en la interfaz.
+- Dado que arrastro la tarjeta, veo un indicador visual que confirma la operación.
+- Dado que muevo una iniciativa a un estado inválido (si existiera), la acción es bloqueada y muestra un mensaje de error."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;133_kanban_drag_drop_OTL;Como líder del equipo de operaciones, necesito poder mover iniciativas entre columnas del tablero Kanban mediante arrastrar y soltar, para gestionar y validar el progreso del equipo de manera eficiente y con información actualizada al instante.;El líder del equipo podrá actualizar los estados de las iniciativas arrastrando tarjetas entre columnas, asegurando que el progreso reflejado sea inmediato y confiable para su supervisión.;"- El líder puede arrastrar y soltar tarjetas para cambiar el estado de iniciativas.
+- La actualización se refleja al instante y se guarda en la base de datos.
+- Feedback visual se presenta durante todo el proceso.
+- No se requieren pasos adicionales para confirmar el cambio.";"- Cambios masivos o batch de estados.
+- Edición de detalles de iniciativas dentro del Kanban (solo cambio de estado).
+- Gestión de permisos avanzada fuera del tablero Kanban.";"- Dado que soy líder y arrastro una tarjeta, el estado se actualiza y persiste.
+- Dado que intento mover a un estado inválido, recibo un mensaje de error y el movimiento se cancela.
+- El feedback visual aparece correctamente durante el arrastre."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;134_kanban_view_card_OTM;Como miembro del equipo de operaciones, necesito poder ver las tarjetas detalladas de cada iniciativa dentro del tablero Kanban, para entender rápidamente el contenido y estado de cada iniciativa sin salir del tablero.;Permitir que el usuario visualice información detallada de la iniciativa mediante un clic o hover sobre la tarjeta en el tablero Kanban, mostrando datos relevantes como título, descripción, prioridad y fecha límite.;"- Al hacer clic o pasar el cursor sobre una tarjeta, se despliega o muestra un modal o tooltip con detalles de la iniciativa.
+- Los detalles incluyen título, descripción breve, prioridad, estado actual y fecha límite.
+- La visualización es rápida y no interrumpe la navegación.
+- Compatible con dispositivos móviles mediante toque o tap.";"- Edición de iniciativas desde el tooltip o modal.
+- Visualización de historial o comentarios extendidos.
+- Navegación fuera del tablero Kanban.";"- Dado que hago clic en una tarjeta, se muestra un modal con la información correcta.
+- Dado que paso el cursor sobre una tarjeta en desktop, aparece un tooltip con la información.
+- Dado que uso móvil, al tocar la tarjeta se abre el detalle.
+- El detalle corresponde con los datos almacenados en la base de datos."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;135_kanban_view_card_OTL;Como líder del equipo de operaciones, necesito ver las tarjetas detalladas de cada iniciativa en el tablero Kanban para supervisar el progreso y detalles clave sin cambiar de vista, facilitando la toma de decisiones rápida.;El líder puede acceder a la información detallada de cada iniciativa desde el Kanban con interacción rápida y visual para asegurar que toda la información relevante esté accesible en contexto.;"- El líder puede abrir un modal o ver un tooltip con detalles al interactuar con una tarjeta.
+- La información mostrada incluye título, prioridad, descripción breve, estado y fechas relevantes.
+- La interacción funciona fluida y sin errores tanto en desktop como en móvil.
+- No se permite editar datos desde esta vista.";"- Edición o eliminación de iniciativas desde la vista de detalle.
+- Integración con otras herramientas externas.
+- Visualización de datos históricos o analíticos.";"- Dado que el líder hace clic en una tarjeta, aparece el modal con datos correctos.
+- Dado que el líder usa móvil, el toque sobre la tarjeta despliega el detalle.
+- El contenido del detalle coincide con los datos actuales de la iniciativa."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;136_kanban_feedback_persistence_OTM;Como miembro del equipo de operaciones, necesito recibir un feedback inmediato y confirmación visual cuando actualizo el estado de una iniciativa en el Kanban, para asegurarme que mi cambio se ha guardado correctamente y evitar confusiones.;Mostrar notificaciones o indicadores visuales (como mensajes emergentes o iconos de éxito) y actualizar la interfaz inmediatamente tras mover una tarjeta para reflejar la persistencia de los datos.;"- Después de mover una tarjeta, el sistema muestra una notificación de éxito o error.
+- El cambio de estado se refleja instantáneamente en la interfaz.
+- En caso de error al guardar, se muestra un mensaje claro y la tarjeta vuelve a su estado original.
+- La notificación desaparece automáticamente o puede ser cerrada por el usuario.";"- Historial detallado de cambios.
+- Reintentos automáticos sin intervención del usuario.
+- Cambios múltiples simultáneos fuera del Kanban.";"- Dado que muevo una tarjeta correctamente, recibo una notificación de éxito.
+- Dado que ocurre un error de conexión, recibo un mensaje de error y la tarjeta regresa a su lugar original.
+- La interfaz actualiza el estado sin recargar la página."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;137_kanban_feedback_persistence_OTL;Como líder del equipo de operaciones, necesito recibir confirmación inmediata y feedback visual tras cambiar el estado de una iniciativa en el Kanban, para validar que la información del equipo está actualizada y evitar inconsistencias.;El líder debe ver confirmación clara de cambios exitosos o errores al mover iniciativas en el tablero Kanban, garantizando que los datos sean confiables para la supervisión.;"- La interfaz muestra un mensaje de éxito inmediatamente tras el cambio de estado.
+- En caso de error, se despliega un mensaje de error claro y la tarjeta vuelve a su posición original.
+- El feedback es visual, accesible y compatible con dispositivos móviles.
+- El cambio se refleja en la base de datos sin demoras.";"- Registro detallado de auditoría de cambios.
+- Soporte para cambios masivos o batch.
+- Integración con notificaciones externas.";"- Dado que el líder mueve una tarjeta, se muestra notificación visual de éxito.
+- Dado un fallo en la actualización, se muestra mensaje de error y el estado se revierte.
+- La información visible en la tarjeta es actualizada tras el cambio."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;138_kanban_filter_temp_OTM;Como miembro del equipo de operaciones, necesito poder filtrar temporalmente la vista del tablero Kanban por prioridad u otros criterios, sin que esto afecte los filtros predeterminados del dashboard, para enfocar mi atención en iniciativas específicas sin perder la configuración general.;Implementar controles de filtrado en el tablero Kanban que permitan aplicar filtros temporales (por prioridad, estado, etc.) y que se puedan limpiar fácilmente sin modificar la configuración persistente del dashboard general.;"- El usuario puede seleccionar filtros temporales desde un panel o menú en el Kanban.
+- Los filtros aplicados afectan solo la vista actual del Kanban, no el dashboard general.
+- Los filtros pueden ser removidos o reseteados con un botón claro.
+- La aplicación y remoción de filtros no requiere recarga de página.
+- Compatible con filtros por prioridad, estado y otros criterios definidos.";"- Guardar filtros temporales para sesiones futuras.
+- Cambiar los filtros predeterminados del dashboard.
+- Filtros complejos o personalizados fuera de los criterios básicos.";"- Dado que aplico un filtro de prioridad alta, solo veo las iniciativas que cumplen el criterio.
+- Dado que quito el filtro, el Kanban muestra todas las iniciativas nuevamente.
+- El dashboard general mantiene sus filtros predeterminados intactos tras aplicar y quitar filtros en el Kanban."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;139_kanban_filter_temp_OTL;Como líder del equipo de operaciones, necesito aplicar filtros temporales en el tablero Kanban para visualizar iniciativas con prioridad o criterio específico, sin alterar los filtros globales del dashboard, para monitorear áreas críticas sin afectar la vista común del equipo.;Permitir al líder aplicar y remover filtros temporales en el Kanban para un análisis puntual, garantizando que la configuración general del dashboard permanezca sin cambios.;"- El líder puede activar filtros temporales desde controles visibles en el Kanban.
+- Los filtros impactan únicamente la vista actual del Kanban.
+- Existe un botón para limpiar filtros y volver a la vista completa.
+- No hay cambios persistentes en las configuraciones globales.
+- Filtros disponibles incluyen prioridad, estado, y otros criterios relevantes.";"- Guardar filtros para sesiones futuras o equipos.
+- Edición de filtros complejos o personalizados.
+- Impacto en otras vistas o módulos del sistema.";"- Dado que el líder aplica un filtro por estado, solo se muestran iniciativas con ese estado.
+- Dado que limpia los filtros, el Kanban muestra todas las iniciativas.
+- El dashboard y otras vistas no se ven afectados por estos filtros temporales."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;140_kanban_error_handling_OTM;Como miembro del equipo de operaciones, necesito que el sistema maneje errores al actualizar el estado de una iniciativa mediante drag-and-drop en el Kanban, mostrando mensajes claros y restaurando el estado anterior para evitar pérdida de información y confusión.;Implementar manejo de errores robusto para la actualización de estado mediante drag-and-drop, con notificaciones de error y reversión automática de cambios fallidos.;"- Si la actualización falla por error técnico, se muestra un mensaje de error claro.
+- La tarjeta vuelve automáticamente a su columna original.
+- No se permiten estados inconsistentes ni datos corruptos.
+- El usuario puede reintentar la acción sin recargar la página.
+- El feedback de error es accesible y visible en todos los dispositivos.";"- Soporte para rollback en cambios masivos simultáneos.
+- Notificación por email o canales externos.
+- Diagnóstico detallado o logging visible al usuario.";"- Dado que falla la actualización por problema de red, veo un mensaje de error y la tarjeta regresa al estado anterior.
+- Dado que el sistema lanza un error interno, se notifica adecuadamente y no se guarda el cambio.
+- El usuario puede intentar nuevamente mover la tarjeta tras el error."
+Optimización de Usabilidad y Eficiencia en la Interacción del Usuario;141_kanban_error_handling_OTL;Como líder del equipo de operaciones, necesito que ante errores al cambiar el estado de iniciativas en el Kanban, el sistema notifique claramente y revierta la acción para mantener la integridad y confiabilidad de los datos que superviso.;Garantizar que el líder reciba notificaciones claras y que las tarjetas vuelvan a su estado original cuando ocurran fallos en la actualización de estado por drag-and-drop.;"- En caso de error, el sistema despliega un mensaje claro y visible.
+- La tarjeta de iniciativa retorna a la columna desde donde fue movida.
+- No se guardan cambios incompletos o inconsistentes.
+- El líder puede volver a intentar la acción sin necesidad de recargar.
+- Mensajes de error se adaptan a diferentes dispositivos y resoluciones.";"- Análisis forense o logging avanzado para administradores.
+- Automatización de recuperación de fallos sin intervención del usuario.
+- Cambios en la estructura de estados o flujos de trabajo.";"- Dado que hay un error en la actualización, el líder ve un mensaje de error.
+- La tarjeta vuelve a la columna original tras el error.
+- El líder puede reintentar mover la tarjeta y el sistema responde correctamente."
