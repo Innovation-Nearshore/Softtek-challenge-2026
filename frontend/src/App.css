@@ -1,0 +1,7 @@
+/*
+ * App.css — Application-level styles
+ *
+ * Global utility classes (.btn, .badge, .alert, .spinner, .card, etc.)
+ * are defined in index.css which is loaded in main.jsx.
+ * This file is intentionally minimal to avoid style conflicts.
+ */

@@ -1,0 +1,149 @@
+/* ===== STATUS MODAL SPECIFIC STYLES ===== */
+/* Base modal styles are in Dashboard.css */
+
+.status-modal__initiative-name {
+  font-size: 0.9375rem;
+  color: #475569;
+  margin: 0 0 0.25rem;
+  line-height: 1.5;
+}
+
+.status-modal__initiative-name span {
+  font-weight: 500;
+  color: #94a3b8;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-modal__initiative-name strong {
+  color: #0f172a;
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 0.125rem;
+}
+
+/* ===== STATUS OPTION RADIO BUTTONS ===== */
+.status-modal__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-top: 0.5rem;
+}
+
+.status-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+  position: relative;
+  user-select: none;
+}
+
+.status-option:hover {
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+}
+
+/* Selected state */
+.status-option--selected {
+  border-width: 2px;
+  background-color: #f8fafc;
+}
+
+.status-option--selected.status-option--pendiente {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.status-option--selected.status-option--en-curso {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+.status-option--selected.status-option--completado {
+  border-color: #16a34a;
+  background-color: #f0fdf4;
+}
+
+/* Colored dot */
+.status-option__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid currentColor;
+}
+
+.status-option--pendiente .status-option__dot {
+  background-color: #f59e0b;
+  border-color: #f59e0b;
+}
+
+.status-option--en-curso .status-option__dot {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.status-option--completado .status-option__dot {
+  background-color: #16a34a;
+  border-color: #16a34a;
+}
+
+/* Label text */
+.status-option__label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #334155;
+  flex: 1;
+}
+
+.status-option--selected .status-option__label {
+  font-weight: 600;
+}
+
+.status-option--selected.status-option--pendiente .status-option__label {
+  color: #b45309;
+}
+
+.status-option--selected.status-option--en-curso .status-option__label {
+  color: #1d4ed8;
+}
+
+.status-option--selected.status-option--completado .status-option__label {
+  color: #15803d;
+}
+
+/* Check icon */
+.status-option__check {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #16a34a;
+}
+
+.status-option--pendiente .status-option__check {
+  color: #f59e0b;
+}
+
+.status-option--en-curso .status-option__check {
+  color: #3b82f6;
+}
+
+/* Hidden radio input (accessible) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
