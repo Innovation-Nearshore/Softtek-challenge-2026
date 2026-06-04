@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-right: 0.25rem;
+}
+
+.btn {
+  padding: 0.375rem 0.875rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 9999px;
+  background: #fff;
+  color: #374151;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* Active state (all / default) */
+.btn.active {
+  background: #6366f1;
+  border-color: #6366f1;
+  color: #fff;
+}
+
+/* Alta – red */
+.btn.alta {
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+.btn.alta:hover {
+  background: #fee2e2;
+}
+.btn.alta.active {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+/* Media – yellow */
+.btn.media {
+  border-color: #fcd34d;
+  color: #d97706;
+}
+.btn.media:hover {
+  background: #fef3c7;
+}
+.btn.media.active {
+  background: #d97706;
+  border-color: #d97706;
+  color: #fff;
+}
+
+/* Baja – green */
+.btn.baja {
+  border-color: #6ee7b7;
+  color: #059669;
+}
+.btn.baja:hover {
+  background: #d1fae5;
+}
+.btn.baja.active {
+  background: #059669;
+  border-color: #059669;
+  color: #fff;
+}

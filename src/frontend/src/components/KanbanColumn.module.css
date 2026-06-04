@@ -1,0 +1,88 @@
+.column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 260px;
+  max-width: 360px;
+  background: #f8fafc;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+/* Column accent top border */
+.column.pending   { border-top: 3px solid #f59e0b; }
+.column.inprogress { border-top: 3px solid #3b82f6; }
+.column.completed { border-top: 3px solid #10b981; }
+
+/* Header */
+.columnHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem 0.7rem;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.emoji {
+  font-size: 1rem;
+}
+
+.columnTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1e293b;
+  flex: 1;
+  margin: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0 0.35rem;
+}
+
+.column.pending   .badge { background: #fef3c7; color: #92400e; }
+.column.inprogress .badge { background: #dbeafe; color: #1e40af; }
+.column.completed .badge { background: #d1fae5; color: #065f46; }
+
+/* Drop zone */
+.dropZone {
+  flex: 1;
+  min-height: 160px;
+  padding: 0.75rem;
+  transition: background 0.15s ease;
+  overflow-y: auto;
+  max-height: calc(100vh - 280px);
+}
+
+.dropZone.draggingOver {
+  background: #eff6ff;
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  gap: 0.4rem;
+  color: #94a3b8;
+}
+
+.emptyIcon {
+  font-size: 1.6rem;
+}
+
+.emptyState p {
+  font-size: 0.8rem;
+  margin: 0;
+}
