@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>76/76</span>
+                <span class='fraction'>74/74</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>76/76</span>
+                <span class='fraction'>74/74</span>
             </div>
         
             
@@ -234,15 +234,16 @@
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
 <a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L172'></a><a href='#L172'>172</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -279,9 +280,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -318,8 +316,6 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -343,8 +339,6 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -419,7 +413,11 @@ const {
   UPDATE_INITIATIVE_ESTADO,
 } = require('../queries/initiatives.queries');
 &nbsp;
-// GET /api/initiatives?estado=...&amp;prioridad=...
+// ── Module-level validation constants (single source of truth) ───────────────
+const VALID_ESTADOS = ['Pendiente', 'En curso', 'Completado'];
+const VALID_PRIORIDADES = ['Alta', 'Media', 'Baja'];
+&nbsp;
+// ── GET /api/initiatives?estado=...&amp;prioridad=... ────────────────────────────
 const getInitiatives = async (req, res) =&gt; {
   try {
     const { estado, prioridad } = req.query;
@@ -440,7 +438,7 @@ const getInitiatives = async (req, res) =&gt; {
   }
 };
 &nbsp;
-// POST /api/initiatives
+// ── POST /api/initiatives ────────────────────────────────────────────────────
 const createInitiative = async (req, res) =&gt; {
   try {
     const { nombre, responsable, estado, fecha_limite, prioridad, descripcion } = req.body;
@@ -452,20 +450,17 @@ const createInitiative = async (req, res) =&gt; {
       });
     }
 &nbsp;
-    const validEstados = ['Pendiente', 'En curso', 'Completado'];
-    const validPrioridades = ['Alta', 'Media', 'Baja'];
-&nbsp;
-    if (!validEstados.includes(estado)) {
+    if (!VALID_ESTADOS.includes(estado)) {
       return res.status(400).json({
         success: false,
-        message: `Estado inválido. Valores permitidos: ${validEstados.join(', ')}`,
+        message: `Estado inválido. Valores permitidos: ${VALID_ESTADOS.join(', ')}`,
       });
     }
 &nbsp;
-    if (!validPrioridades.includes(prioridad)) {
+    if (!VALID_PRIORIDADES.includes(prioridad)) {
       return res.status(400).json({
         success: false,
-        message: `Prioridad inválida. Valores permitidos: ${validPrioridades.join(', ')}`,
+        message: `Prioridad inválida. Valores permitidos: ${VALID_PRIORIDADES.join(', ')}`,
       });
     }
 &nbsp;
@@ -485,18 +480,16 @@ const createInitiative = async (req, res) =&gt; {
   }
 };
 &nbsp;
-// PATCH /api/initiatives/:id/estado
+// ── PATCH /api/initiatives/:id/estado ────────────────────────────────────────
 const updateInitiativeEstado = async (req, res) =&gt; {
   try {
     const { id } = req.params;
     const { estado } = req.body;
 &nbsp;
-    const validEstados = ['Pendiente', 'En curso', 'Completado'];
-&nbsp;
-    if (!estado || !validEstados.includes(estado)) {
+    if (!estado || !VALID_ESTADOS.includes(estado)) {
       return res.status(400).json({
         success: false,
-        message: `Estado inválido. Valores permitidos: ${validEstados.join(', ')}`,
+        message: `Estado inválido. Valores permitidos: ${VALID_ESTADOS.join(', ')}`,
       });
     }
 &nbsp;
@@ -513,15 +506,13 @@ const updateInitiativeEstado = async (req, res) =&gt; {
   }
 };
 &nbsp;
-// PATCH /api/initiatives/:id  — inline field update (nombre, responsable, prioridad)
+// ── PATCH /api/initiatives/:id — inline field update (nombre, responsable, prioridad) ──
 const updateInitiativeFields = async (req, res) =&gt; {
   try {
     const { id } = req.params;
     const { nombre, responsable, prioridad } = req.body;
 &nbsp;
-    const validPrioridades = ['Alta', 'Media', 'Baja'];
-&nbsp;
-    // Build dynamic SET clause with only provided fields
+    // Build parameterized SET clause with only the provided fields
     const setClauses = [];
     const values = [];
     let paramIdx = 1;
@@ -543,10 +534,10 @@ const updateInitiativeFields = async (req, res) =&gt; {
     }
 &nbsp;
     if (prioridad !== undefined) {
-      if (!validPrioridades.includes(prioridad)) {
+      if (!VALID_PRIORIDADES.includes(prioridad)) {
         return res.status(400).json({
           success: false,
-          message: `Prioridad inválida. Valores permitidos: ${validPrioridades.join(', ')}`,
+          message: `Prioridad inválida. Valores permitidos: ${VALID_PRIORIDADES.join(', ')}`,
         });
       }
       setClauses.push(`prioridad = $${paramIdx++}`);
@@ -560,7 +551,7 @@ const updateInitiativeFields = async (req, res) =&gt; {
       });
     }
 &nbsp;
-    // Append fecha_actualizacion and WHERE id
+    // Append audit timestamp and parameterized WHERE clause
     setClauses.push(`fecha_actualizacion = NOW()`);
     values.push(id);
 &nbsp;
@@ -592,7 +583,7 @@ module.exports = { getInitiatives, createInitiative, updateInitiativeEstado, upd
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-04T16:35:04.319Z
+                at 2026-06-04T16:49:32.046Z
             </div>
         <script src="../prettify.js"></script>
         <script>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { updateInitiativeStatus } from '../services/initiativesService';
+import { formatDate } from '../utils/dateUtils';
 
 const ESTADOS = ['Pendiente', 'En curso', 'Completado'];
 
@@ -9,11 +10,6 @@ const COLUMN_COLORS = {
   'En curso': '#bbdefb',
   Completado: '#c8e6c9',
 };
-
-function formatDate(dateStr) {
-  if (!dateStr) return '—';
-  return new Date(dateStr).toLocaleDateString('es-PE');
-}
 
 function PriorityBadge({ prioridad }) {
   const colors = { Alta: 'red', Media: 'orange', Baja: 'green' };
@@ -81,7 +77,6 @@ export default function KanbanBoard({ initiatives, onUpdate }) {
       // Notify parent to refresh data
       if (onUpdate) onUpdate();
     } catch (err) {
-      console.error('Error updating estado:', err);
       // Revert optimistic update on failure
       setColumns((prev) => {
         const revertSource = Array.from(prev[sourceCol]);
@@ -90,7 +85,7 @@ export default function KanbanBoard({ initiatives, onUpdate }) {
         revertSource.splice(source.index, 0, revertItem);
         return { ...prev, [sourceCol]: revertSource, [destCol]: revertDest };
       });
-      alert(`Error al actualizar estado: ${err.message}`);
+      window.alert('No se pudo actualizar el estado. Por favor, intenta de nuevo.');
     }
   };
 

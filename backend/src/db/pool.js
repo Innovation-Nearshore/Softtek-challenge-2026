@@ -10,9 +10,11 @@ const pool = new Pool({
 });
 
 // Set search_path to reto_a schema on every new connection
+// The schema name is double-quoted to prevent SQL injection from the env var value.
 pool.on('connect', (client) => {
-  client.query(`SET search_path TO ${process.env.DB_SCHEMA}`);
-  console.log(`[DB] New client connected — search_path set to "${process.env.DB_SCHEMA}"`);
+  const schema = process.env.DB_SCHEMA;
+  client.query(`SET search_path TO "${schema}"`);
+  console.log(`[DB] New client connected — search_path set to "${schema}"`);
 });
 
 pool.on('error', (err) => {

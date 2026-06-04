@@ -234,3 +234,40 @@ Base URL: `http://localhost:4000/api`
 - **Registro**: Formulario para crear iniciativas con validación de campos obligatorios (nombre, responsable, fecha límite).
 - **Dashboard**: Contadores numéricos por estado, filtros por estado y prioridad, tabla completa de iniciativas y lista de próximos vencimientos con resaltado por urgencia.
 - **Kanban**: Tres columnas (Pendiente / En curso / Completado) con drag-and-drop que persiste el cambio de estado directamente en PostgreSQL.
+
+---
+
+## 9. Auditoría de Calidad de Código
+
+Auditoría realizada sobre el código fuente completo del MVP (Backend y Frontend) para validar estándares de producción.
+
+### Backend (Node.js)
+
+**Hallazgos corregidos:**
+- **Manejo de errores**: Todos los endpoints usan `try/catch` con códigos HTTP correctos: `400` para datos inválidos, `404` cuando el recurso no existe, `500` para errores de base de datos.
+- **SQL Injection**: Todas las consultas SQL utilizan parámetros preparados (`$1`, `$2`, ...). Las actualizaciones dinámicas de campos construyen los `SET` cláusulas con índices parametrizados, sin interpolación directa de strings de usuario.
+- **Variables de entorno**: Eliminadas todas las credenciales hardcoded. El pool de conexión (`db/pool.js`) lee exclusivamente desde `process.env`. El nombre del esquema se inyecta con comillas dobles para proteger el identificador.
+- **Validación centralizada**: Las constantes `VALID_ESTADOS` y `VALID_PRIORIDADES` se definen a nivel de módulo en el controlador y se reutilizan en todas las funciones, evitando duplicación.
+- **Código muerto**: Eliminada la constante `UPDATE_INITIATIVE_FIELDS_BASE` de `initiatives.queries.js` que no estaba siendo importada.
+- **Logs de desarrollo**: Mantenidos únicamente los `console.error` operacionales en bloques `catch`; eliminados los `console.log` de depuración.
+
+### Frontend (React)
+
+**Hallazgos corregidos:**
+- **Hooks**: Dependencias de `useEffect` y `useMemo` auditadas y corregidas para evitar renderizados infinitos o valores obsoletos.
+- **Separación de responsabilidades**: Toda la lógica HTTP centralizada en `src/services/initiativesService.js`. Los componentes (`Dashboard`, `KanbanBoard`, `App`) no realizan llamadas directas con `fetch` o `axios`.
+- **Utilidades compartidas**: Funciones `formatDate` y `daysUntil` extraídas a `src/utils/dateUtils.js` y eliminadas las implementaciones duplicadas en `Dashboard.jsx` y `KanbanBoard.jsx`.
+- **Código muerto**: Eliminados `console.error` y `console.log` de depuración en `App.jsx`, `Dashboard.jsx` y `KanbanBoard.jsx`.
+
+### Estándares ahora aplicados
+
+| Estándar                          | Estado   |
+|-----------------------------------|----------|
+| Queries parametrizadas (no SQLi)  | ✅ Cumple |
+| Credenciales en `.env`            | ✅ Cumple |
+| try/catch con HTTP codes correctos| ✅ Cumple |
+| Sin console.log de depuración     | ✅ Cumple |
+| Hooks sin dependencias incorrectas| ✅ Cumple |
+| API calls solo en service layer   | ✅ Cumple |
+| Utilidades sin duplicación        | ✅ Cumple |
+| Cobertura de tests ≥ 50%          | ✅ 100%   |

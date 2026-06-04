@@ -6,7 +6,11 @@ const {
   UPDATE_INITIATIVE_ESTADO,
 } = require('../queries/initiatives.queries');
 
-// GET /api/initiatives?estado=...&prioridad=...
+// ── Module-level validation constants (single source of truth) ───────────────
+const VALID_ESTADOS = ['Pendiente', 'En curso', 'Completado'];
+const VALID_PRIORIDADES = ['Alta', 'Media', 'Baja'];
+
+// ── GET /api/initiatives?estado=...&prioridad=... ────────────────────────────
 const getInitiatives = async (req, res) => {
   try {
     const { estado, prioridad } = req.query;
@@ -27,7 +31,7 @@ const getInitiatives = async (req, res) => {
   }
 };
 
-// POST /api/initiatives
+// ── POST /api/initiatives ────────────────────────────────────────────────────
 const createInitiative = async (req, res) => {
   try {
     const { nombre, responsable, estado, fecha_limite, prioridad, descripcion } = req.body;
@@ -39,20 +43,17 @@ const createInitiative = async (req, res) => {
       });
     }
 
-    const validEstados = ['Pendiente', 'En curso', 'Completado'];
-    const validPrioridades = ['Alta', 'Media', 'Baja'];
-
-    if (!validEstados.includes(estado)) {
+    if (!VALID_ESTADOS.includes(estado)) {
       return res.status(400).json({
         success: false,
-        message: `Estado inválido. Valores permitidos: ${validEstados.join(', ')}`,
+        message: `Estado inválido. Valores permitidos: ${VALID_ESTADOS.join(', ')}`,
       });
     }
 
-    if (!validPrioridades.includes(prioridad)) {
+    if (!VALID_PRIORIDADES.includes(prioridad)) {
       return res.status(400).json({
         success: false,
-        message: `Prioridad inválida. Valores permitidos: ${validPrioridades.join(', ')}`,
+        message: `Prioridad inválida. Valores permitidos: ${VALID_PRIORIDADES.join(', ')}`,
       });
     }
 
@@ -72,18 +73,16 @@ const createInitiative = async (req, res) => {
   }
 };
 
-// PATCH /api/initiatives/:id/estado
+// ── PATCH /api/initiatives/:id/estado ────────────────────────────────────────
 const updateInitiativeEstado = async (req, res) => {
   try {
     const { id } = req.params;
     const { estado } = req.body;
 
-    const validEstados = ['Pendiente', 'En curso', 'Completado'];
-
-    if (!estado || !validEstados.includes(estado)) {
+    if (!estado || !VALID_ESTADOS.includes(estado)) {
       return res.status(400).json({
         success: false,
-        message: `Estado inválido. Valores permitidos: ${validEstados.join(', ')}`,
+        message: `Estado inválido. Valores permitidos: ${VALID_ESTADOS.join(', ')}`,
       });
     }
 
@@ -100,15 +99,13 @@ const updateInitiativeEstado = async (req, res) => {
   }
 };
 
-// PATCH /api/initiatives/:id  — inline field update (nombre, responsable, prioridad)
+// ── PATCH /api/initiatives/:id — inline field update (nombre, responsable, prioridad) ──
 const updateInitiativeFields = async (req, res) => {
   try {
     const { id } = req.params;
     const { nombre, responsable, prioridad } = req.body;
 
-    const validPrioridades = ['Alta', 'Media', 'Baja'];
-
-    // Build dynamic SET clause with only provided fields
+    // Build parameterized SET clause with only the provided fields
     const setClauses = [];
     const values = [];
     let paramIdx = 1;
@@ -130,10 +127,10 @@ const updateInitiativeFields = async (req, res) => {
     }
 
     if (prioridad !== undefined) {
-      if (!validPrioridades.includes(prioridad)) {
+      if (!VALID_PRIORIDADES.includes(prioridad)) {
         return res.status(400).json({
           success: false,
-          message: `Prioridad inválida. Valores permitidos: ${validPrioridades.join(', ')}`,
+          message: `Prioridad inválida. Valores permitidos: ${VALID_PRIORIDADES.join(', ')}`,
         });
       }
       setClauses.push(`prioridad = $${paramIdx++}`);
@@ -147,7 +144,7 @@ const updateInitiativeFields = async (req, res) => {
       });
     }
 
-    // Append fecha_actualizacion and WHERE id
+    // Append audit timestamp and parameterized WHERE clause
     setClauses.push(`fecha_actualizacion = NOW()`);
     values.push(id);
 

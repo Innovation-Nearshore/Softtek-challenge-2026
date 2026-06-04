@@ -44,19 +44,9 @@ const UPDATE_INITIATIVE_ESTADO = `
   RETURNING *
 `;
 
-// Dynamically built at runtime — see controller buildUpdateFieldsQuery()
-// This constant is kept as documentation; actual SQL is constructed in the controller.
-const UPDATE_INITIATIVE_FIELDS_BASE = `
-  UPDATE iniciativas
-  SET {{SET_CLAUSE}}, fecha_actualizacion = NOW()
-  WHERE id = {{ID_PARAM}}
-  RETURNING *
-`;
-
 module.exports = {
   GET_ALL_INITIATIVES,
   GET_INITIATIVES_FILTERED,
   CREATE_INITIATIVE,
   UPDATE_INITIATIVE_ESTADO,
-  UPDATE_INITIATIVE_FIELDS_BASE,
 };

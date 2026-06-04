@@ -22,9 +22,8 @@ export default function App() {
     try {
       const data = await fetchInitiatives();
       setInitiatives(data);
-    } catch (err) {
+    } catch {
       setError('No se pudo conectar con el servidor. Verifica que el backend esté corriendo en el puerto 4000.');
-      console.error(err);
     } finally {
       setLoading(false);
     }

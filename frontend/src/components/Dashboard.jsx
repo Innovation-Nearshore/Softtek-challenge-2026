@@ -1,22 +1,9 @@
 import { useMemo, useState, useEffect } from 'react';
 import { updateInitiativeFields } from '../services/initiativesService';
+import { formatDate, daysUntil } from '../utils/dateUtils';
 
 const ESTADOS = ['Pendiente', 'En curso', 'Completado'];
 const PRIORIDADES = ['Alta', 'Media', 'Baja'];
-
-function formatDate(dateStr) {
-  if (!dateStr) return '—';
-  return new Date(dateStr).toLocaleDateString('es-PE');
-}
-
-function daysUntil(dateStr) {
-  if (!dateStr) return Infinity;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const target = new Date(dateStr);
-  target.setHours(0, 0, 0, 0);
-  return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
-}
 
 export default function Dashboard({ initiatives }) {
   const safeInitiatives = Array.isArray(initiatives) ? initiatives : [];
@@ -92,8 +79,7 @@ export default function Dashboard({ initiatives }) {
 
     try {
       await updateInitiativeFields(id, { [field]: editValue });
-    } catch (err) {
-      console.error('[Dashboard] inline update error:', err);
+    } catch {
       // Revert on failure
       setLocalList((prev) =>
         prev.map((i) => (i.id === id ? { ...i, [field]: originalValue } : i))
