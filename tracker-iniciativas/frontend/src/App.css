@@ -1,0 +1,13 @@
+/* App-level overrides (minimal — Tailwind handles most styling) */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure the app fills the viewport height */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
