@@ -1,0 +1,8 @@
+/* Global reset & base — overridden by App.css */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
