@@ -1,0 +1,108 @@
+/* =====================================================
+   AlertNotification – reusable alert / toast banner
+   ===================================================== */
+
+.alert-notification {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
+  border-left: 4px solid transparent;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  animation: alertSlideIn 0.2s ease-out;
+}
+
+@keyframes alertSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Type variants ─────────────────────────────────── */
+
+.alert-notification--error {
+  background-color: #fff2f2;
+  border-color: #e53e3e;
+  color: #742a2a;
+}
+
+.alert-notification--warning {
+  background-color: #fffbeb;
+  border-color: #d97706;
+  color: #78350f;
+}
+
+.alert-notification--success {
+  background-color: #f0fff4;
+  border-color: #38a169;
+  color: #22543d;
+}
+
+.alert-notification--info {
+  background-color: #ebf8ff;
+  border-color: #3182ce;
+  color: #2a4365;
+}
+
+/* ── Icon ──────────────────────────────────────────── */
+
+.alert-notification__icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+/* ── Body ──────────────────────────────────────────── */
+
+.alert-notification__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.alert-notification__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: block;
+}
+
+.alert-notification__text {
+  display: block;
+}
+
+.alert-notification__list {
+  margin: 0.25rem 0 0 1rem;
+  padding: 0;
+}
+
+.alert-notification__list li {
+  margin-bottom: 0.15rem;
+}
+
+/* ── Close button ──────────────────────────────────── */
+
+.alert-notification__close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.15rem;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+  color: inherit;
+}
+
+.alert-notification__close:hover {
+  opacity: 1;
+}

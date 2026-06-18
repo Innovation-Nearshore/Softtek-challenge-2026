@@ -1,0 +1,65 @@
+.badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.status-badge {
+  font-family: monospace;
+}
+
+.status-recibida {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-en-revision {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.status-resuelta {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-rechazada {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-cancelada {
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.status-default {
+  background-color: #eeeeee;
+  color: #616161;
+}
+
+.urgency-badge {
+  font-family: monospace;
+}
+
+.urgency-alta {
+  background-color: #ffcdd2;
+  color: #b71c1c;
+}
+
+.urgency-media {
+  background-color: #fff9c4;
+  color: #f57f17;
+}
+
+.urgency-baja {
+  background-color: #c8e6c9;
+  color: #1b5e20;
+}
+
+.urgency-default {
+  background-color: #eeeeee;
+  color: #616161;
+}
