@@ -26,15 +26,24 @@ async function createSolicitud(req, res, next) {
  */
 async function getSolicitudes(req, res, next) {
   try {
-    const { tipo, urgencia } = req.query;
+    const { tipo, urgencia, page, limit } = req.query;
     const filters = {};
     if (tipo) filters.tipoSolicitudId = Number(tipo);
     if (urgencia) filters.urgencia = urgencia;
+    if (page) filters.page = Number(page);
+    if (limit) filters.limit = Number(limit);
 
-    const solicitudes = await solicitudesService.getSolicitudes(filters);
+    const result = await solicitudesService.getSolicitudes(filters);
     return res.json({
       success: true,
-      data: solicitudes,
+      data: result.data,
+      pagination: {
+        total: result.total,
+        page: result.page,
+        totalPages: result.totalPages,
+        hasNext: result.hasNext,
+        hasPrev: result.hasPrev,
+      },
     });
   } catch (err) {
     next(err);

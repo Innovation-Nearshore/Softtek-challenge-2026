@@ -103,8 +103,9 @@ async function create(data, client) {
 }
 
 /**
- * Find all solicitudes with optional filters.
- * @param {object} filters - { tipoSolicitudId?, urgencia? }
+ * Find all solicitudes with optional filters and pagination.
+ * @param {object} filters - { tipoSolicitudId?, urgencia?, page?, limit? }
+ * @returns {Promise<{ data: object[], total: number, page: number, totalPages: number, hasNext: boolean, hasPrev: boolean }>}
  */
 async function findAll(filters = {}) {
   const conditions = [];
@@ -122,11 +123,40 @@ async function findAll(filters = {}) {
 
   const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
+  const limit  = filters.limit && filters.limit > 0 ? parseInt(filters.limit, 10) : 10;
+  const page   = filters.page  && filters.page  > 0 ? parseInt(filters.page,  10) : 1;
+  const offset = (page - 1) * limit;
+
+  // Total count (no pagination)
+  const countParams = [...params];
+  const { rows: countRows } = await pool.query(
+    `SELECT COUNT(*)::int AS total FROM solicitudes s
+     JOIN tipos_solicitud ts ON ts.id = s.tipo_solicitud_id
+     JOIN areas aso          ON aso.id = s.area_solicitante_id
+     LEFT JOIN areas aas     ON aas.id = s.area_asignada_id
+     ${where}`,
+    countParams
+  );
+  const total = countRows[0]?.total ?? 0;
+
+  // Paginated rows
+  params.push(limit);
+  params.push(offset);
   const { rows } = await pool.query(
-    `${BASE_SELECT} ${where} ORDER BY s.fecha_creacion DESC`,
+    `${BASE_SELECT} ${where} ORDER BY s.fecha_creacion DESC LIMIT $${params.length - 1} OFFSET $${params.length}`,
     params
   );
-  return rows.map(mapRow);
+
+  const totalPages = Math.ceil(total / limit);
+
+  return {
+    data: rows.map(mapRow),
+    total,
+    page,
+    totalPages,
+    hasNext: page < totalPages,
+    hasPrev: page > 1,
+  };
 }
 
 /**
