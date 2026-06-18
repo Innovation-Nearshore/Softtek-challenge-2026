@@ -119,6 +119,22 @@ async function updateAssignee(req, res, next) {
   }
 }
 
+/**
+ * GET /api/requests/metrics
+ * Get dashboard metrics: counts by estado, by urgencia, and high-risk alert count.
+ */
+async function getMetricas(req, res, next) {
+  try {
+    const metricas = await solicitudesService.getMetricas();
+    return res.json({
+      success: true,
+      data: metricas,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   createSolicitud,
   getSolicitudes,
@@ -126,4 +142,5 @@ module.exports = {
   changeStatus,
   getHistory,
   updateAssignee,
+  getMetricas,
 };

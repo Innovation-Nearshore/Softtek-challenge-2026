@@ -28,6 +28,7 @@ function mapRow(r) {
     solucion: r.solucion,
     calificacion: r.calificacion,
     comentarioCalificacion: r.comentario_calificacion,
+    alertaRiesgo: r.alerta_riesgo === true || r.alerta_riesgo === 't' || r.alerta_riesgo === 'true',
   };
 }
 
@@ -53,7 +54,8 @@ const BASE_SELECT = `
     s.fecha_resolucion,
     s.solucion,
     s.calificacion,
-    s.comentario_calificacion
+    s.comentario_calificacion,
+    (s.urgencia = 'Alta' AND s.estado = 'Recibida' AND s.fecha_creacion < NOW() - INTERVAL '24 hours') AS alerta_riesgo
   FROM solicitudes s
   JOIN tipos_solicitud ts  ON ts.id = s.tipo_solicitud_id
   JOIN areas aso           ON aso.id = s.area_solicitante_id
@@ -176,4 +178,38 @@ async function updateAssignee(id, asignadoA, client) {
   return rows[0] || null;
 }
 
-module.exports = { create, findAll, findById, updateStatus, updateAssignee };
+/**
+ * Get metrics: count of solicitudes grouped by estado and by urgencia.
+ * All calculations are done in PostgreSQL via SQL aggregation.
+ */
+async function getMetricas() {
+  const [byEstado, byUrgencia, alertasAlta] = await Promise.all([
+    pool.query(`
+      SELECT estado, COUNT(*)::int AS total
+      FROM solicitudes
+      GROUP BY estado
+      ORDER BY estado
+    `),
+    pool.query(`
+      SELECT urgencia, COUNT(*)::int AS total
+      FROM solicitudes
+      GROUP BY urgencia
+      ORDER BY urgencia
+    `),
+    pool.query(`
+      SELECT COUNT(*)::int AS total
+      FROM solicitudes
+      WHERE urgencia = 'Alta'
+        AND estado = 'Recibida'
+        AND fecha_creacion < NOW() - INTERVAL '24 hours'
+    `),
+  ]);
+
+  return {
+    porEstado: byEstado.rows,
+    porUrgencia: byUrgencia.rows,
+    alertasAltaSinMover: alertasAlta.rows[0]?.total ?? 0,
+  };
+}
+
+module.exports = { create, findAll, findById, updateStatus, updateAssignee, getMetricas };

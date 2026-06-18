@@ -9,6 +9,7 @@ const router = Router();
 // ── Solicitudes ──────────────────────────────────────────────────────────────
 router.post('/requests', validateCreateSolicitud, ctrl.createSolicitud);
 router.get('/requests', ctrl.getSolicitudes);
+router.get('/requests/metrics', ctrl.getMetricas);
 router.get('/requests/:id', ctrl.getSolicitudById);
 router.patch('/requests/:id/status', validateChangeStatus, ctrl.changeStatus);
 router.get('/requests/:id/history', ctrl.getHistory);

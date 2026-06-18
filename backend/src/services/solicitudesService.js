@@ -223,10 +223,19 @@ async function getSolicitudes(filters) {
   return solicitudesRepo.findAll(filters);
 }
 
+/**
+ * Get dashboard metrics: counts by estado and by urgencia, plus high-risk alert count.
+ * Delegates all aggregation to PostgreSQL.
+ */
+async function getMetricas() {
+  return solicitudesRepo.getMetricas();
+}
+
 module.exports = {
   createSolicitud,
   changeStatus,
   assignResponsible,
   getSolicitudById,
   getSolicitudes,
+  getMetricas,
 };
