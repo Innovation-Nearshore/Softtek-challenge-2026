@@ -10,6 +10,7 @@
 * **Equipos:** 5 – 6 equipos de 5 personas cada uno
 * **Perfil:** Técnico Senior (Multi-empresa)
 * **Acelerador Principal:** FRIDA SDLC
+* **URL Votación: https://lky143fc3x9c.space.minimax.io/#/qr 
 
 ---
 
