@@ -153,7 +153,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=ai_challenge
 DB_USER=postgres
-DB_PASSWORD=Admin123
+DB_PASSWORD=TU_PASSWORD
 DB_SCHEMA=reto_c
 ```
 

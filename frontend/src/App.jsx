@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
+import { Footer } from './components/Footer';
 import { BandejaPage } from './pages/BandejaPage';
 import { NuevaSolicitudPage } from './pages/NuevaSolicitudPage';
 import { DetalleSolicitudPage } from './pages/DetalleSolicitudPage';
@@ -16,6 +17,7 @@ function App() {
           <Route path="/solicitudes/:id" element={<DetalleSolicitudPage />} />
         </Routes>
       </main>
+      <Footer />
     </Router>
   );
 }

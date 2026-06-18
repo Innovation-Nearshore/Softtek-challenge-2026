@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import solicitudesApi from '../api/solicitudesApi';
 import { StatusBadge, UrgencyBadge } from '../components/Badge';
@@ -7,6 +7,94 @@ import { SuccessMessage } from '../components/SuccessMessage';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import './BandejaPage.css';
 
+const METRICS_POLL_INTERVAL = 30000; // 30 seconds
+
+// ── Metrics Dashboard ─────────────────────────────────────────────────────────
+const ESTADO_LABELS = {
+  Recibida: { label: 'Recibidas', color: '#1565c0', bg: '#e3f2fd', icon: '📥' },
+  'En revisión': { label: 'En Revisión', color: '#e65100', bg: '#fff3e0', icon: '🔍' },
+  Resuelta: { label: 'Resueltas', color: '#2e7d32', bg: '#e8f5e9', icon: '✅' },
+  Rechazada: { label: 'Rechazadas', color: '#c62828', bg: '#ffebee', icon: '❌' },
+  Cancelada: { label: 'Canceladas', color: '#6a1b9a', bg: '#f3e5f5', icon: '🚫' },
+};
+
+const URGENCIA_LABELS = {
+  Alta: { label: 'Alta', color: '#b71c1c', bg: '#ffcdd2', icon: '🔴' },
+  Media: { label: 'Media', color: '#f57f17', bg: '#fff9c4', icon: '🟡' },
+  Baja: { label: 'Baja', color: '#1b5e20', bg: '#c8e6c9', icon: '🟢' },
+};
+
+const MetricCard = ({ icon, label, value, color, bg, pulse }) => (
+  <div className={`metric-card${pulse ? ' metric-card--alert' : ''}`} style={{ borderColor: color, background: bg }}>
+    <span className="metric-card__icon">{icon}</span>
+    <span className="metric-card__value" style={{ color }}>{value ?? 0}</span>
+    <span className="metric-card__label" style={{ color }}>{label}</span>
+  </div>
+);
+
+const MetricsDashboard = ({ metricas, loading }) => {
+  if (loading && !metricas) {
+    return <div className="metrics-loading">Cargando métricas…</div>;
+  }
+  if (!metricas) return null;
+
+  const alertaCount = metricas.alertasAltaSinMover ?? 0;
+
+  return (
+    <div className="metrics-dashboard">
+      <div className="metrics-section">
+        <h3 className="metrics-section__title">📊 Por Estado</h3>
+        <div className="metrics-cards">
+          {Object.entries(ESTADO_LABELS).map(([key, meta]) => {
+            const row = metricas.porEstado?.find((r) => r.estado === key);
+            return (
+              <MetricCard
+                key={key}
+                icon={meta.icon}
+                label={meta.label}
+                value={row?.total ?? 0}
+                color={meta.color}
+                bg={meta.bg}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="metrics-section">
+        <h3 className="metrics-section__title">⚡ Por Urgencia</h3>
+        <div className="metrics-cards">
+          {Object.entries(URGENCIA_LABELS).map(([key, meta]) => {
+            const row = metricas.porUrgencia?.find((r) => r.urgencia === key);
+            return (
+              <MetricCard
+                key={key}
+                icon={meta.icon}
+                label={meta.label}
+                value={row?.total ?? 0}
+                color={meta.color}
+                bg={meta.bg}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {alertaCount > 0 && (
+        <div className="metrics-alert-banner">
+          <span className="metrics-alert-banner__icon">🚨</span>
+          <span className="metrics-alert-banner__text">
+            <strong>{alertaCount}</strong> solicitud{alertaCount !== 1 ? 'es' : ''} de urgencia{' '}
+            <strong>Alta</strong> llevan más de 24h sin moverse del estado{' '}
+            <strong>Recibida</strong>.
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── Main Page ─────────────────────────────────────────────────────────────────
 export const BandejaPage = () => {
   const navigate = useNavigate();
   const [solicitudes, setSolicitudes] = useState([]);
@@ -21,6 +109,11 @@ export const BandejaPage = () => {
   const [statusChanging, setStatusChanging] = useState({});
   const [assigneeModal, setAssigneeModal] = useState({ solicitud_id: null, assignee: '' });
 
+  // Metrics state
+  const [metricas, setMetricas] = useState(null);
+  const [metricasLoading, setMetricasLoading] = useState(true);
+  const metricasIntervalRef = useRef(null);
+
   // Load solicitudes and catalogs on mount
   useEffect(() => {
     loadSolicitudes();
@@ -31,6 +124,13 @@ export const BandejaPage = () => {
   useEffect(() => {
     loadSolicitudes();
   }, [filters]);
+
+  // Load metrics on mount and set up polling
+  useEffect(() => {
+    loadMetricas();
+    metricasIntervalRef.current = setInterval(loadMetricas, METRICS_POLL_INTERVAL);
+    return () => clearInterval(metricasIntervalRef.current);
+  }, []);
 
   const loadSolicitudes = async () => {
     setLoading(true);
@@ -54,6 +154,17 @@ export const BandejaPage = () => {
     }
   };
 
+  const loadMetricas = async () => {
+    try {
+      const response = await solicitudesApi.getMetricas();
+      setMetricas(response.data || null);
+    } catch (err) {
+      console.error('Error loading metricas:', err);
+    } finally {
+      setMetricasLoading(false);
+    }
+  };
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
@@ -73,14 +184,12 @@ export const BandejaPage = () => {
     } else if (solicitud.estado === 'En revisión') {
       newStatus = 'Resuelta';
     } else {
-      return; // No valid transition
+      return;
     }
 
     if (newStatus === 'En revisión') {
-      // Show modal to assign responsable
       setAssigneeModal({ solicitud_id: solicitudId, assignee: '' });
     } else {
-      // Direct status change without assignee
       submitStatusChange(solicitudId, newStatus, null);
     }
   };
@@ -93,7 +202,7 @@ export const BandejaPage = () => {
       await solicitudesApi.changeStatus(solicitudId, newStatus, assignee);
       setSuccess(`Estado actualizado a: ${newStatus}`);
       setAssigneeModal({ solicitud_id: null, assignee: '' });
-      loadSolicitudes();
+      await Promise.all([loadSolicitudes(), loadMetricas()]);
 
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
@@ -109,11 +218,8 @@ export const BandejaPage = () => {
   };
 
   const getActionButton = (solicitud) => {
-    if (solicitud.estado === 'Recibida') {
-      return 'Iniciar Revisión';
-    } else if (solicitud.estado === 'En revisión') {
-      return 'Marcar Resuelta';
-    }
+    if (solicitud.estado === 'Recibida') return 'Iniciar Revisión';
+    if (solicitud.estado === 'En revisión') return 'Marcar Resuelta';
     return null;
   };
 
@@ -143,6 +249,9 @@ export const BandejaPage = () => {
 
       {error && <ErrorMessage message={error} onClose={() => setError('')} />}
       {success && <SuccessMessage message={success} onClose={() => setSuccess('')} />}
+
+      {/* Metrics Dashboard */}
+      <MetricsDashboard metricas={metricas} loading={metricasLoading} />
 
       {/* Filters */}
       <div className="filters-section">
@@ -207,8 +316,18 @@ export const BandejaPage = () => {
             </thead>
             <tbody>
               {solicitudes.map((solicitud) => (
-                <tr key={solicitud.id}>
-                  <td>{solicitud.id}</td>
+                <tr
+                  key={solicitud.id}
+                  className={solicitud.alertaRiesgo ? 'row-risk-alert' : ''}
+                >
+                  <td>
+                    {solicitud.alertaRiesgo && (
+                      <span className="risk-indicator" title="Alta urgencia sin mover hace más de 24h">
+                        🚨
+                      </span>
+                    )}
+                    {solicitud.id}
+                  </td>
                   <td className="ticket-cell">{solicitud.numeroTicket}</td>
                   <td>{solicitud.tipoSolicitudNombre || 'N/A'}</td>
                   <td>
@@ -249,7 +368,10 @@ export const BandejaPage = () => {
 
       {/* Assignee Modal */}
       {assigneeModal.solicitud_id && (
-        <div className="modal-overlay" onClick={() => setAssigneeModal({ solicitud_id: null, assignee: '' })}>
+        <div
+          className="modal-overlay"
+          onClick={() => setAssigneeModal({ solicitud_id: null, assignee: '' })}
+        >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>Asignar Responsable</h2>
             <form onSubmit={handleAssigneeSubmit}>
@@ -259,7 +381,9 @@ export const BandejaPage = () => {
                   type="text"
                   id="assignee"
                   value={assigneeModal.assignee}
-                  onChange={(e) => setAssigneeModal((prev) => ({ ...prev, assignee: e.target.value }))}
+                  onChange={(e) =>
+                    setAssigneeModal((prev) => ({ ...prev, assignee: e.target.value }))
+                  }
                   placeholder="Nombre de la persona responsable"
                 />
               </div>

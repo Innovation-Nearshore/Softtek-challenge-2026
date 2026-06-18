@@ -41,6 +41,25 @@ input, select, textarea {
   font-family: inherit;
 }
 
+/* Footer */
+.app-footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  text-align: center;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.app-footer__text {
+  color: #bdc3c7;
+}
+
+.app-footer__text strong {
+  color: #1abc9c;
+  font-weight: 700;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;

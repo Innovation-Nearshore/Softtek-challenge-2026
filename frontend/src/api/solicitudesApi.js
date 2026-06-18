@@ -38,6 +38,9 @@ export const solicitudesApi = {
 
   // Get all tipos_solicitud
   getTiposSolicitud: () => client.get('/tipos-solicitud'),
+
+  // Get dashboard metrics (por estado, por urgencia, alertas alta sin mover)
+  getMetricas: () => client.get('/requests/metrics'),
 };
 
 export default solicitudesApi;
