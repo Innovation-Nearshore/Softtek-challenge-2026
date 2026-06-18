@@ -527,15 +527,15 @@ em { color: var(--gray-800); }
       <div class="challenge-card">
         <div class="challenge-header" style="border-top: 4px solid var(--blue);">
           <div class="challenge-industry" style="color:var(--blue);">📋 Reto A</div>
-          <h4>Tracker de Iniciativas</h4>
+          <h4>Tracker de Iniciativas con Kanban</h4>
         </div>
         <div class="challenge-body">
-          <p>Web app para registrar y hacer seguimiento de iniciativas o proyectos de un área. Cualquier industria gestiona proyectos — este reto tiene aplicación universal e inmediata.</p>
+          <p>Web app para registrar, gestionar y hacer seguimiento de iniciativas con un tablero Kanban interactivo. El reto técnico: el drag & drop debe actualizar el estado directamente en la base de datos, no solo en el frontend.</p>
           <div class="challenge-stack">
-            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 1 — Formulario de registro:</strong> Nombre, responsable, estado (Pendiente / En curso / Completado), fecha límite, prioridad y descripción.</span></div>
-            <div class="stack-item"><span class="stack-icon">📊</span><span><strong>Módulo 2 — Dashboard:</strong> Tabla filtrable por estado y prioridad. Contador de iniciativas por estado. Vista de próximos vencimientos.</span></div>
+            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 1 — Formulario de registro:</strong> Nombre, responsable, estado (Pendiente / En curso / Completado / Bloqueado), fecha límite, prioridad y descripción. Validación de campos obligatorios en frontend y backend.</span></div>
+            <div class="stack-item"><span class="stack-icon">📊</span><span><strong>Módulo 2 — Tablero Kanban:</strong> Columnas por estado con drag & drop funcional que persiste el cambio en la base de datos. Vista de próximos vencimientos y contador de iniciativas por columna. Indicador visual de iniciativas vencidas.</span></div>
             <div class="stack-item"><span class="stack-icon">🗄️</span><span><strong>Persistencia:</strong> PostgreSQL con esquema predefinido — el equipo ejecuta el script incluido en el Kit y la base de datos queda lista en segundos.</span></div>
-            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> Edición inline de estado con drag & drop entre columnas estilo Kanban.</span></div>
+            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> CRUD completo desde el tablero — editar y eliminar una iniciativa directamente desde la tarjeta Kanban sin salir de la vista.</span></div>
           </div>
           <div class="tl-pills" style="margin-top:14px;">
             <span class="pill r">React/Node.js</span>
@@ -551,12 +551,13 @@ em { color: var(--gray-800); }
           <h4>Portal de Reportes de Área</h4>
         </div>
         <div class="challenge-body">
-          <p>Web app que permite cargar datos desde un CSV o formulario y genera automáticamente visualizaciones y métricas clave. Cada equipo lo contextualiza con sus propios KPIs.</p>
+          <p>Web app para gestionar un catálogo de KPIs con metas definidas, cargar valores históricos vía CSV o formulario, y generar un dashboard comparativo con gráficas y metas superpuestas. El reto técnico: el backend procesa y valida el CSV, el dashboard actualiza sin recargar la página al cambiar de KPI, y las gráficas muestran la meta como línea de referencia visual.</p>
           <div class="challenge-stack">
-            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 1 — Carga de datos:</strong> Upload de CSV o ingreso manual de métricas con un formulario estructurado por período.</span></div>
-            <div class="stack-item"><span class="stack-icon">📈</span><span><strong>Módulo 2 — Visualización:</strong> Gráficas de barras y líneas con los datos cargados. Tarjetas de resumen con métricas principales (total, promedio, variación).</span></div>
-            <div class="stack-item"><span class="stack-icon">🗄️</span><span><strong>Persistencia:</strong> PostgreSQL con esquema predefinido — el equipo ejecuta el script incluido en el Kit y la base de datos queda lista en segundos.</span></div>
-            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> Filtros por período, exportación del reporte a PDF o imagen.</span></div>
+            <div class="stack-item"><span class="stack-icon">🎯</span><span><strong>Módulo 1 — Gestión de KPIs:</strong> Formulario para registrar KPIs del área con nombre, unidad de medida y meta mensual. Los KPIs conforman el catálogo sobre el cual se registran los valores históricos.</span></div>
+            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 2 — Carga de datos:</strong> Upload de CSV con validación en el backend (columnas y tipos de datos). El sistema inserta los registros válidos y reporta los erróneos. También disponible ingreso manual seleccionando el KPI del catálogo.</span></div>
+            <div class="stack-item"><span class="stack-icon">📈</span><span><strong>Módulo 3 — Dashboard multi-KPI:</strong> Gráfica de barras por KPI con línea de meta superpuesta. Tarjetas de resumen: total, promedio, variación % vs período anterior e indicador sobre/bajo meta. Filtro por KPI dinámico (actualiza sin recargar la página).</span></div>
+            <div class="stack-item"><span class="stack-icon">🗄️</span><span><strong>Persistencia:</strong> PostgreSQL con esquema relacional de dos tablas — <code>kpis</code> (catálogo con metas) y <code>metrics</code> (valores históricos con clave foránea <code>kpi_id</code>). Script incluido en el Kit.</span></div>
+            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> Gráfica de líneas con tendencia, comparativa año vs año del mismo KPI, exportación del dashboard a PDF.</span></div>
           </div>
           <div class="tl-pills" style="margin-top:14px;">
             <span class="pill b">React/Node.js</span>
@@ -572,12 +573,13 @@ em { color: var(--gray-800); }
           <h4>Gestor de Solicitudes Internas</h4>
         </div>
         <div class="challenge-body">
-          <p>Web app para crear, gestionar y hacer seguimiento de solicitudes internas de cualquier tipo (soporte, aprobaciones, requerimientos). Aplica a RRHH, TI, operaciones o finanzas.</p>
+          <p>Web app para crear, gestionar y hacer seguimiento de solicitudes internas de cualquier tipo (soporte, aprobaciones, requerimientos). El reto técnico: la lógica de estados tiene reglas de flujo que el backend debe validar, y cada transición de estado se audita automáticamente en una tabla de historial.</p>
           <div class="challenge-stack">
-            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 1 — Formulario de solicitud:</strong> Tipo de solicitud, urgencia (Alta/Media/Baja), descripción, solicitante y área.</span></div>
-            <div class="stack-item"><span class="stack-icon">📋</span><span><strong>Módulo 2 — Bandeja de solicitudes:</strong> Tabla con todas las solicitudes, filtros por tipo y urgencia, cambio de estado (Recibida / En revisión / Resuelta).</span></div>
-            <div class="stack-item"><span class="stack-icon">🗄️</span><span><strong>Persistencia:</strong> PostgreSQL con esquema predefinido — el equipo ejecuta el script incluido en el Kit y la base de datos queda lista en segundos.</span></div>
-            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> Vista de detalle por solicitud con historial de cambios de estado y timestamp.</span></div>
+            <div class="stack-item"><span class="stack-icon">🔲</span><span><strong>Módulo 1 — Formulario de solicitud:</strong> Tipo de solicitud, urgencia (Alta/Media/Baja), descripción, solicitante y área. Validación de campos obligatorios en frontend y backend.</span></div>
+            <div class="stack-item"><span class="stack-icon">📋</span><span><strong>Módulo 2 — Bandeja de solicitudes:</strong> Tabla con todas las solicitudes, filtros por tipo y urgencia, cambio de estado con validación de flujo: Recibida → En revisión → Resuelta (sin saltar estados ni revertir). El backend rechaza transiciones inválidas.</span></div>
+            <div class="stack-item"><span class="stack-icon">📜</span><span><strong>Módulo 3 — Historial de auditoría:</strong> Cada cambio de estado se registra automáticamente en la tabla <code>request_history</code> con timestamp — trazabilidad completa de cada solicitud directamente desde el backend.</span></div>
+            <div class="stack-item"><span class="stack-icon">🗄️</span><span><strong>Persistencia:</strong> PostgreSQL con dos tablas — <code>requests</code> (solicitudes) y <code>request_history</code> (auditoría). Script incluido en el Kit.</span></div>
+            <div class="stack-item"><span class="stack-icon">✨</span><span><strong>Feature diferenciador (si hay tiempo):</strong> Vista de detalle con historial completo de la solicitud y asignación de responsable al pasar a "En revisión".</span></div>
           </div>
           <div class="tl-pills" style="margin-top:14px;">
             <span class="pill g">React/Node.js</span>
@@ -593,8 +595,8 @@ em { color: var(--gray-800); }
       <h3>🧭 Guía para elegir el reto</h3>
       <div class="tips-list">
         <div class="tip-item"><span class="tip-num">A</span><span><strong>Tracker de Iniciativas</strong> — Recomendado si el equipo tiene más perfiles de negocio o poca experiencia con visualización de datos. El resultado es visualmente sólido y fácil de demostrar.</span></div>
-        <div class="tip-item"><span class="tip-num">B</span><span><strong>Portal de Reportes</strong> — Recomendado si hay al menos un Builder con experiencia en manipulación de datos o librerías de gráficas. El mayor impacto visual en la demo.</span></div>
-        <div class="tip-item"><span class="tip-num">C</span><span><strong>Gestor de Solicitudes</strong> — Recomendado si el equipo quiere un reto más orientado a flujo de trabajo y lógica de estados. Más complejo en lógica, menos en visualización.</span></div>
+        <div class="tip-item"><span class="tip-num">B</span><span><strong>Portal de Reportes</strong> — Recomendado si el equipo tiene al menos un arquitecto o developer con experiencia en joins SQL, manipulación de datos y librerías de gráficas. El reto más técnico: esquema relacional de dos tablas, procesamiento de CSV en el backend y dashboard dinámico sin recarga. El mayor impacto visual en la demo cuando está bien ejecutado.</span></div>
+        <div class="tip-item"><span class="tip-num">C</span><span><strong>Gestor de Solicitudes</strong> — Recomendado si el equipo tiene experiencia en lógica de negocio y control de flujos. El reto técnico no está en la visualización sino en la lógica: validación de transiciones de estado en el backend, auditoría automática en una tabla separada y filtros dinámicos sobre una bandeja activa. Comparable en complejidad al Reto A.</span></div>
         <div class="tip-item"><span class="tip-num">🗄</span><span><strong>Base de datos:</strong> Todos los retos usan <strong>PostgreSQL</strong>. Cada Kit incluye un script SQL con el esquema predefinido del reto — tablas, tipos de datos y relaciones listas para ejecutar. El equipo corre el script al inicio de la Fase 2 y arranca el build directamente sobre la base de datos funcional, sin invertir tiempo en diseño de esquema.</span></div>
       </div>
     </div>
@@ -717,27 +719,30 @@ em { color: var(--gray-800); }
               <strong style="color:var(--blue-900); display:block; margin-bottom:8px;">Definición de MVP por reto — todas las funcionalidades deben estar presentes para que el coach valide:</strong>
 
               <div style="margin-bottom:10px;">
-                <span style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue-500);">Reto A — Tracker de Iniciativas</span><br>
+                <span style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue-500);">Reto A — Tracker de Iniciativas con Kanban</span><br>
                 ① App corriendo en el browser sin errores en consola &nbsp;·&nbsp;
-                ② Formulario que guarda al menos 1 iniciativa en la base de datos &nbsp;·&nbsp;
-                ③ Tabla que muestra los registros guardados &nbsp;·&nbsp;
-                ④ Datos persisten al recargar la página
+                ② Formulario que guarda al menos 1 iniciativa en la base de datos con validación &nbsp;·&nbsp;
+                ③ Tablero Kanban visible con al menos 3 columnas de estado &nbsp;·&nbsp;
+                ④ Drag & drop funcional que actualiza el estado en la base de datos &nbsp;·&nbsp;
+                ⑤ Datos persisten al recargar la página
               </div>
 
               <div style="margin-bottom:10px; padding-top:10px; border-top:1px solid var(--border);">
                 <span style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--violet);">Reto B — Portal de Reportes</span><br>
                 ① App corriendo en el browser sin errores en consola &nbsp;·&nbsp;
-                ② Al menos 1 gráfica o visualización renderizada con datos reales &nbsp;·&nbsp;
-                ③ Los datos provienen de la base de datos (no hardcodeados en el frontend) &nbsp;·&nbsp;
-                ④ Datos persisten al recargar la página
+                ② Al menos 1 KPI registrado en la tabla <code style="font-size:10px;">kpis</code> con nombre, unidad y meta mensual &nbsp;·&nbsp;
+                ③ Gráfica de barras visible con los datos pre-cargados y línea de meta del KPI seleccionado &nbsp;·&nbsp;
+                ④ Al menos 1 valor registrado vía formulario o CSV en la tabla <code style="font-size:10px;">metrics</code> y visible en la gráfica &nbsp;·&nbsp;
+                ⑤ Datos persisten al recargar la página
               </div>
 
               <div style="padding-top:10px; border-top:1px solid var(--border);">
                 <span style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#0796a8;">Reto C — Gestor de Solicitudes</span><br>
                 ① App corriendo en el browser sin errores en consola &nbsp;·&nbsp;
                 ② Formulario que guarda al menos 1 solicitud en la base de datos &nbsp;·&nbsp;
-                ③ Bandeja que lista las solicitudes con su estado &nbsp;·&nbsp;
-                ④ Cambio de estado funcional y persistente en la base de datos
+                ③ Bandeja que lista las solicitudes con filtros activos por tipo y/o urgencia &nbsp;·&nbsp;
+                ④ Cambio de estado con validación de flujo (Recibida → En revisión → Resuelta) persistente en la base de datos &nbsp;·&nbsp;
+                ⑤ Al menos 1 cambio de estado registrado en la tabla <code>request_history</code>
               </div>
             </div>
 

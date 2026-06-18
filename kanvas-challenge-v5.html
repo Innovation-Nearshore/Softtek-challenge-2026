@@ -231,7 +231,7 @@ strong { color: var(--gray-800); font-weight: 700; }
       <div class="meta-item"><span class="meta-label">Criterio funcionalidad</span><span class="meta-value">25% del score total</span></div>
       <div class="meta-item"><span class="meta-label">Base de datos</span><span class="meta-value">PostgreSQL</span></div>
       <div class="meta-item"><span class="meta-label">Datos</span><span class="meta-value">Mockup pre-cargados</span></div>
-      <div class="meta-item"><span class="meta-label">Score MVP mínimo</span><span class="meta-value">70 pts</span></div>
+      <div class="meta-item"><span class="meta-label">Score MVP mínimo</span><span class="meta-value">80 – 85 pts</span></div>
     </div>
   </div>
 </div>
@@ -247,7 +247,7 @@ strong { color: var(--gray-800); font-weight: 700; }
 
     <!-- TABS NEGOCIO -->
     <div class="tabs-wrap">
-      <button class="tab-btn active" onclick="showNeg('na', this)">📋 Reto A — Tracker de Iniciativas</button>
+      <button class="tab-btn active" onclick="showNeg('na', this)">📋 Reto A — Tracker con Kanban</button>
       <button class="tab-btn" onclick="showNeg('nb', this)">📊 Reto B — Portal de Reportes</button>
       <button class="tab-btn" onclick="showNeg('nc', this)">🎫 Reto C — Gestor de Solicitudes</button>
     </div>
@@ -282,9 +282,9 @@ strong { color: var(--gray-800); font-weight: 700; }
           <h4>El área acepta la app si...</h4>
           <ul>
             <li>Un usuario puede registrar una iniciativa nueva en menos de 2 minutos</li>
-            <li>El dashboard muestra el estado actual sin necesidad de filtrar manualmente</li>
+            <li>El tablero Kanban muestra todas las iniciativas por estado de un vistazo — sin filtrar manualmente</li>
+            <li>Arrastrar una tarjeta entre columnas actualiza el estado en la base de datos sin recargar la página</li>
             <li>Los datos no se pierden al cerrar el browser o recargar la página</li>
-            <li>Cualquier miembro del área puede ver todas las iniciativas activas de un vistazo</li>
             <li>La app corre sin instalación adicional — solo browser</li>
           </ul>
         </div>
@@ -293,7 +293,7 @@ strong { color: var(--gray-800); font-weight: 700; }
         <div class="db-box-icon">🗄️</div>
         <div class="db-box-content">
           <h4>Base de datos: PostgreSQL — Datos mockup pre-cargados</h4>
-          <p>La base de datos estará lista al inicio del build sprint con datos ficticios cargados. Tabla principal: <code>initiatives</code> con columnas <code>id, name, owner, status, due_date, priority, description, created_at</code>. Se incluyen <strong>20 registros ficticios</strong> con nombres genéricos (Iniciativa Alpha, Proyecto Beta, etc.), estados mixtos y fechas variadas para que el dashboard tenga contenido real desde el primer minuto. Los equipos se conectan con las credenciales entregadas en el Kit de Inicio — sin configurar nada.</p>
+          <p>La base de datos estará lista al inicio del build sprint con datos ficticios cargados. Tabla principal: <code>initiatives</code> con columnas <code>id, name, owner, status, kanban_position, due_date, priority, description, created_at</code>. Se incluyen <strong>20 registros ficticios</strong> con nombres genéricos (Iniciativa Alpha, Proyecto Beta, etc.), estados mixtos — incluyendo el nuevo estado <strong>Bloqueado</strong> — y fechas variadas para que el tablero Kanban tenga contenido real desde el primer minuto. Los equipos se conectan con las credenciales entregadas en el Kit de Inicio — sin configurar nada.</p>
         </div>
       </div>
     </div>
@@ -305,10 +305,10 @@ strong { color: var(--gray-800); font-weight: 700; }
           <div class="nc-eyebrow">Caso de uso</div>
           <h4>Contexto del área</h4>
           <ul>
-            <li>Un área de planeación consolida métricas mensuales de distintas fuentes</li>
-            <li>El reporte hoy toma 2–3 días de trabajo manual por mes</li>
-            <li>Los gerentes necesitan ver tendencias de 6–12 meses de un vistazo</li>
-            <li>Los datos vienen de distintos responsables en formatos inconsistentes (CSV)</li>
+            <li>Un área de planeación gestiona 3–5 KPIs estratégicos con metas mensuales definidas por dirección</li>
+            <li>El reporte de desempeño hoy toma 2–3 días de trabajo manual en Excel por mes</li>
+            <li>Los gerentes no saben rápidamente qué KPIs están bajo la meta sin revisar hoja por hoja</li>
+            <li>Los datos llegan de distintos responsables en archivos CSV con formatos inconsistentes</li>
             <li>Contexto ficticio: "Área de Planeación — Empresa de Servicios Genérica"</li>
           </ul>
         </div>
@@ -316,10 +316,10 @@ strong { color: var(--gray-800); font-weight: 700; }
           <div class="nc-eyebrow">Métricas de éxito</div>
           <h4>KPIs de negocio</h4>
           <ul>
-            <li>Total acumulado del período seleccionado (ej. ventas, unidades, tickets)</li>
-            <li>Promedio mensual y variación vs período anterior</li>
-            <li>Mes con mejor y peor desempeño identificados visualmente</li>
-            <li>Tendencia general: gráfica de líneas muestra si la métrica sube o baja</li>
+            <li>% de KPIs activos que superaron la meta en el último período</li>
+            <li>KPIs que llevan 2+ meses consecutivos bajo la meta (señal de riesgo)</li>
+            <li>Promedio mensual, variación % vs período anterior y brecha contra la meta</li>
+            <li>Mes de mejor y peor desempeño identificados visualmente en la gráfica</li>
             <li>Tiempo para generar el reporte: de días a minutos</li>
           </ul>
         </div>
@@ -327,19 +327,19 @@ strong { color: var(--gray-800); font-weight: 700; }
           <div class="nc-eyebrow">Criterios de aceptación</div>
           <h4>El área acepta la app si...</h4>
           <ul>
-            <li>Un analista puede cargar datos nuevos en menos de 5 minutos</li>
-            <li>Las gráficas se actualizan automáticamente tras cargar datos</li>
-            <li>Los datos cargados persisten entre sesiones sin reingresarlos</li>
-            <li>Un gerente sin conocimientos técnicos puede leer el reporte sin explicación</li>
-            <li>El reporte es exportable o compartible (PDF, imagen, o pantalla)</li>
+            <li>Un analista puede definir un nuevo KPI con su meta en menos de 2 minutos</li>
+            <li>Un analista puede cargar un CSV de valores y ver cuántos se insertaron y cuántos fallaron</li>
+            <li>La gráfica muestra visualmente si cada período superó o no la meta del KPI</li>
+            <li>Cambiar de KPI en el dashboard actualiza las gráficas sin recargar la página</li>
+            <li>Los datos persisten entre sesiones — sin reingresarlos</li>
           </ul>
         </div>
       </div>
       <div class="db-box">
         <div class="db-box-icon">🗄️</div>
         <div class="db-box-content">
-          <h4>Base de datos: PostgreSQL — Datos mockup pre-cargados</h4>
-          <p>Tabla principal: <code>metrics</code> con columnas <code>id, period, metric_name, value, unit, created_at</code>. Se incluyen <strong>24 registros ficticios</strong> con 2 años de datos mensuales para 2 métricas genéricas (Métrica A y Métrica B) con valores variados que muestren tendencias claras — subidas, caídas y estacionalidad simulada. Las gráficas tendrán contenido real desde el minuto 1 del build sprint. Conexión entregada en el Kit de Inicio.</p>
+          <h4>Base de datos: PostgreSQL — Esquema relacional, datos mockup pre-cargados</h4>
+          <p>Dos tablas relacionadas: <code>kpis</code> con columnas <code>id, name, unit, monthly_target, created_at</code> y <code>metrics</code> con columnas <code>id, kpi_id, period, value, created_at</code> (clave foránea a <code>kpis.id</code>). Se incluyen <strong>3 KPIs pre-cargados</strong> (Ventas Brutas, Satisfacción de Cliente, Tickets Resueltos) con metas distintas, y <strong>54 registros ficticios</strong> (18 meses × 3 KPIs) con valores que simulan tendencias reales — meses sobre la meta y meses bajo la meta para generar gráficas con contraste visual. El equipo debe hacer JOIN entre las dos tablas para mostrar la línea de meta en la gráfica. Conexión entregada en el Kit de Inicio.</p>
         </div>
       </div>
     </div>
@@ -374,18 +374,18 @@ strong { color: var(--gray-800); font-weight: 700; }
           <h4>El área acepta la app si...</h4>
           <ul>
             <li>Un solicitante puede registrar una solicitud nueva en menos de 2 minutos</li>
-            <li>El equipo resolutor ve todas las solicitudes pendientes en una sola vista</li>
-            <li>El estado de cualquier solicitud se puede cambiar directamente desde la bandeja</li>
+            <li>El equipo resolutor filtra la bandeja por tipo y urgencia para priorizar sin desplazarse</li>
+            <li>El estado sigue el flujo correcto: Recibida → En revisión → Resuelta — no se pueden saltar pasos ni revertir</li>
+            <li>Cada cambio de estado queda registrado con fecha y hora en el historial — sin intervención manual</li>
             <li>Los datos no se pierden al cerrar el browser o recargar la página</li>
-            <li>Cualquier miembro del área puede ver el historial sin acceso al servidor</li>
           </ul>
         </div>
       </div>
       <div class="db-box">
         <div class="db-box-icon">🗄️</div>
         <div class="db-box-content">
-          <h4>Base de datos: PostgreSQL — Datos mockup pre-cargados</h4>
-          <p>Tabla principal: <code>requests</code> con columnas <code>id, type, urgency, description, requester, area, status, created_at, updated_at</code>. Tabla secundaria (bonus): <code>request_history</code> con <code>id, request_id, old_status, new_status, changed_at</code>. Se incluyen <strong>15 solicitudes ficticias</strong> con urgencias y estados mixtos para que la bandeja tenga contenido desde el inicio. Conexión entregada en el Kit de Inicio — sin configuración.</p>
+          <h4>Base de datos: PostgreSQL — Esquema relacional, datos mockup pre-cargados</h4>
+          <p>Dos tablas relacionadas: <code>requests</code> con columnas <code>id, type, urgency, description, requester, area, status, created_at, updated_at</code> y <code>request_history</code> con columnas <code>id, request_id, old_status, new_status, changed_at</code> (clave foránea a <code>requests.id</code>). El backend debe validar que cada transición de estado sea válida (Recibida → En revisión → Resuelta) antes de actualizar <code>requests</code> y escribir el registro en <code>request_history</code>. Se incluyen <strong>15 solicitudes ficticias</strong> con urgencias y estados mixtos, y <strong>8 registros de historial pre-cargados</strong>. Conexión entregada en el Kit de Inicio — sin configuración.</p>
         </div>
       </div>
     </div>
@@ -410,7 +410,7 @@ strong { color: var(--gray-800); font-weight: 700; }
 
     <!-- TABS FUNCIONALIDADES -->
     <div class="tabs-wrap">
-      <button class="tab-btn active" onclick="showTab('a', this)">📋 Reto A — Tracker de Iniciativas</button>
+      <button class="tab-btn active" onclick="showTab('a', this)">📋 Reto A — Tracker con Kanban</button>
       <button class="tab-btn" onclick="showTab('b', this)">📊 Reto B — Portal de Reportes</button>
       <button class="tab-btn" onclick="showTab('c', this)">🎫 Reto C — Gestor de Solicitudes</button>
     </div>
@@ -440,34 +440,40 @@ strong { color: var(--gray-800); font-weight: 700; }
             <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
           </tr>
           <tr class="oblig-row">
-            <td><span class="feat-modulo">Dashboard</span></td>
-            <td><div class="feat-name">Tabla que muestra registros desde la BD</div><div class="feat-desc">Lee desde PostgreSQL — los datos mockup pre-cargados deben ser visibles sin agregar registros</div></td>
+            <td><span class="feat-modulo">Kanban</span></td>
+            <td><div class="feat-name">Tablero Kanban con datos de la BD</div><div class="feat-desc">Columnas por estado — los 20 registros mockup pre-cargados deben aparecer en las columnas correctas sin agregar nada</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
           </tr>
           <tr class="oblig-row">
-            <td><span class="feat-modulo">Dashboard</span></td>
-            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y los registros siguen visibles — vienen de PostgreSQL, no de sessionStorage ni variables</div></td>
+            <td><span class="feat-modulo">Kanban</span></td>
+            <td><div class="feat-name">Drag &amp; drop funcional que actualiza la BD</div><div class="feat-desc">Arrastrar una tarjeta entre columnas persiste el nuevo estado en PostgreSQL — verificar con F5 que el cambio se mantiene</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
           </tr>
           <tr class="oblig-row">
-            <td><span class="feat-modulo">Dashboard</span></td>
-            <td><div class="feat-name">Filtro por estado</div><div class="feat-desc">Filtra la tabla por Pendiente / En curso / Completado</div></td>
-            <td><span class="badge badge-oblig">Obligatoria</span></td>
-            <td class="score-cell"><span class="score-num score-med">12 pts</span></td>
-          </tr>
-          <tr class="oblig-row">
-            <td><span class="feat-modulo">Dashboard</span></td>
-            <td><div class="feat-name">Contadores de iniciativas por estado</div><div class="feat-desc">Cards o badges que muestran cuántas iniciativas hay en cada estado</div></td>
+            <td><span class="feat-modulo">Kanban</span></td>
+            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y el tablero Kanban se rehidrata desde PostgreSQL — estados y posiciones vienen de la BD, no de memoria</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-med">10 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Kanban</span></td>
+            <td><div class="feat-name">Filtro por estado sobre el tablero</div><div class="feat-desc">Permite filtrar el Kanban por Pendiente / En curso / Completado / Bloqueado — las demás columnas se ocultan o atenúan</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">10 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Kanban</span></td>
+            <td><div class="feat-name">Contadores de iniciativas por columna</div><div class="feat-desc">Cada columna muestra el número de tarjetas que contiene — se actualiza en tiempo real al mover tarjetas</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-low">5 pts</span></td>
           </tr>
           <tr class="oblig-row">
             <td><span class="feat-modulo">Calidad</span></td>
             <td><div class="feat-name">App corre sin errores en consola del browser</div><div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
-            <td class="score-cell"><span class="score-num score-low">8 pts</span></td>
+            <td class="score-cell"><span class="score-num score-low">5 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
@@ -489,9 +495,9 @@ strong { color: var(--gray-800); font-weight: 700; }
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Drag &amp; drop estilo Kanban</div><div class="feat-desc">Edición inline de estado arrastrando tarjetas entre columnas</div></td>
+            <td><div class="feat-name">Indicador visual de iniciativas vencidas</div><div class="feat-desc">Tarjetas cuya fecha límite ya pasó se destacan visualmente (color, ícono o badge) directamente en el tablero Kanban</div></td>
             <td><span class="badge badge-bonus">Bonus</span></td>
-            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
@@ -514,9 +520,9 @@ strong { color: var(--gray-800); font-weight: 700; }
         </tbody>
       </table>
       <div class="totals-bar">
-        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">100 pts</div><div class="sub">7 funcionalidades fijas</div></div>
-        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+78 pts</div><div class="sub">7 funcionalidades extra</div></div>
-        <div class="total-card"><div class="label">Score total posible</div><div class="value">178 pts</div><div class="sub">Todo implementado</div></div>
+        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">100 pts</div><div class="sub">8 funcionalidades fijas</div></div>
+        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+73 pts</div><div class="sub">7 funcionalidades extra</div></div>
+        <div class="total-card"><div class="label">Score total posible</div><div class="value">173 pts</div><div class="sub">Todo implementado</div></div>
         <div class="total-card"><div class="label">Peso en evaluación</div><div class="value">25%</div><div class="sub">Funcionalidad Verificable</div></div>
       </div>
     </div>
@@ -534,62 +540,92 @@ strong { color: var(--gray-800); font-weight: 700; }
         </thead>
         <tbody>
           <tr class="oblig-row">
-            <td><span class="feat-modulo">Carga</span></td>
-            <td><div class="feat-name">Formulario de ingreso manual de métricas</div><div class="feat-desc">Campos de métrica, valor y período — funcionales y conectados a PostgreSQL</div></td>
-            <td><span class="badge badge-oblig">Obligatoria</span></td>
-            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
-          </tr>
-          <tr class="oblig-row">
-            <td><span class="feat-modulo">Carga</span></td>
-            <td><div class="feat-name">Guardar datos en PostgreSQL</div><div class="feat-desc">Al guardar, los datos se escriben en la tabla <code>metrics</code> de la BD provista</div></td>
+            <td><span class="feat-modulo">Catálogo</span></td>
+            <td><div class="feat-name">Formulario de registro de KPI</div><div class="feat-desc">Campos: nombre del KPI, unidad de medida y meta mensual — funcionales y conectados a la tabla <code>kpis</code> de PostgreSQL</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
           </tr>
           <tr class="oblig-row">
-            <td><span class="feat-modulo">Visualización</span></td>
-            <td><div class="feat-name">Gráfica de barras con datos de la BD</div><div class="feat-desc">Lee desde PostgreSQL — los 24 registros mockup pre-cargados deben ser visibles en la gráfica desde el inicio</div></td>
-            <td><span class="badge badge-oblig">Obligatoria</span></td>
-            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
-          </tr>
-          <tr class="oblig-row">
-            <td><span class="feat-modulo">Visualización</span></td>
-            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y las gráficas se rehidratan desde PostgreSQL — no dependen de estado en memoria</div></td>
-            <td><span class="badge badge-oblig">Obligatoria</span></td>
-            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
-          </tr>
-          <tr class="oblig-row">
-            <td><span class="feat-modulo">Visualización</span></td>
-            <td><div class="feat-name">Tarjetas de resumen: total, promedio, variación</div><div class="feat-desc">Cards con métricas clave calculadas desde los datos de la BD</div></td>
-            <td><span class="badge badge-oblig">Obligatoria</span></td>
-            <td class="score-cell"><span class="score-num score-med">12 pts</span></td>
-          </tr>
-          <tr class="oblig-row">
-            <td><span class="feat-modulo">Calidad</span></td>
-            <td><div class="feat-name">App corre sin errores en consola del browser</div><div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools</div></td>
+            <td><span class="feat-modulo">Catálogo</span></td>
+            <td><div class="feat-name">Catálogo de KPIs visible</div><div class="feat-desc">Lista los KPIs registrados con su nombre, unidad y meta mensual — los 3 KPIs pre-cargados deben aparecer sin crear ninguno nuevo</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-low">8 pts</span></td>
           </tr>
-          <tr class="diff-row">
-            <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Upload de CSV con procesamiento</div><div class="feat-desc">El usuario carga un CSV y los datos se leen e insertan en PostgreSQL automáticamente</div></td>
-            <td><span class="badge badge-bonus">Bonus</span></td>
-            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Carga</span></td>
+            <td><div class="feat-name">Formulario de registro de valor</div><div class="feat-desc">Selector de KPI del catálogo, campo de período (mes/año) y valor numérico — guarda en la tabla <code>metrics</code> con la clave foránea <code>kpi_id</code> correcta</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Carga</span></td>
+            <td><div class="feat-name">Upload de CSV con validación en el backend</div><div class="feat-desc">El backend valida columnas y tipos de datos del CSV (kpi_id, period, value); inserta los registros válidos en <code>metrics</code> y devuelve un resumen al frontend: cuántos se insertaron correctamente y cuántos fallaron con el motivo</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Dashboard</span></td>
+            <td><div class="feat-name">Gráfica de barras con datos de la BD</div><div class="feat-desc">Muestra los valores del KPI seleccionado por período — los 54 registros mockup pre-cargados deben ser visibles al seleccionar cualquiera de los 3 KPIs predefinidos</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Dashboard</span></td>
+            <td><div class="feat-name">Línea de meta superpuesta en la gráfica</div><div class="feat-desc">La gráfica de barras incluye una línea horizontal de referencia con el valor de <code>monthly_target</code> del KPI seleccionado — hace visualmente evidente qué períodos superaron la meta y cuáles no</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Dashboard</span></td>
+            <td><div class="feat-name">Tarjetas de resumen calculadas en el backend</div><div class="feat-desc">Cards con: total acumulado del período, promedio mensual, variación % vs período anterior e indicador visual de si se está sobre o bajo la meta — calculados en el servidor con SQL, no en el frontend</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">10 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Dashboard</span></td>
+            <td><div class="feat-name">Filtro por KPI dinámico</div><div class="feat-desc">Selector de KPI que actualiza la gráfica y las tarjetas de resumen sin recargar la página — el cambio de KPI debe ser instantáneo sin F5</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">10 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Calidad</span></td>
+            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y el dashboard se rehidrata desde PostgreSQL — KPIs y métricas vienen de la BD, no de estado en memoria del browser</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-low">7 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Calidad</span></td>
+            <td><div class="feat-name">App corre sin errores en consola del browser</div><div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools al cargar la página y al interactuar con el dashboard</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-low">5 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Gráfica de líneas</div><div class="feat-desc">Segunda gráfica mostrando tendencia de una métrica en el tiempo</div></td>
+            <td><div class="feat-name">Gráfica de líneas con tendencia temporal</div><div class="feat-desc">Segunda gráfica que muestra la evolución del KPI seleccionado en el tiempo con una curva de tendencia</div></td>
             <td><span class="badge badge-bonus">Bonus</span></td>
             <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Filtros por período</div><div class="feat-desc">El usuario filtra el rango de fechas mostrado en las gráficas</div></td>
+            <td><div class="feat-name">Filtro por rango de fechas dinámico</div><div class="feat-desc">El usuario selecciona un rango de meses y las gráficas se actualizan sin recargar la página</div></td>
             <td><span class="badge badge-bonus">Bonus</span></td>
             <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Exportación a PDF o imagen</div><div class="feat-desc">Botón que genera y descarga el reporte en PDF o PNG</div></td>
+            <td><div class="feat-name">Comparativa año vs año</div><div class="feat-desc">El usuario selecciona el mismo KPI en dos años distintos y la gráfica los muestra superpuestos para comparar el desempeño entre períodos</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Alerta visual: KPI bajo meta 2+ meses consecutivos</div><div class="feat-desc">El sistema detecta automáticamente qué KPIs llevan 2 o más meses consecutivos sin alcanzar la meta y los destaca visualmente en el catálogo o en el dashboard con un indicador de riesgo</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Exportación del dashboard a PDF o imagen</div><div class="feat-desc">Botón que genera y descarga el estado actual del dashboard (gráfica + tarjetas) en PDF o PNG</div></td>
             <td><span class="badge badge-bonus">Bonus</span></td>
             <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
           </tr>
@@ -601,12 +637,6 @@ strong { color: var(--gray-800); font-weight: 700; }
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Anotaciones en gráficas: máximo y mínimo destacados</div><div class="feat-desc">Los puntos de mejor y peor desempeño se marcan visualmente con etiqueta y valor directo en la gráfica — sin necesidad de leer tabla adicional</div></td>
-            <td><span class="badge badge-bonus">Bonus</span></td>
-            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
-          </tr>
-          <tr class="diff-row">
-            <td><span class="feat-modulo">Bonus</span></td>
             <td><div class="feat-name">README con instrucciones de despliegue</div><div class="feat-desc">Archivo README.md en el repositorio con pasos claros para levantar la app localmente: dependencias, variables de entorno y comando de inicio — verificado por el evaluador en menos de 5 minutos</div></td>
             <td><span class="badge badge-bonus">Bonus</span></td>
             <td class="score-cell"><span class="score-num score-bonus">+8 pts</span></td>
@@ -614,9 +644,9 @@ strong { color: var(--gray-800); font-weight: 700; }
         </tbody>
       </table>
       <div class="totals-bar">
-        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">90 pts</div><div class="sub">6 funcionalidades fijas</div></div>
-        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+85 pts</div><div class="sub">7 funcionalidades extra</div></div>
-        <div class="total-card"><div class="label">Score total posible</div><div class="value">175 pts</div><div class="sub">Todo implementado</div></div>
+        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">125 pts</div><div class="sub">10 funcionalidades fijas</div></div>
+        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+87 pts</div><div class="sub">7 funcionalidades extra</div></div>
+        <div class="total-card"><div class="label">Score total posible</div><div class="value">212 pts</div><div class="sub">Todo implementado</div></div>
         <div class="total-card"><div class="label">Peso en evaluación</div><div class="value">25%</div><div class="sub">Funcionalidad Verificable</div></div>
       </div>
     </div>
@@ -635,81 +665,81 @@ strong { color: var(--gray-800); font-weight: 700; }
         <tbody>
           <tr class="oblig-row">
             <td><span class="feat-modulo">Formulario</span></td>
-            <td><div class="feat-name">Formulario con todos los campos definidos</div><div class="feat-desc">Tipo de solicitud, urgencia (Alta/Media/Baja), descripción, solicitante y área</div></td>
+            <td><div class="feat-name">Formulario con todos los campos definidos</div><div class="feat-desc">Tipo de solicitud, urgencia (Alta/Media/Baja), descripción, solicitante y área — todos renderizando, funcionales y con validación de campos obligatorios</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
           </tr>
           <tr class="oblig-row">
             <td><span class="feat-modulo">Formulario</span></td>
-            <td><div class="feat-name">Guardar solicitud en PostgreSQL</div><div class="feat-desc">Al enviar, la solicitud se escribe en la tabla <code>requests</code> de la BD provista</div></td>
+            <td><div class="feat-name">Guardar solicitud en PostgreSQL</div><div class="feat-desc">Al enviar, la solicitud se escribe en la tabla <code>requests</code> de la BD provista — estado inicial siempre "Recibida"</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
           </tr>
           <tr class="oblig-row">
             <td><span class="feat-modulo">Bandeja</span></td>
-            <td><div class="feat-name">Tabla con todas las solicitudes desde la BD</div><div class="feat-desc">Lee desde PostgreSQL — las 15 solicitudes mockup pre-cargadas deben ser visibles sin registrar nada</div></td>
+            <td><div class="feat-name">Tabla con todas las solicitudes desde la BD</div><div class="feat-desc">Lee desde PostgreSQL — las 15 solicitudes mockup pre-cargadas deben ser visibles sin registrar nada nuevo</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-high">20 pts</span></td>
           </tr>
           <tr class="oblig-row">
             <td><span class="feat-modulo">Bandeja</span></td>
-            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y las solicitudes siguen visibles — vienen de PostgreSQL</div></td>
+            <td><div class="feat-name">Datos persisten al recargar la página</div><div class="feat-desc">F5 y las solicitudes siguen visibles — vienen de PostgreSQL, no de memoria del browser</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-high">15 pts</span></td>
           </tr>
           <tr class="oblig-row">
             <td><span class="feat-modulo">Bandeja</span></td>
-            <td><div class="feat-name">Cambio de estado inline</div><div class="feat-desc">El usuario cambia el estado directo en la bandeja: Recibida → En revisión → Resuelta — se guarda en PostgreSQL</div></td>
+            <td><div class="feat-name">Cambio de estado con validación de flujo</div><div class="feat-desc">El backend valida que la transición sea válida (Recibida → En revisión → Resuelta) antes de actualizar <code>requests</code> — el frontend muestra error si se intenta una transición inválida o revertir un estado</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
-            <td class="score-cell"><span class="score-num score-med">12 pts</span></td>
+            <td class="score-cell"><span class="score-num score-med">15 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Bandeja</span></td>
+            <td><div class="feat-name">Filtros por tipo y urgencia</div><div class="feat-desc">Dropdown o botones que filtran la bandeja por tipo de solicitud y por urgencia (Alta / Media / Baja) — los filtros se pueden combinar y la tabla actualiza sin recargar la página</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">10 pts</span></td>
+          </tr>
+          <tr class="oblig-row">
+            <td><span class="feat-modulo">Historial</span></td>
+            <td><div class="feat-name">Registro automático en <code>request_history</code></div><div class="feat-desc">Cada cambio de estado escribe un registro en la tabla <code>request_history</code> con <code>old_status</code>, <code>new_status</code> y <code>changed_at</code> — el backend lo hace automáticamente, sin intervención del usuario</div></td>
+            <td><span class="badge badge-oblig">Obligatoria</span></td>
+            <td class="score-cell"><span class="score-num score-med">15 pts</span></td>
           </tr>
           <tr class="oblig-row">
             <td><span class="feat-modulo">Calidad</span></td>
-            <td><div class="feat-name">App corre sin errores en consola del browser</div><div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools</div></td>
+            <td><div class="feat-name">App corre sin errores en consola del browser</div><div class="feat-desc">Sin excepciones JavaScript ni errores de red visibles en DevTools al cargar y al interactuar con la bandeja</div></td>
             <td><span class="badge badge-oblig">Obligatoria</span></td>
             <td class="score-cell"><span class="score-num score-low">8 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Filtro por tipo de solicitud</div><div class="feat-desc">Dropdown o botones que filtran la bandeja por categoría</div></td>
+            <td><div class="feat-name">Vista de detalle con historial integrado</div><div class="feat-desc">Modal o página que muestra todos los campos de la solicitud y el historial completo de cambios de estado con timestamp — leído de <code>request_history</code></div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Asignación de responsable</div><div class="feat-desc">Al cambiar a "En revisión", el sistema requiere asignar un responsable del equipo resolutor — nombre visible en la bandeja y filtrable por responsable asignado</div></td>
+            <td><span class="badge badge-bonus">Bonus</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
+          </tr>
+          <tr class="diff-row">
+            <td><span class="feat-modulo">Bonus</span></td>
+            <td><div class="feat-name">Alerta visual: solicitudes Alta urgencia sin mover</div><div class="feat-desc">El sistema detecta automáticamente solicitudes de urgencia Alta que llevan más de 24h en estado "Recibida" y las destaca visualmente con un indicador de riesgo en la bandeja</div></td>
             <td><span class="badge badge-bonus">Bonus</span></td>
             <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Filtro por urgencia</div><div class="feat-desc">Filtra la bandeja por Alta / Media / Baja</div></td>
+            <td><div class="feat-name">Dashboard de métricas de bandeja</div><div class="feat-desc">Cards que muestran conteo de solicitudes por estado y por urgencia — calculados en el backend con SQL, actualizados en tiempo real desde PostgreSQL</div></td>
             <td><span class="badge badge-bonus">Bonus</span></td>
-            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
-          </tr>
-          <tr class="diff-row">
-            <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Vista de detalle por solicitud</div><div class="feat-desc">Modal o página que muestra todos los campos de la solicitud seleccionada</div></td>
-            <td><span class="badge badge-bonus">Bonus</span></td>
-            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
-          </tr>
-          <tr class="diff-row">
-            <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Vista de detalle por solicitud</div><div class="feat-desc">Modal o página que muestra todos los campos de la solicitud seleccionada</div></td>
-            <td><span class="badge badge-bonus">Bonus</span></td>
-            <td class="score-cell"><span class="score-num score-bonus">+10 pts</span></td>
-          </tr>
-          <tr class="diff-row">
-            <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Historial de cambios de estado con timestamp</div><div class="feat-desc">Registro auditado en tabla <code>request_history</code> con fecha y hora de cada cambio</div></td>
-            <td><span class="badge badge-bonus">Bonus</span></td>
-            <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
+            <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
             <td><div class="feat-name">Pruebas automatizadas con cobertura ≥ 50%</div><div class="feat-desc">Suite de tests (unitarios o de integración) ejecutable con un solo comando que cubre al menos la mitad del código fuente — reporte de cobertura visible</div></td>
             <td><span class="badge badge-bonus">Bonus</span></td>
             <td class="score-cell"><span class="score-num score-bonus">+15 pts</span></td>
-          </tr>
-          <tr class="diff-row">
-            <td><span class="feat-modulo">Bonus</span></td>
-            <td><div class="feat-name">Dashboard de métricas de bandeja</div><div class="feat-desc">Cards o gráfica que muestran conteo de solicitudes por estado y por urgencia — calculados en tiempo real desde PostgreSQL</div></td>
-            <td><span class="badge badge-bonus">Bonus</span></td>
-            <td class="score-cell"><span class="score-num score-bonus">+12 pts</span></td>
           </tr>
           <tr class="diff-row">
             <td><span class="feat-modulo">Bonus</span></td>
@@ -720,9 +750,9 @@ strong { color: var(--gray-800); font-weight: 700; }
         </tbody>
       </table>
       <div class="totals-bar">
-        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">90 pts</div><div class="sub">6 funcionalidades fijas</div></div>
-        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+80 pts</div><div class="sub">7 funcionalidades extra</div></div>
-        <div class="total-card"><div class="label">Score total posible</div><div class="value">170 pts</div><div class="sub">Todo implementado</div></div>
+        <div class="total-card"><div class="label">Score obligatorio</div><div class="value">118 pts</div><div class="sub">8 funcionalidades fijas</div></div>
+        <div class="total-card"><div class="label">Bonus disponible</div><div class="value">+69 pts</div><div class="sub">6 funcionalidades extra</div></div>
+        <div class="total-card"><div class="label">Score total posible</div><div class="value">187 pts</div><div class="sub">Todo implementado</div></div>
         <div class="total-card"><div class="label">Peso en evaluación</div><div class="value">25%</div><div class="sub">Funcionalidad Verificable</div></div>
       </div>
     </div>
@@ -738,10 +768,10 @@ strong { color: var(--gray-800); font-weight: 700; }
     <p>El coach registra el minuto exacto en que el equipo declara su MVP y lo verifica contra esta definición estándar. Todas son funcionalidades <strong>obligatorias</strong> — si alguna falta, el MVP no es válido.</p>
 
     <div class="mvp-def-box">
-      <div class="mvp-def-label">Definición estándar de MVP — igual para los 3 retos</div>
+      <div class="mvp-def-label">Marco general de MVP — cada reto tiene su checklist específico abajo</div>
       <div class="mvp-def-text">
-        <strong>App corriendo en el browser · formulario que guarda al menos 1 registro en PostgreSQL · tabla o gráfica que muestra ese registro.</strong><br>
-        Los datos mockup pre-cargados deben ser visibles. Sin importar el diseño visual ni funcionalidades adicionales. Si estos 4 ítems están completos, el MVP es válido.
+        <strong>App corriendo en el browser · al menos un formulario que guarda datos en PostgreSQL · visualización que muestra esos datos desde la BD.</strong><br>
+        Los datos mockup pre-cargados deben ser visibles. Sin importar el diseño visual ni funcionalidades adicionales. Cada reto tiene un checklist específico abajo con los ítems exactos que el coach debe verificar antes de registrar el timestamp.
       </div>
     </div>
 
@@ -749,7 +779,7 @@ strong { color: var(--gray-800); font-weight: 700; }
     <div class="mvp-reto-block">
       <div class="mvp-reto-header">
         <div class="reto-letter-big a">A</div>
-        <div><div class="mvp-reto-title">Tracker de Iniciativas — MVP mínimo</div><div class="mvp-reto-sub">4 ítems obligatorios · 70 puntos · Evaluador Central</div></div>
+        <div><div class="mvp-reto-title">Tracker con Kanban — MVP mínimo</div><div class="mvp-reto-sub">5 ítems obligatorios · 80 puntos · Evaluador Central</div></div>
       </div>
       <div class="mvp-checklist" id="mvp-a">
         <div class="mvp-check-item" data-pts="20" data-list="a" onclick="toggleMvp(this)">
@@ -764,21 +794,26 @@ strong { color: var(--gray-800); font-weight: 700; }
         </div>
         <div class="mvp-check-item" data-pts="20" data-list="a" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Tabla visible con datos:</strong> los 20 registros mockup pre-cargados son visibles en la tabla sin necesidad de agregar nuevos registros</div>
+          <div class="mvp-check-text"><strong>Tablero Kanban visible con datos:</strong> los 20 registros mockup pre-cargados aparecen en las columnas correctas del tablero Kanban sin agregar registros nuevos</div>
           <div class="mvp-check-pts">20 pts</div>
         </div>
         <div class="mvp-check-item" data-pts="15" data-list="a" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y los registros siguen visibles — datos vienen de PostgreSQL, no de memoria</div>
+          <div class="mvp-check-text"><strong>Drag &amp; drop funcional:</strong> arrastrar una tarjeta entre columnas actualiza el estado en PostgreSQL — verificar moviendo al menos 1 tarjeta y recargando la página</div>
           <div class="mvp-check-pts">15 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="10" data-list="a" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y el tablero Kanban se rehidrata desde PostgreSQL — estados y posiciones de tarjetas se mantienen</div>
+          <div class="mvp-check-pts">10 pts</div>
         </div>
       </div>
       <div class="mvp-score-footer">
         <div class="mvp-progress-wrap">
-          <div class="mvp-progress-label" id="prog-label-a">0 de 4 ítems verificados</div>
+          <div class="mvp-progress-label" id="prog-label-a">0 de 5 ítems verificados</div>
           <div class="mvp-progress-bar"><div class="mvp-progress-fill" id="bar-a"></div></div>
         </div>
-        <div class="mvp-score-display" id="score-a">0<span class="of"> / 70 pts</span></div>
+        <div class="mvp-score-display" id="score-a">0<span class="of"> / 80 pts</span></div>
       </div>
     </div>
 
@@ -786,36 +821,41 @@ strong { color: var(--gray-800); font-weight: 700; }
     <div class="mvp-reto-block">
       <div class="mvp-reto-header violet-top">
         <div class="reto-letter-big b">B</div>
-        <div><div class="mvp-reto-title">Portal de Reportes — MVP mínimo</div><div class="mvp-reto-sub">4 ítems obligatorios · 70 puntos · Evaluador Central</div></div>
+        <div><div class="mvp-reto-title">Portal de Reportes — MVP mínimo</div><div class="mvp-reto-sub">5 ítems obligatorios · 85 puntos · Evaluador Central</div></div>
       </div>
       <div class="mvp-checklist" id="mvp-b">
-        <div class="mvp-check-item" data-pts="20" data-list="b" onclick="toggleMvp(this)">
+        <div class="mvp-check-item" data-pts="15" data-list="b" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Formulario de métricas:</strong> al menos un formulario con campos de métrica, valor y período — funcional y conectado a PostgreSQL</div>
-          <div class="mvp-check-pts">20 pts</div>
+          <div class="mvp-check-text"><strong>KPI registrado en catálogo:</strong> al menos 1 KPI guardado en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">kpis</code> con nombre, unidad y meta mensual — verificar con query directo si es necesario</div>
+          <div class="mvp-check-pts">15 pts</div>
         </div>
         <div class="mvp-check-item" data-pts="15" data-list="b" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Guardar en PostgreSQL:</strong> al guardar, los datos aparecen en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">metrics</code> de la BD</div>
+          <div class="mvp-check-text"><strong>Valor registrado en métricas:</strong> al menos 1 valor guardado en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">metrics</code> con <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">kpi_id</code> válido, período y valor — vía formulario o CSV</div>
           <div class="mvp-check-pts">15 pts</div>
         </div>
         <div class="mvp-check-item" data-pts="20" data-list="b" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Gráfica con datos pre-cargados:</strong> los 24 registros mockup son visibles en la gráfica de barras o líneas desde el primer minuto</div>
+          <div class="mvp-check-text"><strong>Gráfica con datos pre-cargados:</strong> los 54 registros mockup son visibles en la gráfica de barras al seleccionar cualquiera de los 3 KPIs predefinidos — el filtro de KPI es funcional</div>
+          <div class="mvp-check-pts">20 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="20" data-list="b" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Línea de meta visible:</strong> la gráfica de barras muestra una línea horizontal de referencia con el valor de <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">monthly_target</code> del KPI seleccionado — hace evidente visualmente qué períodos superaron la meta</div>
           <div class="mvp-check-pts">20 pts</div>
         </div>
         <div class="mvp-check-item" data-pts="15" data-list="b" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y las gráficas se rehidratan desde PostgreSQL — no dependen de estado en memoria</div>
+          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y el dashboard se rehidrata desde PostgreSQL — KPIs y métricas vienen de la BD, no de estado en memoria del browser</div>
           <div class="mvp-check-pts">15 pts</div>
         </div>
       </div>
       <div class="mvp-score-footer">
         <div class="mvp-progress-wrap">
-          <div class="mvp-progress-label" id="prog-label-b">0 de 4 ítems verificados</div>
+          <div class="mvp-progress-label" id="prog-label-b">0 de 5 ítems verificados</div>
           <div class="mvp-progress-bar"><div class="mvp-progress-fill" id="bar-b"></div></div>
         </div>
-        <div class="mvp-score-display" id="score-b">0<span class="of"> / 70 pts</span></div>
+        <div class="mvp-score-display" id="score-b">0<span class="of"> / 85 pts</span></div>
       </div>
     </div>
 
@@ -823,36 +863,41 @@ strong { color: var(--gray-800); font-weight: 700; }
     <div class="mvp-reto-block">
       <div class="mvp-reto-header cyan-top">
         <div class="reto-letter-big c">C</div>
-        <div><div class="mvp-reto-title">Gestor de Solicitudes — MVP mínimo</div><div class="mvp-reto-sub">4 ítems obligatorios · 70 puntos · Evaluador Central</div></div>
+        <div><div class="mvp-reto-title">Gestor de Solicitudes — MVP mínimo</div><div class="mvp-reto-sub">5 ítems obligatorios · 80 puntos · Evaluador Central</div></div>
       </div>
       <div class="mvp-checklist" id="mvp-c">
         <div class="mvp-check-item" data-pts="20" data-list="c" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Formulario completo:</strong> tipo, urgencia (Alta/Media/Baja), descripción, solicitante y área — todos visibles e interactuables</div>
+          <div class="mvp-check-text"><strong>Formulario completo:</strong> tipo, urgencia (Alta/Media/Baja), descripción, solicitante y área — todos visibles, interactuables y con validación de campos obligatorios</div>
           <div class="mvp-check-pts">20 pts</div>
         </div>
         <div class="mvp-check-item" data-pts="15" data-list="c" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Guardar en PostgreSQL:</strong> al enviar, la solicitud aparece en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">requests</code> de la BD</div>
+          <div class="mvp-check-text"><strong>Guardar en PostgreSQL:</strong> al enviar, la solicitud aparece en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">requests</code> con estado inicial "Recibida"</div>
           <div class="mvp-check-pts">15 pts</div>
         </div>
         <div class="mvp-check-item" data-pts="20" data-list="c" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Bandeja con datos pre-cargados:</strong> las 15 solicitudes mockup son visibles en la tabla de bandeja sin registrar nada nuevo</div>
+          <div class="mvp-check-text"><strong>Bandeja con datos pre-cargados y filtros activos:</strong> las 15 solicitudes mockup son visibles en la tabla y al menos un filtro (tipo o urgencia) funciona sin recargar la página</div>
           <div class="mvp-check-pts">20 pts</div>
         </div>
         <div class="mvp-check-item" data-pts="15" data-list="c" onclick="toggleMvp(this)">
           <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
-          <div class="mvp-check-text"><strong>Persistencia real:</strong> recargar la página (F5) y las solicitudes siguen visibles — vienen de PostgreSQL, no de memoria</div>
+          <div class="mvp-check-text"><strong>Cambio de estado con validación de flujo:</strong> el backend rechaza transiciones inválidas — verificar intentando pasar directamente de "Recibida" a "Resuelta" y confirmar que falla con error</div>
           <div class="mvp-check-pts">15 pts</div>
+        </div>
+        <div class="mvp-check-item" data-pts="10" data-list="c" onclick="toggleMvp(this)">
+          <button class="mvp-check-box" tabindex="-1" aria-hidden="true"><div class="mvp-check-inner"></div></button>
+          <div class="mvp-check-text"><strong>Historial activo:</strong> hacer un cambio de estado válido y verificar que aparece un registro en la tabla <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">request_history</code> con <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">old_status</code>, <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">new_status</code> y <code style="font-size:11px;background:var(--border);padding:1px 5px;color:var(--blue-900)">changed_at</code></div>
+          <div class="mvp-check-pts">10 pts</div>
         </div>
       </div>
       <div class="mvp-score-footer">
         <div class="mvp-progress-wrap">
-          <div class="mvp-progress-label" id="prog-label-c">0 de 4 ítems verificados</div>
+          <div class="mvp-progress-label" id="prog-label-c">0 de 5 ítems verificados</div>
           <div class="mvp-progress-bar"><div class="mvp-progress-fill" id="bar-c"></div></div>
         </div>
-        <div class="mvp-score-display" id="score-c">0<span class="of"> / 70 pts</span></div>
+        <div class="mvp-score-display" id="score-c">0<span class="of"> / 80 pts</span></div>
       </div>
     </div>
 
@@ -918,19 +963,21 @@ function toggleMvp(row) {
   row.classList.toggle('checked');
   updateMvpScore(row.dataset.list);
 }
+const MVP_MAX = { a: 80, b: 85, c: 80 };
 function updateMvpScore(list) {
   const rows = document.querySelectorAll('#mvp-' + list + ' .mvp-check-item');
   let total = 0, done = 0;
   rows.forEach(r => { if (r.classList.contains('checked')) { total += parseInt(r.dataset.pts); done++; } });
-  document.getElementById('score-' + list).innerHTML = total + '<span class="of"> / 70 pts</span>';
-  document.getElementById('prog-label-' + list).textContent = done + ' de 4 ítems verificados';
-  document.getElementById('bar-' + list).style.width = Math.round((done / 4) * 100) + '%';
+  document.getElementById('score-' + list).innerHTML = total + '<span class="of"> / ' + MVP_MAX[list] + ' pts</span>';
+  document.getElementById('prog-label-' + list).textContent = done + ' de ' + rows.length + ' ítems verificados';
+  document.getElementById('bar-' + list).style.width = Math.round((done / rows.length) * 100) + '%';
 }
 function resetAll() {
   document.querySelectorAll('.mvp-check-item').forEach(r => r.classList.remove('checked'));
   ['a','b','c'].forEach(l => {
-    document.getElementById('score-' + l).innerHTML = '0<span class="of"> / 70 pts</span>';
-    document.getElementById('prog-label-' + l).textContent = '0 de 4 ítems verificados';
+    const rows = document.querySelectorAll('#mvp-' + l + ' .mvp-check-item');
+    document.getElementById('score-' + l).innerHTML = '0<span class="of"> / ' + MVP_MAX[l] + ' pts</span>';
+    document.getElementById('prog-label-' + l).textContent = '0 de ' + rows.length + ' ítems verificados';
     document.getElementById('bar-' + l).style.width = '0%';
   });
 }
