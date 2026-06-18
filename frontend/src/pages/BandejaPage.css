@@ -371,6 +371,86 @@
   50% { opacity: 0.3; }
 }
 
+/* ── Pagination Controls ─────────────────────────────────────────────────── */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.btn-page {
+  padding: 0.5rem 1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
+}
+
+.btn-page:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.btn-page:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn-page-num {
+  min-width: 2.2rem;
+  padding: 0.45rem 0.6rem;
+  background-color: white;
+  color: #2c3e50;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  font-size: 0.9rem;
+}
+
+.btn-page-num:hover:not(:disabled) {
+  background-color: #ecf0f1;
+  border-color: #3498db;
+}
+
+.btn-page-num--active {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+  font-weight: 700;
+  cursor: default;
+}
+
+.pagination-ellipsis {
+  padding: 0 0.25rem;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.pagination-info {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-left: 0.5rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .solicitudes-table {

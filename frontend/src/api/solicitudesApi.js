@@ -4,12 +4,14 @@ export const solicitudesApi = {
   // Create a new solicitud
   createSolicitud: (data) => client.post('/requests', data),
 
-  // Get all solicitudes with optional filters
-  // Backend expects: ?tipo=<id>&urgencia=<str>
+  // Get all solicitudes with optional filters and pagination
+  // Backend expects: ?tipo=<id>&urgencia=<str>&page=<n>&limit=<n>
   getSolicitudes: (filters = {}) => {
     const params = new URLSearchParams();
     if (filters.tipo_solicitud_id) params.append('tipo', filters.tipo_solicitud_id);
     if (filters.urgencia) params.append('urgencia', filters.urgencia);
+    if (filters.page) params.append('page', filters.page);
+    if (filters.limit) params.append('limit', filters.limit);
     const query = params.toString();
     return client.get(`/requests${query ? '?' + query : ''}`);
   },

@@ -109,21 +109,25 @@ export const BandejaPage = () => {
   const [statusChanging, setStatusChanging] = useState({});
   const [assigneeModal, setAssigneeModal] = useState({ solicitud_id: null, assignee: '' });
 
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
+  const [pagination, setPagination] = useState(null);
+
   // Metrics state
   const [metricas, setMetricas] = useState(null);
   const [metricasLoading, setMetricasLoading] = useState(true);
   const metricasIntervalRef = useRef(null);
 
-  // Load solicitudes and catalogs on mount
+  // Load catalogs on mount only
   useEffect(() => {
-    loadSolicitudes();
     loadTipos();
   }, []);
 
-  // Load solicitudes when filters change
+  // Fetch solicitudes whenever filters or page change (covers initial load too)
   useEffect(() => {
     loadSolicitudes();
-  }, [filters]);
+  }, [filters, page]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Load metrics on mount and set up polling
   useEffect(() => {
@@ -136,8 +140,9 @@ export const BandejaPage = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await solicitudesApi.getSolicitudes(filters);
+      const response = await solicitudesApi.getSolicitudes({ ...filters, page, limit: PAGE_SIZE });
       setSolicitudes(response.data || []);
+      if (response.pagination) setPagination(response.pagination);
     } catch (err) {
       setError('Error cargando solicitudes: ' + err.message);
     } finally {
@@ -167,10 +172,12 @@ export const BandejaPage = () => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
+    setPage(1); // reset to first page on filter change
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleClearFilters = () => {
+    setPage(1);
     setFilters({ tipo_solicitud_id: '', urgencia: '' });
   };
 
@@ -293,7 +300,7 @@ export const BandejaPage = () => {
       </div>
 
       {/* Table */}
-      <div className="table-wrapper">
+      <div className="table-wrapper" id="tabla-solicitudes">
         {solicitudes.length === 0 ? (
           <div className="empty-state">
             <p>No hay solicitudes que coincidan con los filtros.</p>
@@ -365,6 +372,55 @@ export const BandejaPage = () => {
           </table>
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {pagination && pagination.totalPages > 1 && (
+        <div className="pagination-controls">
+          <button
+            className="btn-page"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={!pagination.hasPrev}
+          >
+            ‹ Anterior
+          </button>
+
+          <div className="pagination-pages">
+            {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
+              .filter((p) => p === 1 || p === pagination.totalPages || Math.abs(p - pagination.page) <= 2)
+              .reduce((acc, p, idx, arr) => {
+                if (idx > 0 && p - arr[idx - 1] > 1) acc.push('…');
+                acc.push(p);
+                return acc;
+              }, [])
+              .map((item, idx) =>
+                item === '…' ? (
+                  <span key={`ellipsis-${idx}`} className="pagination-ellipsis">…</span>
+                ) : (
+                  <button
+                    key={item}
+                    className={`btn-page-num${item === pagination.page ? ' btn-page-num--active' : ''}`}
+                    onClick={() => setPage(item)}
+                    disabled={item === pagination.page}
+                  >
+                    {item}
+                  </button>
+                )
+              )}
+          </div>
+
+          <button
+            className="btn-page"
+            onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
+            disabled={!pagination.hasNext}
+          >
+            Siguiente ›
+          </button>
+
+          <span className="pagination-info">
+            Página {pagination.page} de {pagination.totalPages} ({pagination.total} registros)
+          </span>
+        </div>
+      )}
 
       {/* Assignee Modal */}
       {assigneeModal.solicitud_id && (
