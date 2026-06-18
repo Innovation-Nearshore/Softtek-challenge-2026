@@ -42,6 +42,15 @@ async function createSolicitud(req, res, next) {
       });
     }
 
+    // Email format validation
+    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!EMAIL_REGEX.test(email_solicitante.trim())) {
+      return res.status(400).json({
+        success: false,
+        error: 'El formato del email no es válido',
+      });
+    }
+
     const validUrgencias = ['Alta', 'Media', 'Baja'];
     if (!validUrgencias.includes(urgencia)) {
       return res.status(400).json({

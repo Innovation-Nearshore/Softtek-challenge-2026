@@ -4,6 +4,8 @@ import LoadingSpinner from './LoadingSpinner';
 
 const URGENCIA_OPTIONS = ['Alta', 'Media', 'Baja'];
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const INITIAL_FORM = {
   tipo_solicitud_id: '',
   titulo: '',
@@ -57,6 +59,17 @@ export default function NuevaSolicitudForm({ onSuccess, onError, onCancel }) {
     }
   };
 
+  const handleEmailBlur = () => {
+    const val = form.email_solicitante.trim();
+    if (!val) {
+      setErrors((prev) => ({ ...prev, email_solicitante: 'Campo obligatorio' }));
+    } else if (!EMAIL_REGEX.test(val)) {
+      setErrors((prev) => ({ ...prev, email_solicitante: 'Ingresá un email válido (ej: nombre@empresa.com)' }));
+    } else {
+      setErrors((prev) => ({ ...prev, email_solicitante: null }));
+    }
+  };
+
   const validate = () => {
     const newErrors = {};
     if (!form.tipo_solicitud_id) newErrors.tipo_solicitud_id = 'Campo obligatorio';
@@ -64,7 +77,11 @@ export default function NuevaSolicitudForm({ onSuccess, onError, onCancel }) {
     if (!form.urgencia) newErrors.urgencia = 'Campo obligatorio';
     if (!form.descripcion.trim()) newErrors.descripcion = 'Campo obligatorio';
     if (!form.solicitante.trim()) newErrors.solicitante = 'Campo obligatorio';
-    if (!form.email_solicitante.trim()) newErrors.email_solicitante = 'Campo obligatorio';
+    if (!form.email_solicitante.trim()) {
+      newErrors.email_solicitante = 'Campo obligatorio';
+    } else if (!EMAIL_REGEX.test(form.email_solicitante.trim())) {
+      newErrors.email_solicitante = 'Ingresá un email válido (ej: nombre@empresa.com)';
+    }
     if (!form.area_solicitante_id) newErrors.area_solicitante_id = 'Campo obligatorio';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -200,6 +217,7 @@ export default function NuevaSolicitudForm({ onSuccess, onError, onCancel }) {
             type="email"
             value={form.email_solicitante}
             onChange={(e) => handleChange('email_solicitante', e.target.value)}
+            onBlur={handleEmailBlur}
             placeholder="correo@empresa.com"
             className={fieldClass('email_solicitante')}
           />
